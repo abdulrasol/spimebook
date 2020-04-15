@@ -1,0 +1,36 @@
+{% extends "posts/base.html" %}
+
+{% block content %}
+<!-- Start Books Categoty -->
+<button class="uk-button uk-button-primary"
+    uk-toggle="target:#book-category; animation: uk-animation-fade">Categoty</button>
+<div id="book-category" class="category" hidden>
+    <div class="uk-padding-small uk-margin-small-top">
+        {% for genre in genres %}
+        <a class="uk-label" href="{% url 'fliter-genre' genre.genre %}">{{genre}}</a>
+        {% endfor %}
+    </div>
+</div>
+<a href="{% url 'add-book' %}" class="uk-button uk-button-default">Add Book</a>
+<!-- End Books Categoty -->
+<div class="books uk-grid-small uk-child-width-1-2@s uk-text-center" uk-grid>
+    {% for book in books %}
+    <div class="book">
+        <div class="uk-card-header">
+            <div class="uk-grid-small uk-flex-middle" uk-grid>
+                <div class="uk-width-auto">
+                    <img class="uk-border-rounded" data-src="{{book.book_image.url}}" alt="{{book.title}}" uk-img>
+                </div>
+                <div class="uk-width-expand uk-text-left">
+                    <h3 class="uk-margin-small"><a href="{% url 'book' book.id %}">{{book.title}}</a></h3>
+                    <h4 class="uk-margin-small uk-text-meta"><a class="uk-h4"
+                            href="{% url 'author' book.author.id book.author  %}">{{book.author}}</a></h4>
+                    <h5 class="uk-margin-small uk-text-meta"><a href="#"></a></h5>
+                    <a class="uk-label" href="#">{{book.book_or_Novel}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}

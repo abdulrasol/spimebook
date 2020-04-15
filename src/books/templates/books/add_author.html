@@ -1,0 +1,60 @@
+{% extends "posts/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+
+<form method="POST" enctype="multipart/form-data" class="uk uk-padding uk-padding-remove-vertical">
+    {% csrf_token %}
+    <legend class="uk-legend uk-margin-bottom">Add Author</legend>
+
+    <div class="uk-grid" uk-grid>
+
+        <div class="uk-width-1-1@s">
+            {% for message in messages %}
+            <div class="uk-margin uk-margin-large-top">
+                <div class="uk-alert-success existed" uk-alert>
+                    <p>
+                        {{message}}<a href="{% url 'add-book' %}">click here</a> to add book or <a
+                            href="{% url 'books' %}">here</a> books browser.
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="uk-width-1-1@s">
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Author name</label>
+            {{ form.author_Name|add_class:"uk-input"|attr:"type:text"|attr:"required"|attr:"placeholder:Author Name" }}
+        </div>
+        <div class="uk-width-1-1@s">
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Author Short</label>
+            {{ form.short|add_class:"uk-input"|attr:"type:text"|attr:"placeholder:Short" }}
+        </div>
+        <div class="uk-width-1-2@s">
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Birth Date</label>
+            {{ form.born_date|add_class:"uk-input uk-width-auto"|attr:"type:date"}}
+        </div>
+
+        <div class="uk-margin uk-width-1-1 uk-margin-small-bottom">
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom" for="form-stacked-text">Author
+                Bio</label>
+            <div class="uk-form-controls">
+                {{form.author_Bio|add_class:"uk-textarea uk-padding-small"|attr:"rows:5"|attr:"placeholder:Write Some Information About This Author"}}
+            </div>
+        </div>
+
+        <div class="uk-margin uk-margin-remove-bottom">
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom" for="form-stacked-text">
+                Author Profile Picture
+            </label>
+            <div uk-form-custom="target: true">
+                {{form.Author_Image}}
+                <input class="uk-input uk-width-auto@s" type="text" placeholder="Select file" disabled>
+            </div>
+        </div>
+        <div class="uk-width-1-1">
+            <button type="submit" class="uk-button uk-button-primary">Add Author</button>
+        </div>
+    </div>
+</form>
+
+{% endblock content %}

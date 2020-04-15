@@ -1,0 +1,30 @@
+{% extends "posts/base.html" %}
+
+{% block content %}
+<!-- Start Books Categoty -->
+
+<!-- End Books Categoty -->
+{% for blog in blogs %}
+<div class="uk-card uk-card-default uk-margin-small">
+    <div class="uk-card-body">
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-auto">
+                <img class="uk-border-rounded" data-src="posts/static/img/alchemist.jpg" alt="book-name" width="100"
+                    height="100" uk-img>
+            </div>
+            <div class="uk-width-expand uk-text-left">
+                <h3 class="uk-margin-small">{{blog.title}}</h3>
+                <h4 class="uk-margin-small uk-text-meta"><a class="uk-h4" href="#">{{blog.auther}}</a></h4>
+                <h5 class="uk-margin-small uk-text-meta">written on {{blog.date| date:"D d M Y" }}</h5>
+            </div>
+            <div class="uk-width-1-1">
+                <p>
+                    {{blog.content}}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock content %}

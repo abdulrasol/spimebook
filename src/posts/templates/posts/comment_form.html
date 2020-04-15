@@ -1,0 +1,13 @@
+{% load widget_tweaks %}
+<form action="{% url 'add-comment' post.id %}" method="post">
+    {% csrf_token %}
+    <br>
+    <div class="uk-flex uk-grid-small uk-flex-middle" uk-grid>
+        <div class="uk-width-expand">
+            {{ comment_form.comment|add_class:"uk-input"|attr:"placeholder:Write your comment" }}
+        </div>
+        <div class="uk-width-auto">
+            <input style="background: none;border: none;" class="uk-link uk-text-large" type="submit" value="Reply">
+        </div>
+    </div>
+</form>

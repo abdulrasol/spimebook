@@ -1,0 +1,141 @@
+{% extends "posts/base.html" %}
+{% load static %}
+{% load posts_extra %}
+
+{% block content %}
+<div class="uk-card uk-card-primary uk-margin uk-width-1-1">
+    <div class="uk-card-header">
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-auto">
+                <!-- user profile img -->
+                <a href="{% url 'user-profile' post.user %}">
+                    <img class="uk-border-circle" width="50" height="50" src="{{post.user.profile.picture.url}}"
+                        alt="{{post.user.profile.picture.url}}">
+                    <br>
+                    <h6 class="uk-margin-remove  uk-width-expand uk-text-center">
+                        {{post.user}}
+                    </h6>
+                </a>
+            </div>
+            <div class="uk-width-expand">
+                <h3 class="uk-card-title uk-margin-remove-bottom">{{post.title}}</h3>
+                <p class="uk-text-meta uk-margin-remove-top"><time
+                        datetime="2016-04-01T19:00">{{post.post_date|date:"D d M Y, H:i"}}</time>
+                </p>
+            </div>
+        </div>
+    </div><!-- End header -->
+    <div class="uk-card-body uk-padding">
+        {% if post.post_type == "Q" %}
+        <q class="">
+            {{ post.content }}
+        </q>
+        {% else %}
+        <p class="">
+            {{ post.content }}
+        </p>
+        {% endif %}
+
+    </div><!-- End body -->
+    <div class="uk-card-footer">
+        <div class="uk-flex uk-grid-small" uk-grid>
+            <div class="tags">
+                {% if post.post_type == "Q" %}
+                <span class="uk-icon" uk-icon="quote-right"></span>
+                {% endif %}
+                <a href="{% url 'book' post.for_book.id %}" class="uk-label uk-margin-left">{{ post.for_book }}</a>
+            </div>
+            <div>
+                <span class="uk-button uk-button-text uk-text-meta">{{post.loves.all|length}} loves</span>
+            </div>
+            <div class="uk-margin-bottom">
+                <a class="uk-button uk-button-text uk-text-meta">{{post.comments.all|length}} Comments</a>
+            </div>
+        </div>
+        <!-- start reaction -->
+        <div class="reaction">
+            {% if user.is_authenticated %}
+            <!-- % url 'love' post.id % -->
+            <span>
+                <a class="uk-icon uk-margin-small-right" id="love-post" data-post="{% url 'love' post.id %}"
+                    uk-icon="icon: heart"></a>
+            </span>
+            <span>
+                <a href="#" class="uk-icon uk-margin-small-right" uk-icon="icon: reply"
+                    uk-toggle="target: #add-reply-{{post.id}}; animation: uk-animation-slide-top-small"
+                    type="button"></a>
+            </span>
+            {% else %}
+            <span uk-tooltip="Log In First">
+                <a class="uk-icon uk-margin-small-right" uk-icon="icon: heart"></a>
+            </span>
+            <span uk-tooltip="Log In First">
+                <a class="uk-icon uk-margin-small-right" uk-icon="icon: reply" type="button"></a>
+            </span>
+            {% endif %}
+            <span>
+                <a href="#share-modal" class="uk-icon uk-margin-small-right" uk-icon="icon: social" uk-toggle></a>
+            </span>
+            {% if user.is_authenticated %}
+            <a type="button" href="#" class="uk-icon uk-float-right" uk-icon="icon: more"></a>
+            <!-- dropdown more options -->
+
+            <div class="uk-padding-remove" uk-dropdown="pos: top-justify">
+                <ul class="uk-nav uk-dropdown-nav uk-card uk-card-default uk-card-body">
+                    <li>
+                        <a style="color:#999" href="{% url 'save' post.id %}">
+                            <span class="uk-icon uk-padding-small" uk-icon="icon: bookmark"></span>Save
+                        </a>
+                    </li>
+                    <li>
+                        <a style="color:#999" href="#">
+                            <span class="uk-icon uk-padding-small" uk-icon="icon: warning"></span>Report
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+            {% endif %}
+        </div>
+        <!-- end Reaction -->
+        <!-- Start Add Comments -->
+        <div id="add-reply-{{post.id}}" class="uk-margin-small-top uk-margin-small-bottom" hidden>
+            <!-- form -->
+            {% if user.is_authenticated %}
+            {% comment_form post.id %}
+            {% endif  %}
+            <!--Form-->
+
+        </div>
+        <!-- End Add Comments -->
+        <!-- start commnets -->
+        <div id="post-comment-{{post.id}}">
+            {% for comment in post.comments.all %}
+            <article class="uk-comment uk-padding-small uk-padding-remove-horizontal">
+                <hr>
+                <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
+                    <div class="uk-width-auto">
+                        <img class="uk-comment-avatar uk-border-circle" src="{{comment.user.profile.picture.url}}"
+                            alt="{{post.user.profile.picture.url}}" width="30" height="30" alt="">
+                    </div>
+                    <div class="uk-width-expand">
+                        <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset"
+                                href="#">{{comment.user}}</a>
+                        </h4>
+                        <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                            <li><a href="#">{{comment.comment_date|date:"d M Y, H:i"}}</a></li>
+                        </ul>
+                    </div>
+                </header>
+                <div class="uk-comment-body">
+                    <p>{{comment.comment}}</p>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        <!-- End View Comments -->
+        <!-- End Comments  -->
+    </div>
+    <!-- End footer -->
+</div>
+{% endblock content %}

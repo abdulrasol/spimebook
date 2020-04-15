@@ -1,0 +1,29 @@
+{% extends "posts/base.html" %}
+{% load static %}
+{% block content %}
+<!-- start post container -->
+<div class="uk-card uk-card-default">
+    <form class="uk-form-stacked uk-padding" method="POST">
+        {% csrf_token %}
+        <div class="uk-margin uk-child-width-1-2@m uk-text-center" uk-grid>
+            <div>
+                <img class="uk-border-rounded" data-src="{{user.profile.picture.url}}" alt="{{user.username}}" uk-img />
+            </div>
+            <div uk-form-custom>
+                <input type="file" name="picture" accept="image/*" id="id_picture">
+                <button class="uk-button uk-button-default" type="button" tabindex="-1">Select</button>
+            </div>
+
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-stacked-text">Bio</label>
+            <div class="uk-form-controls">
+                <textarea class="uk-textarea" name="bio" maxlength="221" id="id_bio"></textarea>
+            </div>
+        </div>
+
+        <button type="submit">Save</button>
+    </form>
+</div>
+<!-- end post container -->
+{% endblock content %}

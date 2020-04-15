@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% if title %}
+    <title>{{title}}</title>
+    {% else %}
+    <title>Spimebook, a site for readers</title>
+    {% endif %}
+    <link rel="stylesheet" href="{% static "posts/css/uikit.min.css" %}" />
+    <link rel="stylesheet" href="{% static "posts/css/my_style.css" %}" />
+    <script src="{% static "posts/js/uikit.min.js" %}"></script>
+    <script src="{% static "posts/js/uikit-icons.min.js" %}"></script>
+    <script src="{% static "posts/js/jquery.js" %}"></script>
+    <script src="{% static "posts/js/plugin.js" %}"></script>
+</head>
+
+<body>
+    <div class="uk-container uk-padding me-form">
+        <div class="uk-padding uk-width-2-5@l uk-container">
+            <div class="me-hover uk-card uk-card-body">
+                <a href="{% url 'home' %}" class="uk-navbar-item uk-margin uk-margin-medium-bottom uk-logo">
+                    <span class="uk-h2 uk-logo uk-text-bolder">Spime<span
+                            class="uk-padding-remove uk-text-primary uk-text-italic">book</span>
+                </a>
+                <form method="POST">
+                    {% csrf_token %}
+                    <fieldset class="uk-fieldset">
+                        <legend class="uk-legend">Register</legend>
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="uk-margin uk-margin-large-top">
+                            <div class="uk-alert-success existed" uk-alert>
+                                <p>
+                                    {{message}}, already have account <a href="{% url 'log-in' %}">Login here</a>
+                                </p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        <div class="uk-margin">
+                            <input id="username" name="username" required class="uk-input" type="text" maxlength="140"
+                                minlength="2" placeholder="Username">
+                        </div>
+                        <div class="uk-margin">
+                            <input id="email" name="email" required class="uk-input" type="email" minlength="6"
+                                placeholder="E-Mail">
+                        </div>
+                        <div class="uk-margin">
+                            <input id="password" required name="password" class="uk-input me-form-password"
+                                type="password" placeholder="Password">
+                            <br>
+                            <div class="uk-alert-warning" uk-alert>
+                                <p>
+                                    Password you entered less than 6 char!
+                                </p>
+                            </div>
+                        </div>
+                        <div class="uk-margin">
+                            <button type="submit" class="uk-button uk-width-1-1 uk-button-primary">Register</button>
+                        </div>
+                        <div class="uk-margin uk-grid-small uk-child-width-1-2 uk-grid">
+                            <p class="uk-margin-top uk-width-1-1">
+                                Already have account <a href="{% url 'log-in' %}">Login here</a>
+                            </p>
+                        </div>
+                    </fieldset>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

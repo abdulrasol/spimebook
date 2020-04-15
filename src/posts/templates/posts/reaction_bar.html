@@ -1,0 +1,102 @@
+<div id="post-comment-{{post.id}}" hidden>
+    {% for comment in post.comments.all %}
+
+    <article class="uk-comment uk-padding-small uk-padding-remove-horizontal">
+        <hr>
+        <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
+
+            <div class="uk-width-auto uk-text-center">
+                <img class="uk-comment-avatar" src="{{comment.user.profile.picture.url}}"
+                    alt="{{comment.user.profile.picture.url}}" width="50" height="50" alt="{{comment.user}}">
+            </div>
+            <div class="uk-width-expand">
+                <a href="{% url 'user-profile' post.user %}">
+                    <h4 class="uk-comment-title uk-margin-remove">
+                        {{comment.user}}
+                    </h4>
+                </a>
+                <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                    <li><a href="#">{{comment.comment_date|date:"d M Y, H:i"}}</a></li>
+                </ul>
+            </div>
+        </header>
+        <div class="uk-comment-body">
+            <p>{{comment.comment}}</p>
+        </div>
+    </article>
+    {% endfor %}
+</div>
+<!-- End View Comments -->
+<!-- Start Add Comments -->
+<div id="add-reply-{{post.id}}" class="uk-margin-small-top uk-margin-small-bottom" hidden>
+    <!-- form -->
+    {% if user.is_authenticated %}
+    {% include "posts/comment_form.html" %}
+    {% endif  %}
+    <!--Form-->
+
+</div>
+<!-- End Add Comments -->
+<!-- End Comments  -->
+<div class="uk-flex uk-grid-small" uk-grid>
+    <div class="uk-flex uk-grid-small" uk-grid>
+        <div>
+            <span class="uk-button uk-button-text uk-text-meta">{{post.loves.count}} loves</span>
+        </div>
+        <div class="uk-margin-small-bottom">
+            <a href="#post-comment-{{post.id}}" class="uk-button uk-button-text uk-text-meta"
+                uk-toggle>{{post.comments.all|length}} Comments</a>
+        </div>
+    </div>
+    <div class="tags uk-margin-bottom ">
+        {% if post.post_type == "Q" %}
+        <span class="uk-icon uk-margin-small-right" uk-icon="quote-right"></span>
+        {% endif %}
+        <a href="{% url 'book' post.for_book.id %}" class="uk-label">{{ post.for_book }}</a>
+    </div>
+</div>
+<div class="reaction">
+    {% if user.is_authenticated %}
+    <!-- % url 'love' post.id % -->
+    <span>
+        <a class="uk-icon uk-margin-small-right" id="love-post" data-post="{% url 'love' post.id %}"
+            uk-icon="icon: heart"></a>
+    </span>
+    <span>
+        <a href="#" class="uk-icon uk-margin-small-right" uk-icon="icon: reply"
+            uk-toggle="target: #add-reply-{{post.id}}; animation: uk-animation-slide-top-small" type="button"></a>
+    </span>
+    {% else %}
+
+    <span uk-tooltip="Log In First">
+        <a class="uk-icon uk-margin-small-right" uk-icon="icon: heart"></a>
+    </span>
+    <span uk-tooltip="Log In First">
+        <a class="uk-icon uk-margin-small-right" uk-icon="icon: reply" type="button"></a>
+    </span>
+
+    {% endif %}
+    <span>
+        <a href="#share-modal" class="uk-icon uk-margin-small-right" uk-icon="icon: social" uk-toggle></a>
+    </span>
+    {% if user.is_authenticated %}
+    <a type="button" href="#" class="uk-icon uk-float-right" uk-icon="icon: more"></a>
+    <!-- dropdown more options -->
+
+    <div class="uk-padding-remove" uk-dropdown="pos: top-justify">
+        <ul class="uk-nav uk-dropdown-nav uk-card uk-card-default uk-card-body">
+            <li>
+                <a style="color:#999" href="{% url 'save' post.id %}">
+                    <span class="uk-icon uk-padding-small" uk-icon="icon: bookmark"></span>Save
+                </a>
+            </li>
+            <li>
+                <a style="color:#999" href="#">
+                    <span class="uk-icon uk-padding-small" uk-icon="icon: warning"></span>Report
+                </a>
+            </li>
+        </ul>
+
+    </div>
+    {% endif %}
+</div>

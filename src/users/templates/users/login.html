@@ -49,23 +49,32 @@
                 {% endfor %}
                 {% endif %}
 
-                <form method="POST">
+                <form method="POST" class="uk-text-center">
                     {% csrf_token %}
                     <fieldset class="uk-fieldset">
 
                         <legend class="uk-legend">Sign In</legend>
+
                         <div class="uk-margin">
-                            <input id="username" name="username" class="uk-input" type="text" placeholder="Username">
+
+                            <div class="uk-inline uk-width-auto">
+                                <span class="uk-form-icon" uk-icon="icon: user"></span>
+                                <input id="username" name="username" class="uk-input" type="text"
+                                    placeholder="Username">
+                            </div>
                         </div>
                         <div class="uk-margin">
-                            <input id="password" name="password" class="uk-input" type="password"
-                                placeholder="Password">
+                            <div class="uk-inline">
+                                <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
+                                <input id="password" name="password" class="uk-input" type="password"
+                                    placeholder="Password">
+                            </div>
                         </div>
                         <div class="uk-margin">
-                            <button type="submit" class="uk-button uk-width-1-1 uk-button-primary">Sign In</button>
+                            <button type="submit" class="uk-button uk-width-1-2@s uk-button-primary">Sign In</button>
                         </div>
                         <div class="uk-margin uk-grid-small uk-child-width-1-2 uk-grid">
-                            <p class="uk-margin-top uk-width-1-1">
+                            <p class="uk-margin-top uk-width-1-1 uk-text-left">
                                 Need account <a href="{% url 'register' %}">register here</a>
                             </p>
                         </div>

@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from multiselectfield import MultiSelectField
+#from multiselectfield import MultiSelectField
 from PIL import Image
 
 

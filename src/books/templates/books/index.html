@@ -1,17 +1,48 @@
 {% extends "posts/base.html" %}
+{% load static %}
 
 {% block content %}
 <!-- Start Books Categoty -->
-<button class="uk-button uk-button-primary"
-    uk-toggle="target:#book-category; animation: uk-animation-fade">Categoty</button>
-<div id="book-category" class="category" hidden>
-    <div class="uk-padding-small uk-margin-small-top">
-        {% for genre in genres %}
-        <a class="uk-label" href="{% url 'fliter-genre' genre.genre %}">{{genre}}</a>
-        {% endfor %}
+<div class="uk-grid-small uk-width-1-1@s" uk-grid>
+    <div class="uk-width-expand@s">
+        <button class="uk-button uk-button-primary uk-width-expand"
+            uk-toggle="target:#book-category; animation: uk-animation-fade">Categoty</button>
+        <div id="book-category" class="category" hidden>
+            <div class="uk-padding-small uk-margin-small-top">
+                <a class="uk-label" href="{% url 'books' %}">All</a>
+                {% for genre in genres %}
+                <a class="uk-label" href="{% url 'fliter-genre' genre.genre %}">{{genre}}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-expand@s">
+        <a href="{% url 'add-book' %}" class="uk-width-1-expand uk-button uk-button-default">Add Book</a>
+    </div>
+    <!-- search book -->
+    <div class="uk-width-expand@s">
+        <form class="uk-search uk-search-default uk-width-expand">
+            <a href="" class="uk-search-icon-flip" uk-search-icon></a>
+            <input id="book-search" class="uk-search-input uk-width-expand" type="search" placeholder="">
+        </form>
+        <link rel="stylesheet" href="{% static 'posts/css/jquery-ui.css'%}">
+        <script src="{% static 'posts/js/jquery-ui.min.js' %}"></script>
+        <script>
+            $(function () {
+                URL = "{% url 'search-book' %}";
+                //console.log(URL);
+                $("#book-search").autocomplete({
+                    source: URL,
+                    minLength: 2,
+                    select: function (event, ui) {
+                        console.log(event);
+                        console.log(ui)
+                    },
+                });
+            });
+        </script>
     </div>
 </div>
-<a href="{% url 'add-book' %}" class="uk-button uk-button-default">Add Book</a>
 <!-- End Books Categoty -->
 <div class="books uk-grid-small uk-child-width-1-2@s uk-text-center" uk-grid>
     {% for book in books %}

@@ -15,6 +15,8 @@ urlpatterns = [
     # ajax
     path('ajax/book/readed/<int:book_id>',
          views.readed_book, name='readed-book'),
+    path('ajax/book/search',
+         views.search_book, name='search-book'),
     path('ajax/author/author_autocomplete/',
          views.author_autocomplete, name='author-autocomplete'),
 

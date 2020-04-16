@@ -49,7 +49,7 @@
         <div class=" uk-margin-small-top book-genres">
             Genres:
             {% for genre in book.genres.all %}
-            <a class="uk-label" href="#">{{ genre }}</a>
+            <a class="uk-label" href="{% url 'fliter-genre' genre.genre %}">{{ genre }}</a>
             {% endfor %}
         </div>
 

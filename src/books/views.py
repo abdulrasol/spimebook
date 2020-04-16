@@ -20,6 +20,30 @@ def books(request):
     return render(request, 'books/index.html', context)
 
 
+def search_book(request):
+    if request.is_ajax():
+        '''
+        query = request.GET.get("term", "")
+        titles = Book.objects.filter(title__istartswith=query)
+        ids = Book.objects.filter(title__istartswith=query)
+        results = list(titles) + list(ids)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    return HttpResponse(data, 'application/json')
+    '''
+        a = request.GET.get('term', '')
+        titles = Book.objects.filter(title__istartswith=a)
+        result = []
+        for n in titles:
+            name_json = n.title
+            result.append(name_json)
+            data = json.dumps(result)
+
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
+
+
 def genres(request, genre):
     genre_id = Genres.objects.get(genre=genre).id
     books = Book.objects.filter(genres=genre_id)
@@ -102,17 +126,17 @@ def edit_book(request, book_id):
     form = EditBookForm(request.POST or None,
                         request.FILES or None, instance=book)
     if request.method == 'POST':
-        # form = EditBookForm(request.POST, request.FILES, instance=book)
+        form = EditBookForm(request.POST, request.FILES, instance=book)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.save()
-            print(type(instance))
+            form.save_m2m()
             messages.add_message(
                 request, messages.ERROR, f'{book.title} Saved, ')
             return redirect(f'/books/{book_id}')
         else:
             form = EditBookForm(initial=request.POST)
-            return render(request, 'books/add_author.html', {'title': 'Add author', 'form': form})
+            return render(request, 'books/edit_book.html', {'title': f'Edit {book.title} details', 'book': book, 'form': form})
 
     return render(request, 'books/edit_book.html', {'title': f'Edit {book.title} details', 'book': book, 'form': form})
 

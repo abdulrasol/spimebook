@@ -1,3 +1,0 @@
-decorator
-django-appconf~=1.0.0
-django-jenkins

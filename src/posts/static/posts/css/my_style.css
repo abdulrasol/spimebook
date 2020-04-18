@@ -75,6 +75,10 @@ nav .uk-logo{
   }
 }
 
+#me-mobile-navbar{
+  z-index: 5;
+}
+
 
 /* Start Header */
 @media (max-width:500px ) { /* this not found in bootstrap */

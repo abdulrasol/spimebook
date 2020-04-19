@@ -46,6 +46,7 @@ class Post(models.Model):
         choices=POST_TYPE,
         default='Psot')
     for_book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    archived = models.BooleanField(default=False)
 
     def __str__(self):
         return '{} for {}'.format(self.title, self.for_book)

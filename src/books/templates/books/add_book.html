@@ -7,7 +7,6 @@
     {% csrf_token %}
     <legend class="uk-legend uk-margin-bottom">Add New or Missing Book</legend>
 
-
     <div class="uk-grid" uk-grid>
         <div class="uk-width-1-1@s">
             {% for message in messages %}
@@ -59,7 +58,7 @@
             <label style="display: block;" class="uk-form-label uk-margin-small-bottom" for="form-stacked-text">Book
                 Bio</label>
             <div class="uk-form-controls">
-                <textarea id="bio" name="bio" class="uk-textarea uk-padding-small" rows="5"
+                <textarea id="book_Bio" name="book_Bio" class="uk-textarea uk-padding-small" rows="5"
                     placeholder="Write Some Information About This Book"></textarea>
             </div>
         </div>

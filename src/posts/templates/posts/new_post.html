@@ -1,0 +1,66 @@
+{% extends "posts/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'posts/css/jquery-ui.css'%}">
+<script src="{% static 'posts/js/jquery-ui.min.js' %}"></script>
+<form method="POST" enctype="multipart/form-data" class="uk uk-padding uk-padding-remove-vertical">
+    {% csrf_token %}
+    <legend class="uk-legend uk-margin-bottom">New Post</legend>
+    <div class="uk-grid" uk-grid>
+        <div class="uk-width-1-1@s">
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Title</label>
+            <input class="uk-input" id="title" name="title" type="text" placeholder="Post Title" required>
+        </div>
+        <div class="uk-margin uk-width-1-1">
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom" for="form-stacked-text">Book
+                Post</label>
+            <div class="uk-form-controls">
+                <textarea id="content" name="content" class="uk-textarea uk-padding-small" rows="5" placeholder="Post.."
+                    required></textarea>
+            </div>
+        </div>
+        <div class="uk-width-1-2@s">
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Book</label>
+            <input class="uk-input" id="for_book" name="for_book" type="input" placeholder="Book Title" required>
+            <script>
+                $(function () {
+                    var URL = "{% url 'search-book' %}";
+                    $("#for_book").autocomplete({
+                        source: URL,
+                        minLength: 2,
+                        select: function (event, ui) {
+                            console.log(ui.item.value);
+                            var book = ui.item.value
+                            var get_url = "{% url 'ajax-book' '12345' %}".replace(/12345/, book);
+                            console.log(get_url);
+                        }
+                    });
+                    var a = function () {
+                        var BOOK_URL = "ajax/book/search/" + $("#book-search").val();
+                        return BOOK_URL;
+                    }
+                });
+            </script>
+            <span style="display: block;" class="uk-margin-small-top uk-text-muted author-autocomplete">
+                If Book Doesn't Appear
+                <a href="{% url 'add-book' %}">click here to
+                    add</a>
+            </span>
+        </div>
+        <div class="uk-width-1-2@s">
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Type</label>
+            <select id="p_type" name="p_type" class="uk-select">
+                <option value="Q">Quote</option>
+                <option value="R">Reviw</option>
+                <option selected value="P">Post</option>
+            </select>
+        </div>
+
+    </div>
+    <div class="uk-width-1-1 uk-margin">
+        <button type="submit" class="uk-button uk-button-primary">Add Post</button>
+    </div>
+</form>
+
+{% endblock content %}

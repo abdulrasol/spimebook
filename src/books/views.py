@@ -55,7 +55,7 @@ def genres(request, genre):
 
 def book(request, book_id):
     target_book = get_object_or_404(Book, id=book_id)
-    posts = Post.objects.filter(for_book=target_book)
+    posts = Post.objects.filter(for_book=target_book).filter(archived=False)
     readed_book_state = False
     if request.user.is_authenticated:
         user = request.user.profile
@@ -107,7 +107,7 @@ def add_book(request):
         pub_date = request.POST['pub_date']
         b_type = request.POST['b_type']
         author = request.POST['author']
-        bio = request.POST['bio']
+        bio = request.POST['book_Bio']
         if not Author.objects.filter(author_Name=author).exists():
             messages.add_message(
                 request, messages.ERROR, 'Author not found, kindly correct name or add to database')

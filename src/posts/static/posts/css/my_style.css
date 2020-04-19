@@ -79,6 +79,55 @@ nav .uk-logo{
   z-index: 5;
 }
 
+/* start loading */
+.loading-more-post{
+	margin: 20px auto;
+	width: 92px;
+}
+.loading-more-post span{
+	box-sizing: border-box;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background-color:rgb(30, 135, 240);
+	display: block;
+	float: left;
+  margin-left: 8px;
+	transition: all .3s both ease-in-out;
+	animation: loadinganimate 1s infinite ease-in-out;
+}
+
+.loading-more-post span:first-of-type{
+	margin-left: 0;
+	animation-delay: 0s
+}
+.loading-more-post span:nth-of-type(2){
+	animation-delay: .25s
+}
+.loading-more-post span:nth-of-type(3){
+	animation-delay: .5s
+}
+.loading-more-post span:nth-of-type(4){
+	animation-delay: .75s
+}
+.loading-more-post span:nth-of-type(5){
+	animation-delay: 1s
+}
+
+@keyframes loadinganimate{
+	0%,
+    100% {
+        opacity: 1
+    }
+
+    50% {
+        opacity: 0.3
+    }
+
+}
+
+/* end loading */
+
 
 /* Start Header */
 @media (max-width:500px ) { /* this not found in bootstrap */

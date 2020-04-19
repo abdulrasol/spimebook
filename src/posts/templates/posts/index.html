@@ -3,8 +3,22 @@
 {% load posts_extra %}
 
 {% block content %}
+{% block javascript %}
+<script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        onBeforePageLoad: function () {
+            $('.loading-more-post').show();
+        },
+        onAfterPageLoad: function ($items) {
+            $('.loading-more-post').hide();
+        }
+    });
+</script>
+{% endblock javascript %}
+
 {% for post in posts %}
-<div class="uk-card uk-card-primary uk-margin uk-width-1-1">
+<div class="uk-card uk-card-primary uk-margin uk-width-1-1 infinite-item">
     <div class="uk-card-header">
         <div class="uk-grid-small uk-flex-middle" uk-grid>
             <div class="uk-width-auto">
@@ -46,4 +60,18 @@
     </div><!-- End footer -->
 </div>
 {% endfor %}
+
+<div class="loading-more-post" style="display: block;">
+
+    <div class="loading-more-post">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</div>
+{% if posts.has_next %}
+<a class="infinite-more-link" href="?page={{ posts.next_page_number }}"></a>
+{% endif %}
 {% endblock content %}

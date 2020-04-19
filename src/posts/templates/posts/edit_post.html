@@ -1,0 +1,60 @@
+{% extends "posts/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+
+<form method="POST" enctype="multipart/form-data" class="uk uk-padding uk-padding-remove-vertical">
+    {% csrf_token %}
+    <legend class="uk-legend uk-margin-bottom">Edit {{post.title}} </legend>
+
+    <div class="uk-grid" uk-grid>
+
+        <div class="uk-width-1-1@s">
+            {% for message in messages %}
+            <div class="uk-margin uk-margin-large-top">
+                <div class="uk-alert-success existed" uk-alert>
+                    <p>
+                        {{message}}<a href="{% url 'add-book' %}">click here</a> to add book or <a
+                            href="{% url 'books' %}">here</a> books browser.
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+
+        <div class="uk-width-1-1@s">
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Title</label>
+            {{ form.title|add_class:"uk-input"|attr:"type:text"|attr:"required"|attr:"placeholder:Post Title" }}
+        </div>
+        <div class="uk-margin uk-width-1-1">
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom" for="form-stacked-text">Book
+                Post</label>
+            <div class="uk-form-controls">
+                {{ form.content|add_class:"uk-textarea uk-padding-small"|attr:"rows:5"|attr:"required"}}
+            </div>
+        </div>
+        <div class="uk-width-auto@s">
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Book</label>
+            {{form.for_book|add_class:"uk-select"}}
+        </div>
+        <div class="uk-width-auto@s">
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Type</label>
+            {{form.post_type|add_class:"uk-select"}}
+        </div>
+        <div class="uk-width-auto@s">
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Archived</label>
+            {{form.archived|add_class:"uk-checkbox"|attr:"type:checkbox"}}
+            <label class="CheckboxLabel" for="id_archived">is archived post?</label>
+            <p>
+                When Archiving Posts, will no longer be visible for others.
+            </p>
+        </div>
+
+        <div class="uk-width-1-1">
+            <button type="submit" class="uk-button uk-button-primary">Save Book</button>
+        </div>
+    </div>
+</form>
+
+{% endblock content %}

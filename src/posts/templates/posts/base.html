@@ -16,6 +16,8 @@
     <script src="{% static "posts/js/uikit-icons.min.js" %}"></script>
     <script src="{% static "posts/js/fontawesome.all.min.js" %}"></script>
     <script src="{% static "posts/js/jquery.js" %}"></script>
+    <script src="{% static "posts/js/jquery.waypoints.min.js" %}"></script>
+    <script src="{% static "posts/js/infinite.min.js" %}"></script>
     <script src="{% static "posts/js/plugin.js" %}"></script>
 </head>
 
@@ -95,14 +97,10 @@
                                 </form>
                             </div>
                         </li>
-                        <li class="uk-nav-header">Main</li>
-                        <li><a href="#"><span class="uk-margin-small-right"
-                                    uk-icon="icon: quote-right; ratio: 1.5"></span> Quotes</a></li>
                         {% if user.is_authenticated %}
-                        <li class="uk-nav-divider"></li>
                         <li class="uk-nav-header">Posts</li>
                         <li>
-                            <a href="#new-post" uk-toggle><span class="uk-margin-small-right"
+                            <a href="{% url 'new-post' %}"><span class="uk-margin-small-right"
                                     uk-icon="icon: pencil; ratio: 1.5"></span>New</a>
                         </li>
                         <li><a href="{% url 'my-posts' user %}"><span class="uk-margin-small-right"
@@ -163,7 +161,7 @@
                     <a href="{% url 'books' %}" class="uk-icon" uk-icon="icon:thumbnails; ratio:2"></a>
                 </div>
                 <div class="uk-width-1-4">
-                    <a class="uk-icon" uk-icon="icon:pencil; ratio:2"></a>
+                    <a href="{% url 'quotes' %}" class="uk-icon" uk-icon="icon:quote-right; ratio:2"></a>
                 </div>
                 <div class="uk-width-1-4">
                     <a href="#mobile-slide-menu" uk-toggle class="uk-icon" uk-icon="icon:menu; ratio:2"></a>
@@ -185,14 +183,14 @@
                                         uk-icon="icon: home; ratio: 1.5"></span>Home</a></li>
                             <li><a href="{% url 'books' %}"><span class="uk-margin-small-right"
                                         uk-icon="icon: thumbnails; ratio: 1.5"></span> Books</a></li>
-                            <li><a href="#"><span class="uk-margin-small-right"
+                            <li><a href="{% url 'quotes' %}"><span class="uk-margin-small-right"
                                         uk-icon="icon: quote-right; ratio: 1.5"></span> Quote</a></li>
                             </li>
                             {% if user.is_authenticated %}
                             <li class="uk-nav-divider"></li>
                             <li class="uk-nav-header">Posts</li>
                             <li>
-                                <a href="#new-post" uk-toggle><span class="uk-margin-small-right"
+                                <a href="{% url 'new-post' %}" uk-toggle><span class="uk-margin-small-right"
                                         uk-icon="icon: pencil; ratio: 1.5"></span>New</a>
 
                             </li>
@@ -236,9 +234,9 @@
 
             <!-- Start Main -->
             <div class="uk-width-expand">
-                <div class="uk-container uk-padding-small">
+                <div class="uk-container uk-padding-small uk-padding-remove-vertical">
                     <!-- start post container -->
-                    <div class="">
+                    <div class="infinite-container">
                         <!-- Start Posts -->
                         {% block content %}
 
@@ -271,41 +269,6 @@
         </div>
     </div>
     <!-- End Share Model -->
-    <!-- New Post Modal -->
-    <div id="new-post" class="uk-disabled" uk-modal>
-        <div class="uk-modal-dialog uk-modal-body">
-
-            <form>
-                <fieldset class="uk-fieldset">
-                    <legend class="uk-legend">Add New Post</legend>
-                    <div class="uk-margin">
-                        <textarea class="uk-textarea" rows="5" placeholder="Post"></textarea>
-                    </div>
-                    <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-                        <label><input class="uk-radio" type="radio" name="is-quote" checked> Normal Post</label>
-                        <label><input class="uk-radio" type="radio" name="is-quote"> Quote</label>
-                    </div>
-
-                    <div class="uk-margin">
-                        <input class="uk-input uk-form-width-medium uk-disabled" type="text" placeholder="Book Name">
-                    </div>
-
-                    <div class="uk-margin uk-grid-small uk-child-width-1-2 uk-grid">
-                        <button class="uk-button uk-button-secondary uk-modal-close">Cancel</button>
-                        <button class="uk-button uk-button-primary">Post</button>
-                    </div>
-
-                </fieldset>
-            </form>
-
-        </div>
-    </div>
-    <!-- End New Post Modal -->
-    <!-- Sign in & up -->
-
-
-
-    <!-- End Sign in & up -->
     <!-- End Model -->
     {% comment %}
     {% if messages %}
@@ -323,6 +286,7 @@
     </ul>
     {% endif %}
     {% endcomment %}
+    {% block javascript %}{% endblock javascript %}
 </body>
 
 </html>

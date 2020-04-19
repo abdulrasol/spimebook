@@ -1,0 +1,47 @@
+{% extends "posts/base.html" %}
+{% load static %}
+{% load posts_extra %}
+
+
+{% block content %}
+<style type="text/css">
+    .infinite-item,
+    .loading {
+        margin-bottom: 5px;
+        background-color: #1eaedb;
+        color: #fff;
+        text-align: center;
+        padding: 25px 0;
+    }
+
+    .loading {
+        background-color: #333;
+    }
+</style>
+<div class="infinite-container">
+    {% for number in numbers %}
+    <div class="infinite-item">{{ number }}</div>
+    {% endfor %}
+</div>
+
+<div class="loading" style="display: none;">
+    Loading...
+</div>
+
+{% if numbers.has_next %}
+<a class="infinite-more-link" href="?page={{ numbers.next_page_number }}">More</a>
+{% endif %}
+{% endblock %}
+{% block javascript %}
+<script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        onBeforePageLoad: function () {
+            $('.loading').show();
+        },
+        onAfterPageLoad: function ($items) {
+            $('.loading').hide();
+        }
+    });
+</script>
+{% endblock %}

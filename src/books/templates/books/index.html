@@ -21,15 +21,31 @@
         <script src="{% static 'posts/js/jquery-ui.min.js' %}"></script>
         <script>
             $(function () {
-                URL = "{% url 'search-book' %}";
+                var URL = "{% url 'search-book' %}";
+
                 //console.log(URL);
                 $("#book-search").autocomplete({
+                    source: URL,
+
                     select: function (event, ui) {
-                        $.get({
-                            url
-                        });
+                        //console.log(ui);
+                        //console.log(ui.item);
+                        console.log(ui.item.value);
+                        var book = ui.item.value
+                        //var get_url = "lab".replace(/12345/, tmp.toString());
+                        var get_url = "{% url 'ajax-book' '12345' %}".replace(/12345/, book);
+                        console.log(get_url);
+                        $.get(
+                            get_url,
+                            function (data) {
+                                console.log(data);
+                            });
                     },
                 });
+                var a = function () {
+                    var BOOK_URL = "ajax/book/search/" + $("#book-search").val();
+                    return BOOK_URL;
+                }
             });
         </script>
     </div>

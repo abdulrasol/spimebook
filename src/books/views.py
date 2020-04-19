@@ -35,9 +35,9 @@ def search_book(request):
         a = request.GET.get('term', '')
         titles = Book.objects.filter(title__istartswith=a)
         result = []
+        data = ''
         for n in titles:
-            name_json = n.title
-            result.append(name_json)
+            result.append(n.title + f', {n.author}')
             data = json.dumps(result)
 
     mimetype = 'application/json'
@@ -56,7 +56,7 @@ def genres(request, genre):
 def book(request, book_id):
     target_book = get_object_or_404(Book, id=book_id)
     posts = Post.objects.filter(for_book=target_book)
-
+    readed_book_state = False
     if request.user.is_authenticated:
         user = request.user.profile
         # print(user)
@@ -73,6 +73,30 @@ def book(request, book_id):
                'readed_book': readed_book_state
                }
     # print(target_book.genres.all())
+    return render(request, 'books/book.html', context)
+
+
+def book_by_ajax(request, book_title_author):
+    # print(book_title_author)
+    book_title = book_title_author.split(', ')[0]
+    # print(book_title)
+    book_author = get_object_or_404(
+        Author, author_Name=book_title_author.split(', ')[1])
+    target_book = Book.objects.filter(
+        title__icontains=book_title).get(author=book_author)
+    # print(target_book)
+    readed_book_state = False
+    if request.user.is_authenticated:
+        user = request.user.profile
+        # print(user)
+        if user.books.filter(id=target_book.id).exists():  # cheek:
+            # target_book.books.remove(user)
+            readed_book_state = True
+
+    context = {'title': target_book.title,
+               'book': target_book,
+               'readed_book': readed_book_state
+               }
     return render(request, 'books/book.html', context)
 
 

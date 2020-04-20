@@ -1,8 +1,4 @@
-{% extends "posts/base.html" %}
-{% load static %}
-{% load posts_extra %}
-
-{% block content %}
+{% extends "posts/base.html" %} {% load static %} {% load posts_extra %} {% block content %}
 <!-- start post container -->
 <div class="uk-card uk-card-default">
     <div class="uk-card-header me-header">
@@ -30,7 +26,7 @@
                 <div class="uk-slider-container">
                     <ul class="uk-slider-items uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-4@l uk-grid">
 
-                        {% for book in books  %}
+                        {% for book in books %}
                         <li class="uk-text-center">
                             <div class="me-header">
                                 <div class="me-context-menu-profile-page">
@@ -41,16 +37,14 @@
                                         <li id="add-to-readed-book-parent">
                                             <a id="add-to-readed-book" data-book="{% url 'readed-book' book.id %}">
                                                 <span class="uk-margin-small-right" uk-icon="icon: trash">
-                                                </span>
-                                                remove from this list
+                                                </span> remove from this list
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
                                 <a class="uk-link" href="{% url 'book' book.id %}">
                                     <div>
-                                        <img class="uk-border-rounded" data-src="{{book.book_image.url}}" width="150"
-                                            height="" alt="" uk-img>
+                                        <img class="uk-border-rounded" data-src="{{book.book_image.url}}" width="150" height="" alt="" uk-img>
                                     </div>
                                     <h3 class="uk-text-muted">{{book.title}}</h3>
                                 </a>
@@ -64,16 +58,12 @@
                     </ul>
                 </div>
                 <div class="uk-hidden@s uk-light">
-                    <a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous
-                        uk-slider-item="previous"></a>
-                    <a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next
-                        uk-slider-item="next"></a>
+                    <a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+                    <a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next uk-slider-item="next"></a>
                 </div>
                 <div class="uk-visible@s">
-                    <a class="uk-position-center-left-out uk-position-small" href="#" uk-slidenav-previous
-                        uk-slider-item="previous"></a>
-                    <a class="uk-position-center-right-out uk-position-small" href="#" uk-slidenav-next
-                        uk-slider-item="next"></a>
+                    <a class="uk-position-center-left-out uk-position-small" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+                    <a class="uk-position-center-right-out uk-position-small" href="#" uk-slidenav-next uk-slider-item="next"></a>
                 </div>
             </div>
         </div>
@@ -85,31 +75,49 @@
         <h5 class="uk-heading-line uk-text-muted"><span>My Posts</span></h5>
         <div class="uk-width-expand">
             <!-- Start Users Posts -->
+            {% block javascript %}
+            <script>
+                var infinite = new Waypoint.Infinite({
+                    element: $('.infinite-container')[0],
+                    onBeforePageLoad: function() {
+                        $('.loading-more-post').show();
+                    },
+                    onAfterPageLoad: function($items) {
+                        $('.loading-more-post').hide();
+                    }
+                });
+            </script>
 
-            {% for post in posts%}
-            <div class="uk-card uk-card-primary uk-margin uk-width-1-1">
+            {% endblock javascript %} {% for post in posts %}
+            <div class="uk-card uk-card-primary uk-margin uk-width-1-1 infinite-item">
                 <div class="uk-card-header">
                     <div class="uk-grid-small uk-flex-middle" uk-grid>
                         <div class="uk-width-auto">
                             <!-- user profile img -->
-                            <img class="uk-border-circle" width="40" height="40" src="">
+                            <a href="{% url 'user-profile' post.user %}">
+                                <img class="uk-border-circle" width="50" height="50" src="{{post.user.profile.picture.url}}"
+                                    alt="{{post.user.profile.picture.url}}"">
+                                <br>
+                                <h6 class=" uk-margin-remove uk-width-expand uk-text-center">
+                                {{post.user}}
+                                </h6>
+                            </a>
                         </div>
                         <div class="uk-width-expand">
                             <a href="{% url 'post' post.id %}">
                                 <h3 class="uk-card-title uk-margin-remove-bottom">{{post.title}}</h3>
                             </a>
-                            <p class="uk-text-meta uk-margin-remove-top"><time
-                                    datetime="2016-04-01T19:00">{{post.post_date|date:"D d M Y, H:i"}}</time>
+                            <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">{{post.post_date|date:"D d M Y, H:i"}}</time>
                             </p>
                         </div>
                     </div>
-                </div><!-- End header -->
+                </div>
+                <!-- End header -->
                 <div class="uk-card-body uk-padding">
                     {% if post.post_type == "Q" %}
                     <q class="">
                         {{ post.content }}
-                    </q>
-                    {% else %}
+                    </q> {% else %}
                     <p class="">
                         {{ post.content }}
                     </p>
@@ -117,13 +125,27 @@
 
                 </div>
                 <!-- End body -->
-                <!-- Start footer -->
                 <div class="uk-card-footer">
+                    <!-- start commnets -->
                     {% reaction_bar post.id user %}
                 </div>
                 <!-- End footer -->
             </div>
             {% endfor %}
+
+            <div class="loading-more-post" style="display: block;">
+
+                <div class="loading-more-post">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            {% if posts.has_next %}
+            <a class="infinite-more-link" href="?page={{ posts.next_page_number }}"></a>
+            {% endif %}
         </div>
     </div>
     <!-- end post container -->

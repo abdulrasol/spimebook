@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -63,7 +64,16 @@ def register(request):
 def profile(request):
     user = request.user
     print(request.user)
-    posts = Post.objects.filter(user=user)
+    all_posts = Post.objects.filter(user=user)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(all_posts, 3)
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
     readed_books = user.profile.books.all()
     if user.first_name == '':
         name = user.username
@@ -80,21 +90,38 @@ def profile(request):
 
 @login_required(login_url='log-in')
 def edit_profile(request):
+    profile = get_object_or_404(Profile, user= request.user)
+    form = EditProfileForm(request.POST or None,
+                        request.FILES or None, instance=profile)
     if request.method == 'POST':
-        form = EditProfileForm(request.POST)
-        print(form)
-    else:
-        form = EditProfileForm()
+        form = EditProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.save()
+            form.save_m2m()
+            return redirect('/user/profile')
+        else:
+            form = EditProfileForm(initial=request.POST)
     context = {
-        'form': form
-    }
+            'title': 'Edit my profile',
+            'form':form
+        }
     return render(request, 'users/edit_porfile.html', context)
 
 
 def user_profile(request, username):
     user = get_object_or_404(User, username=username)
     # print(f'userfrom url {username} and from db {user}')
-    posts = Post.objects.filter(user=user)
+    all_posts = Post.objects.filter(user=user)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(all_posts, 3)
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
     readed_books = user.profile.books.all()
     # print(books)
     # print(user.profile.picture.url)

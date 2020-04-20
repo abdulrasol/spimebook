@@ -1,6 +1,5 @@
 asgiref                   
-Django                   
-django-dajaxice             
+Django                                
 django-multiselectfield 
 django-widget-tweaks    
 Pillow                  

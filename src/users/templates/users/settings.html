@@ -1,0 +1,47 @@
+{% extends "posts/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<!-- start post container -->
+<div class="uk-card uk-card-default">
+    <form class="uk-form-stacked uk-padding me-form" enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        <legend class="uk-legend uk-margin-bottom">Edit {{book}} </legend>
+
+        <div class="uk-grid" uk-grid>
+            <div class="uk-width-1-2@s">
+                <label style="display: block;"
+                    class="uk-form-label uk-margin-small-bottom">{{form.username.label}}</label>
+                {{ form.username|add_class:"uk-input"|attr:"type:text"|attr:"required"}}
+            </div>
+            <div class="uk-width-1-2@s">
+                <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Important!</label>
+                {{ form.username.help_text}}
+            </div>
+
+            <div class="uk-width-1-2@s">
+                <label style="display: block;" class="uk-form-label uk-margin-small-bottom">{{form.email.label}}</label>
+                {{ form.email|add_class:"uk-input"|attr:"type:email"|attr:"required"}}
+            </div>
+            <div class="uk-width-1-2@s">
+                <label style="display: block;"
+                    class="uk-form-label uk-margin-small-bottom">{{form.password.label}}</label>
+                {{ form.password|add_class:"uk-input me-form-password"|attr:"type:password"|attr:"required"}}
+            </div>
+            <div class="uk-width-1-2@s">
+                <div class="uk-alert-warning" uk-alert>
+                    <p>
+                        Password you entered less than 6 char!
+                    </p>
+                </div>
+            </div>
+            <div class="uk-width-1-1">
+                <button type="submit" class="uk-button uk-button-primary">Save Book</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+<!-- end post container -->
+{% endblock content %}

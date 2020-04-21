@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from posts.models import Post
 from .models import Profile
-from .forms import EditProfileForm
+from .forms import EditProfileForm, EditAccountForm
 
 # Create your views here.
 # { % if user.is_authenticated % }
@@ -63,7 +63,7 @@ def register(request):
 @login_required(login_url='log-in')
 def profile(request):
     user = request.user
-    print(request.user)
+    # print(request.user)
     all_posts = Post.objects.filter(user=user)
     page = request.GET.get('page', 1)
     paginator = Paginator(all_posts, 3)
@@ -89,10 +89,20 @@ def profile(request):
 
 
 @login_required(login_url='log-in')
-def edit_profile(request): 
-    profile = get_object_or_404(Profile, user= request.user)
+def settings(request):
+    form = EditAccountForm()
+    context = {
+        'title': 'Account Settings',
+        'form': form
+    }
+    return render(request, 'users/settings.html', context)
+
+
+@login_required(login_url='log-in')
+def edit_profile(request):
+    profile = get_object_or_404(Profile, user=request.user)
     form = EditProfileForm(request.POST or None,
-                        request.FILES or None, instance=profile)
+                           request.FILES or None, instance=profile)
     if request.method == 'POST':
         form = EditProfileForm(request.POST, request.FILES, instance=profile)
         print(request.FILES)
@@ -104,9 +114,9 @@ def edit_profile(request):
         else:
             form = EditProfileForm(initial=request.POST)
     context = {
-            'title': 'Edit my profile',
-            'form':form
-        }
+        'title': 'Edit my profile',
+        'form': form
+    }
     return render(request, 'users/edit_porfile.html', context)
 
 

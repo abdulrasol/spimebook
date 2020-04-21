@@ -3,7 +3,18 @@
 <div class="uk-card uk-card-default">
     <div class="uk-card-header me-header">
         <div class="me-context-menu">
-            <a href="{% url 'edit-profile' %}"><span class="uk-icon" uk-icon="icon:pencil; ratio:1.5"></span></a>
+            <span type="button" class="uk-icon" uk-icon="icon:more-vertical; ratio:1.2"></span>
+        </div>
+        <div uk-dropdown="mode: click">
+            <ul class="uk-nav uk-dropdown-nav">
+                <li><a href="{% url 'edit-profile' %}"><span class="uk-margin-small-right"
+                            uk-icon="icon: pencil; ratio:1.2"></span>Edit Profile</a>
+                </li>
+                <li><a href="{% url 'settings' %}">
+                        <span class="uk-margin-small-right" uk-icon="icon: cog; ratio:1.2"></span>
+                        Account Settings</a>
+                </li>
+            </ul>
         </div>
         <div class="uk-grid-small uk-flex me-text-center-m" uk-grid>
             <div class="uk-width-auto@m book-img">

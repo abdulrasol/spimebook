@@ -89,12 +89,13 @@ def profile(request):
 
 
 @login_required(login_url='log-in')
-def edit_profile(request):
+def edit_profile(request): 
     profile = get_object_or_404(Profile, user= request.user)
     form = EditProfileForm(request.POST or None,
                         request.FILES or None, instance=profile)
     if request.method == 'POST':
         form = EditProfileForm(request.POST, request.FILES, instance=profile)
+        print(request.FILES)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.save()

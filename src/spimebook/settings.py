@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     'posts.apps.PostsConfig',
     'books.apps.BooksConfig',
     'blog.apps.BlogConfig',
-    'widget_tweaks',
     'users.apps.UsersConfig',
+    'widget_tweaks',
 
 ]
 

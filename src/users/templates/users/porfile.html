@@ -3,7 +3,7 @@
 <div class="uk-card uk-card-default">
     <div class="uk-card-header me-header">
         <div class="me-context-menu">
-            <span class="uk-icon" uk-icon="icon:pencil; ratio:1.5"></span>
+            <a href="{% url 'edit-profile' %}"><span class="uk-icon" uk-icon="icon:pencil; ratio:1.5"></span></a>
         </div>
         <div class="uk-grid-small uk-flex me-text-center-m" uk-grid>
             <div class="uk-width-auto@m book-img">
@@ -44,7 +44,8 @@
                                 </div>
                                 <a class="uk-link" href="{% url 'book' book.id %}">
                                     <div>
-                                        <img class="uk-border-rounded" data-src="{{book.book_image.url}}" width="150" height="" alt="" uk-img>
+                                        <img class="uk-border-rounded" data-src="{{book.book_image.url}}" width="150"
+                                            height="" alt="" uk-img>
                                     </div>
                                     <h3 class="uk-text-muted">{{book.title}}</h3>
                                 </a>
@@ -58,12 +59,16 @@
                     </ul>
                 </div>
                 <div class="uk-hidden@s uk-light">
-                    <a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-                    <a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next uk-slider-item="next"></a>
+                    <a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous
+                        uk-slider-item="previous"></a>
+                    <a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next
+                        uk-slider-item="next"></a>
                 </div>
                 <div class="uk-visible@s">
-                    <a class="uk-position-center-left-out uk-position-small" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-                    <a class="uk-position-center-right-out uk-position-small" href="#" uk-slidenav-next uk-slider-item="next"></a>
+                    <a class="uk-position-center-left-out uk-position-small" href="#" uk-slidenav-previous
+                        uk-slider-item="previous"></a>
+                    <a class="uk-position-center-right-out uk-position-small" href="#" uk-slidenav-next
+                        uk-slider-item="next"></a>
                 </div>
             </div>
         </div>
@@ -79,10 +84,10 @@
             <script>
                 var infinite = new Waypoint.Infinite({
                     element: $('.infinite-container')[0],
-                    onBeforePageLoad: function() {
+                    onBeforePageLoad: function () {
                         $('.loading-more-post').show();
                     },
-                    onAfterPageLoad: function($items) {
+                    onAfterPageLoad: function ($items) {
                         $('.loading-more-post').hide();
                     }
                 });
@@ -95,8 +100,8 @@
                         <div class="uk-width-auto">
                             <!-- user profile img -->
                             <a href="{% url 'user-profile' post.user %}">
-                                <img class="uk-border-circle" width="50" height="50" src="{{post.user.profile.picture.url}}"
-                                    alt="{{post.user.profile.picture.url}}"">
+                                <img class="uk-border-circle" width="50" height="50"
+                                    src="{{post.user.profile.picture.url}}" alt="{{post.user.profile.picture.url}}"">
                                 <br>
                                 <h6 class=" uk-margin-remove uk-width-expand uk-text-center">
                                 {{post.user}}
@@ -107,7 +112,8 @@
                             <a href="{% url 'post' post.id %}">
                                 <h3 class="uk-card-title uk-margin-remove-bottom">{{post.title}}</h3>
                             </a>
-                            <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">{{post.post_date|date:"D d M Y, H:i"}}</time>
+                            <p class="uk-text-meta uk-margin-remove-top"><time
+                                    datetime="2016-04-01T19:00">{{post.post_date|date:"D d M Y, H:i"}}</time>
                             </p>
                         </div>
                     </div>

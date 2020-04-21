@@ -13,6 +13,8 @@ class EditProfileForm(forms.ModelForm):
 
 
 class EditAccountForm(forms.ModelForm):
+    password = forms.PasswordInput(render_value='')
+
     class Meta:
         model = User
         fields = ['username', 'email', 'password']

@@ -90,7 +90,15 @@ def profile(request):
 
 @login_required(login_url='log-in')
 def settings(request):
-    form = EditAccountForm()
+    form = EditAccountForm(request.POST or None, instance=request.user)
+    if request.method == 'POST':
+        form = EditAccountForm(request.POST, instance=request.user)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.save()
+            print(instance.password)
+            return redirect('/user/profile')
+
     context = {
         'title': 'Account Settings',
         'form': form
@@ -105,7 +113,7 @@ def edit_profile(request):
                            request.FILES or None, instance=profile)
     if request.method == 'POST':
         form = EditProfileForm(request.POST, request.FILES, instance=profile)
-        print(request.FILES)
+        # print(request.FILES)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.save()

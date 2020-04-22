@@ -8,13 +8,25 @@ from django.contrib import messages
 from .forms import AddAuthorForm, EditBookForm
 from posts.models import Post
 import json
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 # Create your views here.
 
 
 def books(request):
-    books = Book.objects.all()
     genres = Genres.objects.all()
+    all_books = Book.objects.all()
+    page = request.GET.get('page', 1)
+    paginator = Paginator(all_books, 16)
+
+    try:
+        books = paginator.page(page)
+    except PageNotAnInteger:
+        books = paginator.page(1)
+    except EmptyPage:
+        books = paginator.page(paginator.num_pages)
+
     context = {'title': 'Browser books, Spimebook',
                'books': books, 'genres': genres}
     return render(request, 'books/index.html', context)
@@ -55,7 +67,6 @@ def genres(request, genre):
 
 def book(request, book_id):
     target_book = get_object_or_404(Book, id=book_id)
-    posts = Post.objects.filter(for_book=target_book).filter(archived=False)
     readed_book_state = False
     if request.user.is_authenticated:
         user = request.user.profile
@@ -66,6 +77,17 @@ def book(request, book_id):
         else:
             # target_book.books.add(user)  # love
             readed_book_state = False
+
+    all_posts = Post.objects.filter(
+        for_book=target_book).filter(archived=False)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(all_posts, 5)
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
 
     context = {'title': target_book.title,
                'book': target_book,
@@ -184,8 +206,16 @@ def readed_book(request, book_id):
 
 def author(request, author_id, book_author):
     author = get_object_or_404(Author, id=author_id)
-    books = Book.objects.filter(author=author)
-    # print(books)
+    all_books = Book.objects.filter(author=author)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(all_books, 6)
+    try:
+        books = paginator.page(page)
+    except PageNotAnInteger:
+        books = paginator.page(1)
+    except EmptyPage:
+        books = paginator.page(paginator.num_pages)
+        # print(books)
     context = {'title': author.author_Name,
                'author': author,
                'books': books

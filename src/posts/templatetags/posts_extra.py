@@ -5,7 +5,7 @@ from posts.forms import AddCommentForm
 register = template.Library()
 
 
-@register.inclusion_tag('posts/comment_form.html')
+@register.inclusion_tag('posts/costumtags/comment_form.html')
 def comment_form(post_id):
     target_post = Post.objects.get(id=post_id)
     comment_form = AddCommentForm()
@@ -17,7 +17,7 @@ def comment_form(post_id):
     return context
 
 
-@register.inclusion_tag('posts/reaction_bar.html')
+@register.inclusion_tag('posts/costumtags/reaction_bar.html')
 def reaction_bar(post_id, user):
     target_post = Post.objects.get(id=post_id)
     comment_form = AddCommentForm()
@@ -30,9 +30,17 @@ def reaction_bar(post_id, user):
     return context
 
 
-@register.inclusion_tag('posts/post_container.html')
-def post(post):
+@register.inclusion_tag('posts/costumtags/post_container.html')
+def post(post, user):
     context = {
+        'user': user,
         'post': post
+    }
+    return context
+
+
+@register.inclusion_tag('posts/costumtags/infinite_scroll_js.html')
+def infinite_scroll_js():
+    context = {
     }
     return context

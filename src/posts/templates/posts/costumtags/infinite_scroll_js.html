@@ -1,0 +1,22 @@
+{% block javascript %}
+<script>
+    // init Infinite Scroll
+    $('.content-container .article-feed').infiniteScroll({
+        path: '.pagination__next',
+        append: '.article',
+        status: '.scroller-status',
+        hideNav: '.pagination',
+    });
+    var infScroll = $('.article-feed').data('infiniteScroll');
+
+    $('.article-feed').on('scrollThreshold.infiniteScroll', function (event) {
+        //console.log('Scroll at bottom');
+        $('.loading-more-post').show();
+    });
+    $('.article-feed').on('append.infiniteScroll', function (event, response, path, items) {
+        console.log(items.length + ' items appended');
+        $('.loading-more-post').hide();
+
+    });
+</script>
+{% endblock javascript %}

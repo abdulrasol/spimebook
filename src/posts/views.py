@@ -29,15 +29,9 @@ def test(request):
 
 
 def home(request):
-
-    #all_posts = Post.objects.filter(archived=False)
     comment_form = AddCommentForm()
-    ##
-
     all_posts = Post.objects.filter(archived=False)
-
     page = request.GET.get('page', 1)
-
     paginator = Paginator(all_posts, 7)
     try:
         posts = paginator.page(page)
@@ -55,7 +49,6 @@ def home(request):
 
 
 def quotes(request):
-
     all_posts = Post.objects.filter(post_type='Q').filter(archived=False)
     comment_form = AddCommentForm()
     page = request.GET.get('page', 1)
@@ -133,8 +126,16 @@ def edit_post(request, post_id):
 
 @login_required(login_url='log-in')
 def my_post(request, user):
-    posts = Post.objects.filter(user=request.user)
+    all_posts = Post.objects.filter(user=request.user)
     comment_form = AddCommentForm()
+    page = request.GET.get('page', 1)
+    paginator = Paginator(all_posts, 7)
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
 
     context = {
         'title': 'Spimebook, a site for readers',

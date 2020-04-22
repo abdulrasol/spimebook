@@ -1,5 +1,6 @@
 {% extends "posts/base.html" %}
 {% load static %}
+{% load posts_extra %}
 
 {% block content %}
 <!-- Start Books Categoty -->
@@ -59,9 +60,9 @@
     </div>
 </div>
 <!-- End Books Categoty -->
-<div class="books uk-grid-small uk-child-width-1-2@s uk-text-center" uk-grid>
+<div class="books uk-grid-small uk-child-width-1-2@s uk-text-center article-feed" uk-grid>
     {% for book in books %}
-    <div class="book">
+    <div class="book article">
         <div class="uk-card-header">
             <div class="uk-grid-small uk-flex-middle" uk-grid>
                 <div class="uk-width-auto">
@@ -78,5 +79,28 @@
         </div>
     </div>
     {% endfor %}
+    <!-- status elements -->
+    <div class="page-load-status">
+        <div class="loader-ellips infinite-scroll-request">
+            <div style="display: none;" class="loading-more-post">
+                <div class="loading-more-post">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- pagination has path -->
+
+    {% if books.has_next %}
+    <a class="pagination__next" href="?page={{ books.next_page_number }}"></a>
+    {% endif %}
+
 </div>
 {% endblock content %}
+{% block javascript %}
+{% infinite_scroll_js %}
+{% endblock javascript %}

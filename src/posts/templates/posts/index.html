@@ -4,7 +4,7 @@
 {% block content %}
 <div class="article-feed">
     {% for post in posts %}
-    {% post post %}
+    {% post post user %}
     {% endfor %}
 </div>
 
@@ -34,24 +34,5 @@
 
 {% endblock content %}
 {% block javascript %}
-<script>
-    // init Infinite Scroll
-    $('.content-container .article-feed').infiniteScroll({
-        path: '.pagination__next',
-        append: '.article',
-        status: '.scroller-status',
-        hideNav: '.pagination',
-    });
-    var infScroll = $('.article-feed').data('infiniteScroll');
-
-    $('.article-feed').on('scrollThreshold.infiniteScroll', function (event) {
-        //console.log('Scroll at bottom');
-        $('.loading-more-post').show();
-    });
-    $('.article-feed').on('append.infiniteScroll', function (event, response, path, items) {
-        console.log(items.length + ' items appended');
-        $('.loading-more-post').hide();
-
-    });
-</script>
+{% infinite_scroll_js %}
 {% endblock javascript %}

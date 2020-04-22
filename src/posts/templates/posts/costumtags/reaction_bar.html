@@ -6,8 +6,8 @@
         <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
 
             <div class="uk-width-auto uk-text-center">
-                <img class="uk-comment-avatar" src="{{comment.user.profile.picture.url}}"
-                    alt="{{comment.user.profile.picture.url}}" width="50" height="50" alt="{{comment.user}}">
+                <img class="uk-comment-avatar" data-src="{{comment.user.profile.picture.url}}"
+                    alt="{{comment.user.profile.picture.url}}" width="50px" height="50px" alt="{{comment.user}}" uk-img>
             </div>
             <div class="uk-width-expand">
                 <a href="{% url 'user-profile' post.user %}">

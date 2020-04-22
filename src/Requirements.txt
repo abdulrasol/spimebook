@@ -6,4 +6,5 @@ Pillow
 pip                     
 pytz                    
 setuptools              
-sqlparse                
+sqlparse   
+# https://infinite-scroll.com         

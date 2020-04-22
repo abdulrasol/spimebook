@@ -1,71 +1,57 @@
-{% extends "posts/base.html" %} {% load static %} {% load posts_extra %} {% block content %} {% block javascript %}
-<script>
-    var infinite = new Waypoint.Infinite({
-        element: $('.infinite-container')[0],
-        onBeforePageLoad: function() {
-            $('.loading-more-post').show();
-        },
-        onAfterPageLoad: function($items) {
-            $('.loading-more-post').hide();
-        }
-    });
-</script>
+{% extends "posts/base.html" %}
+{% load static %}
+{% load posts_extra %}
+{% block content %}
+<div class="article-feed">
+    {% for post in posts %}
+    {% post post %}
+    {% endfor %}
+</div>
 
-{% endblock javascript %} {% for post in posts %}
-<div class="uk-card uk-card-primary uk-margin uk-width-1-1 infinite-item">
-    <div class="uk-card-header">
-        <div class="uk-grid-small uk-flex-middle" uk-grid>
-            <div class="uk-width-auto">
-                <!-- user profile img -->
-                <a href="{% url 'user-profile' post.user %}">
-                    <img class="uk-border-circle" width="50" height="50" src="{{post.user.profile.picture.url}}"
-                        alt="{{post.user.profile.picture.url}}"">
-                    <br>
-                    <h6 class=" uk-margin-remove uk-width-expand uk-text-center">
-                    {{post.user}}
-                    </h6>
-                </a>
-            </div>
-            <div class="uk-width-expand">
-                <a href="{% url 'post' post.id %}">
-                    <h3 class="uk-card-title uk-margin-remove-bottom">{{post.title}}</h3>
-                </a>
-                <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">{{post.post_date|date:"D d M Y, H:i"}}</time>
-                </p>
+
+<!-- status elements -->
+<div class="page-load-status">
+    <div class="loader-ellips infinite-scroll-request">
+        <div style="display: none;" class="loading-more-post">
+            <div class="loading-more-post">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
     </div>
-    <!-- End header -->
-    <div class="uk-card-body uk-padding">
-        {% if post.post_type == "Q" %}
-        <q class="">
-            {{ post.content }}
-        </q> {% else %}
-        <p class="">
-            {{ post.content }}
-        </p>
-        {% endif %}
-
-    </div>
-    <!-- End body -->
-    <div class="uk-card-footer">
-        <!-- start commnets -->
-        {% reaction_bar post.id user %}
-    </div>
-    <!-- End footer -->
 </div>
-{% endfor %}
+<!-- pagination has path -->
 
-<div class="loading-more-post" style="display: block;">
 
-    <div class="loading-more-post">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
-</div>
 {% if posts.has_next %}
-<a class="infinite-more-link" href="?page={{ posts.next_page_number }}"></a>
-{% endif %} {% endblock content %}
+<p class="pagination">
+    <a class="pagination__next" href="?page={{ posts.next_page_number }}"></a>
+</p>
+{% endif %}
+
+{% endblock content %}
+{% block javascript %}
+<script>
+    // init Infinite Scroll
+    $('.content-container .article-feed').infiniteScroll({
+        path: '.pagination__next',
+        append: '.article',
+        status: '.scroller-status',
+        hideNav: '.pagination',
+    });
+    var infScroll = $('.article-feed').data('infiniteScroll');
+
+    $('.article-feed').on('scrollThreshold.infiniteScroll', function (event) {
+        //console.log('Scroll at bottom');
+        $('.loading-more-post').show();
+    });
+    $('.article-feed').on('append.infiniteScroll', function (event, response, path, items) {
+        console.log(items.length + ' items appended');
+        $('.loading-more-post').hide();
+
+    });
+</script>
+{% endblock javascript %}

@@ -1,7 +1,10 @@
-{% extends "posts/base.html" %}
+{% extends "posts/basetest.html" %}
 {% load static %}
-{% load posts_extra %}
-
+{%comment %}
+<script src="{% static  'posts/js/jquery.js' %}"></script>
+<script src="{% static  'posts/js/jquery.waypoints.min.js'  %}"></script>
+<script src="{% static  'posts/js/infinite.min.js' %}"></script>
+{% endcomment %}
 
 {% block content %}
 <style type="text/css">
@@ -29,10 +32,8 @@
 </div>
 
 {% if numbers.has_next %}
-<a class="infinite-more-link" href="?page={{ numbers.next_page_number }}">More</a>
+<a class="infinite-more-link" href="?page={{ numbers.next_page_number }}"></a>
 {% endif %}
-{% endblock %}
-{% block javascript %}
 <script>
     var infinite = new Waypoint.Infinite({
         element: $('.infinite-container')[0],
@@ -44,4 +45,4 @@
         }
     });
 </script>
-{% endblock %}
+{% endblock content %}

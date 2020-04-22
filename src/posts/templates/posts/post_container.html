@@ -1,0 +1,42 @@
+{% load posts_extra %}
+<div class="article">
+    <div class="uk-card uk-card-primary uk-margin uk-width-1-1">
+        <div class="uk-card-header">
+            <div class="uk-grid-small uk-flex-middle" uk-grid>
+                <div class="uk-width-auto">
+                    <a href="{% url 'user-profile' post.user %}">
+                        <img data-src="{{post.user.profile.picture.url}}" class="uk-border-circle" width="50"
+                            height="50" alt="{{post.user}}" uk-img>
+                    </a>
+                </div>
+                <div class="uk-width-expand">
+                    <a href="{% url 'post' post.id %}">
+                        <h3 class="uk-card-title uk-margin-remove-bottom">{{post.title}}</h3>
+                    </a>
+                    <p class="uk-text-meta uk-margin-remove-top">
+                        <time>{{post.post_date|date:"D d M Y, H:i"}}</time>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- End header -->
+        <div class="uk-card-body uk-padding">
+            {% if post.post_type == "Q" %}
+            <q class="">
+                {{ post.content }}
+            </q> {% else %}
+            <p class="">
+                {{ post.content }}
+            </p>
+            {% endif %}
+
+        </div>
+        <!-- End body -->
+        <div class="uk-card-footer">
+            <!-- start commnets -->
+            {% reaction_bar post.id user %}
+        </div>
+
+    </div>
+
+</div>

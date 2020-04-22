@@ -28,3 +28,11 @@ def reaction_bar(post_id, user):
         'comment_form': comment_form,
     }
     return context
+
+
+@register.inclusion_tag('posts/post_container.html')
+def post(post):
+    context = {
+        'post': post
+    }
+    return context

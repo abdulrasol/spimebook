@@ -92,6 +92,7 @@ nav .uk-logo {
 .loading-more-post {
     margin: 20px auto;
     width: 92px;
+    display: none;
 }
 
 .loading-more-post span {

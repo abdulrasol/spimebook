@@ -13,26 +13,31 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def test(request):
-    numbers_list = range(1, 1000)
+    all_posts = range(1, 1000)
 
     page = request.GET.get('page', 1)
 
-    paginator = Paginator(numbers_list, 20)
+    paginator = Paginator(all_posts, 20)
     try:
-        numbers = paginator.page(page)
+        posts = paginator.page(page)
     except PageNotAnInteger:
-        numbers = paginator.page(1)
+        posts = paginator.page(1)
     except EmptyPage:
-        numbers = paginator.page(paginator.num_pages)
+        posts = paginator.page(paginator.num_pages)
 
-    return render(request, 'posts/test.html', {'numbers': numbers})
+    return render(request, 'posts/test.html', {'posts': posts})
 
 
 def home(request):
 
-    all_posts = Post.objects.filter(archived=False)
+    #all_posts = Post.objects.filter(archived=False)
     comment_form = AddCommentForm()
+    ##
+
+    all_posts = Post.objects.filter(archived=False)
+
     page = request.GET.get('page', 1)
+
     paginator = Paginator(all_posts, 7)
     try:
         posts = paginator.page(page)

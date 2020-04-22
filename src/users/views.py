@@ -20,8 +20,6 @@ def log_in(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.add_message(request, messages.SUCCESS,
-                                 f'Welcome back {username} ')
             return redirect('/')
         else:
             messages.add_message(request, messages.WARNING,
@@ -94,16 +92,19 @@ def settings(request):
         username = request.POST['username']
         password = request.POST['password']
         email = request.POST['email']
+        user = request.user
         if username != '':
             if not User.objects.filter(username=username).exists():
-                print(username)
+                # print(username)
+                user.username = username
             else:
                 messages.add_message(request, messages.SUCCESS,
                                      f'{username} is taken')
                 return redirect('settings')
         if email != '':
             if not User.objects.filter(email=email).exists():
-                print(email)
+                # print(email)
+                user.email = email
             else:
                 messages.add_message(request, messages.SUCCESS,
                                      f'{email} is taken')
@@ -111,10 +112,13 @@ def settings(request):
         if password != '':
             if len(password) >= 6:
                 print(len(password))
+                user.set_password(password)
             else:
                 messages.add_message(
                     request, messages.SUCCESS, 'Password you entered less than 6 char!')
                 return redirect('settings')
+        user.save()
+        return redirect('profile')
 
     context = {
         'title': 'Account Settings',

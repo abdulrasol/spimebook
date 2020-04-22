@@ -20,6 +20,11 @@
         {% endfor %}
         {% endif %}
         <div class="uk-grid me-form" uk-grid>
+            <div class="uk-width-1-1">
+                <p>
+                    leave field empty if you don't want to change it!
+                </p>
+            </div>
             <div class="uk-width-1-2@s">
                 <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Username</label>
                 <div class="uk-margin">
@@ -40,7 +45,7 @@
                     <p class="uk-margin-small">
                         Currunt: {{user.email}}
                     </p>
-                    <input id="email" name="email" class="uk-input" type="email" placeholder="E-Mail">
+                    <input id="email" name="email" class="uk-input" type="email" placeholder="E-mail">
                 </div>
             </div>
             <div class="uk-width-1-2@s">

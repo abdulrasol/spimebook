@@ -90,18 +90,34 @@ def profile(request):
 
 @login_required(login_url='log-in')
 def settings(request):
-    form = EditAccountForm(request.POST or None, instance=request.user)
     if request.method == 'POST':
-        form = EditAccountForm(request.POST, instance=request.user)
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.save()
-            print(instance.password)
-            return redirect('/user/profile')
+        username = request.POST['username']
+        password = request.POST['password']
+        email = request.POST['email']
+        if username != '':
+            if not User.objects.filter(username=username).exists():
+                print(username)
+            else:
+                messages.add_message(request, messages.SUCCESS,
+                                     f'{username} is taken')
+                return redirect('settings')
+        if email != '':
+            if not User.objects.filter(email=email).exists():
+                print(email)
+            else:
+                messages.add_message(request, messages.SUCCESS,
+                                     f'{email} is taken')
+                return redirect('settings')
+        if password != '':
+            if len(password) >= 6:
+                print(len(password))
+            else:
+                messages.add_message(
+                    request, messages.SUCCESS, 'Password you entered less than 6 char!')
+                return redirect('settings')
 
     context = {
         'title': 'Account Settings',
-        'form': form
     }
     return render(request, 'users/settings.html', context)
 

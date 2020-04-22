@@ -5,40 +5,61 @@
 {% block content %}
 <!-- start post container -->
 <div class="uk-card uk-card-default">
-    <form class="uk-form-stacked uk-padding me-form" enctype="multipart/form-data" method="POST">
+    <form class="uk-form-stacked uk-padding " enctype="multipart/form-data" method="POST">
         {% csrf_token %}
-        <legend class="uk-legend uk-margin-bottom">Edit {{book}} </legend>
-
-        <div class="uk-grid" uk-grid>
-            <div class="uk-width-1-2@s">
-                <label style="display: block;"
-                    class="uk-form-label uk-margin-small-bottom">{{form.username.label}}</label>
-                {{ form.username|add_class:"uk-input"|attr:"type:text"|attr:"required"}}
+        <legend class="uk-legend uk-margin-bottom">Edit Account Settings </legend>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="uk-margin uk-margin-large-top">
+            <div class="uk-alert-success existed" uk-alert>
+                <p>
+                    {{message}}
+                </p>
             </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <div class="uk-grid me-form" uk-grid>
             <div class="uk-width-1-2@s">
-                <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Important!</label>
-                {{ form.username.help_text}}
-            </div>
-
-            <div class="uk-width-1-2@s">
-                <label style="display: block;" class="uk-form-label uk-margin-small-bottom">{{form.email.label}}</label>
-                {{ form.email|add_class:"uk-input"|attr:"type:email"|attr:"required"}}
-            </div>
-            <div class="uk-width-1-2@s">
-                <label style="display: block;"
-                    class="uk-form-label uk-margin-small-bottom">{{form.password.label}}</label>
-                {{ form.password|add_class:"uk-input me-form-password"|attr:"type:password"|attr:"required"}}
-            </div>
-            <div class="uk-width-1-2@s">
-                <div class="uk-alert-warning" uk-alert>
-                    <p>
-                        Password you entered less than 6 char!
+                <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Username</label>
+                <div class="uk-margin">
+                    <p class="uk-margin-small">
+                        Currunt: {{user.username}}
+                    </p>
+                    <input id="username" name="username" class="uk-input" type="text" maxlength="140" minlength="2"
+                        placeholder="Username">
+                    <p class="uk-margin-small">
+                        150 characters or fewer. Letters, digits and @/./+/-/_ only.
                     </p>
                 </div>
+
             </div>
-            <div class="uk-width-1-1">
-                <button type="submit" class="uk-button uk-button-primary">Save Book</button>
+            <div class="uk-width-1-2@s">
+                <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Email address</label>
+                <div class="uk-margin">
+                    <p class="uk-margin-small">
+                        Currunt: {{user.email}}
+                    </p>
+                    <input id="email" name="email" class="uk-input" type="email" placeholder="E-Mail">
+                </div>
             </div>
+            <div class="uk-width-1-2@s">
+                <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Password</label>
+                <div class="uk-margin">
+                    <input id="password" name="password" class="uk-input me-form-password" type="password"
+                        placeholder="Password">
+                    <br>
+                    <div class="uk-alert-warning" uk-alert>
+                        <p>
+                            Password you entered less than 6 char!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="uk-width-1-1 uk-margin">
+            <button type="submit" class="uk-button uk-button-primary">Save</button>
         </div>
 
     </form>

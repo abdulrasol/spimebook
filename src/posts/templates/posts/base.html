@@ -58,9 +58,9 @@
                         <ul class="uk-nav uk-nav-default">
                             {% if user.is_authenticated %}
                             <li>
-                                <a href="{% url 'profile' %}" class="uk-margin-small-top"><span
+                                <a href="{% url 'settings' %}" class="uk-margin-small-top"><span
                                         class="uk-icon-link uk-margin-small-right"
-                                        uk-icon="icon: user; ratio:1.5"></span> My Profile</a>
+                                        uk-icon="icon: cog; ratio:1.5"></span> Settings</a>
                             </li>
                             <li>
                                 <a href="{% url 'log-out' %}" class="uk-margin-small-top"><span
@@ -111,17 +111,18 @@
                         <li class="uk-nav-divider"></li>
                         <li class="uk-nav-header">Shortcuts</li>
                         <li>
+                            <a href="{% url 'profile' %}">
+                                <span class="uk-margin-small-right" uk-icon="icon: user; ratio: 1.5"></span> My Profile
+                            </a>
+                        </li>
+                        <li>
                             <a href="#">
                                 <span class="uk-margin-small-right" uk-icon="icon: list; ratio: 1.5"></span> My Lists
                             </a>
                         </li>
                         <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: bookmark; ratio: 1.5"></span>
                                 Bookmark</a></li>
-                        <li>
-                            <a href="{% url 'settings' %}">
-                                <span class="uk-margin-small-right" uk-icon="icon: cog; ratio: 1.5"></span> Settings
-                            </a>
-                        </li>
+
                         <li class="uk-nav-divider"></li>
                         <li class="uk-nav-header">More</li>
                         <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: mail"></span> Contact us</a>
@@ -212,10 +213,6 @@
                             <li><a href="#"><span class="uk-margin-small-right"
                                         uk-icon="icon: bookmark; ratio: 1.5"></span>
                                     Bookmark</a>
-                            </li>
-                            <li><a class="" href="{% url 'settings' %}"><span class="uk-margin-small-right"
-                                        uk-icon="icon: cog; ratio: 1.5"></span>
-                                    Settings</a>
                             </li>
                             {% endif %}
                             <li class="uk-nav-divider"></li>

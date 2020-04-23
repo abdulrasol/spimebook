@@ -40,6 +40,11 @@
 <!-- End Comments  -->
 <div class="uk-flex uk-grid-small" uk-grid>
     <div class="uk-flex uk-grid-small" uk-grid>
+        {% if post.archived %}
+        <div>
+            <span class="uk-button uk-button-text uk-text-meta">archived</span>
+        </div>
+        {% endif %}
         <div>
             <span class="uk-button uk-button-text uk-text-meta">{{post.loves.count}} loves</span>
         </div>

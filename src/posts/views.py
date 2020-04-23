@@ -125,7 +125,7 @@ def edit_post(request, post_id):
 
 
 @login_required(login_url='log-in')
-def my_post(request, user):
+def my_posts(request, user):
     all_posts = Post.objects.filter(user=request.user)
     comment_form = AddCommentForm()
     page = request.GET.get('page', 1)
@@ -138,11 +138,11 @@ def my_post(request, user):
         posts = paginator.page(paginator.num_pages)
 
     context = {
-        'title': 'Spimebook, a site for readers',
+        'title': 'My posts, Spimebook',
         'posts': posts,
         'comment_form': comment_form,
     }
-    return render(request, 'posts/my_post.html', context)
+    return render(request, 'posts/my_posts.html', context)
 
 
 def add_comment(request, post_id):

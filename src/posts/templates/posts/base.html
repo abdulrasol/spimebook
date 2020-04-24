@@ -11,14 +11,11 @@
     {% endif %}
     <link rel="stylesheet" href="{% static 'posts/css/uikit.min.css' %}" />
     <link rel="stylesheet" href="{% static 'posts/css/my_style.css' %}" />
+    <link rel="stylesheet" href="{% static 'posts/css/jquery-ui.css'%}">
     <script src="{% static  'posts/js/uikit.min.js' %}"></script>
     <script src="{% static 'posts/js/uikit-icons.min.js' %}"></script>
     <script src="{% static  'posts/js/jquery.js' %}"></script>
-    {% comment %}
-    <script src="{% static  'posts/js/jquery.waypoints.min.js'  %}"></script>
-    <script src="{% static  'posts/js/infinite.min.js' %}"></script>
-    <script src="{% static  'posts/js/fontawesome.all.min.js' %}"></script>
-    {% endcomment %}
+    <script src="{% static 'posts/js/jquery-ui.min.js' %}"></script>
     <script src="{% static  'posts/js/infinite-scroll.pkgd.min.js' %}"></script>
     <script src="{% static  'posts/js/plugin.js'  %}"></script>
 </head>
@@ -37,7 +34,8 @@
         <div class="uk-navbar-right">
             <!-- Search icon -->
             <a class="uk-navbar-toggle uk-visible@s  uk-visible@m" uk-search-icon
-                uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#">
+            </a>
             <ul class="uk-navbar-nav">
                 <!-- User Name and Icon  -->
 
@@ -95,7 +93,8 @@
                             <div class="uk-margin">
                                 <form class="uk-search uk-search-default">
                                     <a href="" uk-search-icon></a>
-                                    <input class="uk-search-input" type="search" placeholder="Search...">
+                                    <input id="book-search-mobile" data-url="{% url 'search-book' %}"
+                                        class="uk-search-input" type="search" placeholder="Search...">
                                 </form>
                             </div>
                         </li>
@@ -151,7 +150,8 @@
         <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
             <div class="uk-navbar-item uk-width-expand">
                 <form class="uk-search uk-search-navbar uk-width-1-1">
-                    <input class="uk-search-input" type="search" placeholder="Search..." autofocus>
+                    <input id="book-search-main" data-url="{% url 'search-book' %}" class="uk-search-input"
+                        type="search" placeholder="Search..." autofocus>
                 </form>
             </div>
             <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade"

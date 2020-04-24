@@ -16,14 +16,15 @@
     <div class="uk-width-expand@s">
         <form class="uk-search uk-search-default uk-width-expand">
             <a href="" class="uk-search-icon-flip" uk-search-icon></a>
-            <input id="book-search" class="uk-search-input uk-width-expand" type="search" placeholder="">
+            <input id="book-search" data-url="{% url 'search-book' %}" class="uk-search-input uk-width-expand"
+                type="search" placeholder="">
         </form>
-        <link rel="stylesheet" href="{% static 'posts/css/jquery-ui.css'%}">
-        <script src="{% static 'posts/js/jquery-ui.min.js' %}"></script>
+
         <script>
             $(function () {
+                // search book fast
+                /*
                 var URL = "{% url 'search-book' %}";
-
                 //console.log(URL);
                 $("#book-search").autocomplete({
                     source: URL,
@@ -36,13 +37,10 @@
                         //var get_url = "lab".replace(/12345/, tmp.toString());
                         var get_url = "{% url 'ajax-book' '12345' %}".replace(/12345/, book);
                         console.log(get_url);
-                        $(location).attr('href',get_url);
+                        $(location).attr('href', get_url);
                     },
                 });
-                var a = function () {
-                    var BOOK_URL = "ajax/book/search/" + $("#book-search").val();
-                    return BOOK_URL;
-                }
+                */
             });
         </script>
     </div>

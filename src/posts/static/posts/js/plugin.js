@@ -40,34 +40,12 @@ $('document').ready(function () {
         //$('.me-form button').addClass('uk-disabled')
     });
 
-    // love Post 
-    $('.reaction #love-post').on('click', function () {
-        var btn = $(this);
-        var URL = $(this).data('post');
-        console.log($(this).data('post'));
-        $.get(URL, function (data, state, xhr) {
-            console.log(data)
-            UIkit.notification({
-                message: data.msg,
-                status: 'success',
-                pos: 'top-right',
-                timeout: 3000
-            });
-            if (data.love == true) {
-                btn.css('color', '#e64f4f');
-            } else {
-                btn.css('color', '#bcdbfb');
-            }
-        });
-    });
-
     $('#add-to-readed-book').click(function () {
         var URL = $(this).data('book');
         console.log('URL');
     });
 
     // add or remove readed books
-
     $('#add-to-readed-book-parent').on('click', '#add-to-readed-book', function () {
         var btn = $(this);
         var URL = $(this).data('book');
@@ -93,8 +71,63 @@ $('document').ready(function () {
         });
     });
 
+    // search book fast
+    var URL = $("#book-search,#book-search-main,#book-search-mobile").data('url');
+    //console.log(URL);
+    $("#book-search,#book-search-main,#book-search-mobile").autocomplete({
+        source: URL,
+        minLength: 2,
+        select: function (event, ui) {
+            //console.log(ui);
+            //console.log(ui.item);
+            console.log(ui.item.value);
+            var book = ui.item.value
+            //var get_url = "lab".replace(/12345/, tmp.toString());
+            var get_url = URL + '/' + ui.item.value
+            console.log(get_url);
+            $(location).attr('href', get_url);
+        },
+    });
+    $("#book-search-mobile").autocomplete({
+        source: URL,
+        minLength: 2,
+        select: function (event, ui) {
+            //console.log(ui);
+            //console.log(ui.item);
+            console.log(ui.item.value);
+            var book = ui.item.value
+            //var get_url = "lab".replace(/12345/, tmp.toString());
+            var get_url = URL + '/' + ui.item.value
+            console.log(get_url);
+            $(location).attr('href', get_url);
+        },
+    });
+
+
 });
 
-function printData(e) {
-    console.log(e);
-}
+document.addEventListener('click', event => {
+
+    // love post
+    if (event.target.parentNode.id == 'love-post') {
+        let btn = event.target.parentNode;
+        let URL = event.target.parentNode.dataset.post;
+        console.log(URL);
+        $.get(URL, function (data, state, xhr) {
+            UIkit.notification({
+                message: data.msg,
+                status: 'success',
+                pos: 'top-right',
+                timeout: 3000
+            });
+            if (data.love == true) {
+                btn.style.color = "#e64f4f";
+                //btn.css('color', '');
+            } else {
+                btn.style.color = "#bcdbfb";
+                //btn.css('color', '#e64f4f');
+            }
+        });
+    }
+
+});

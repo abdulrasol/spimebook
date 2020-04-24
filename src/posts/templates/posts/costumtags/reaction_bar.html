@@ -6,18 +6,20 @@
         <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
 
             <div class="uk-width-auto uk-text-center">
-                <img class="uk-comment-avatar" data-src="{{comment.user.profile.picture.url}}"
-                    alt="{{comment.user.profile.picture.url}}" width="50px" height="50px" alt="{{comment.user}}" uk-img>
+                <a href="{% url 'user-profile' comment.user %}">
+                    <img class="uk-comment-avatar avatat-img" data-src="{{comment.user.profile.picture.url}}"
+                        alt="{{comment.user.profile.picture.url}}" width="50px" height="50px" alt="{{comment.user}}"
+                        uk-img>
+                </a>
             </div>
             <div class="uk-width-expand">
-                <a href="{% url 'user-profile' post.user %}">
+                <a class="uk-link-reset" href="{% url 'user-profile' comment.user %}">
                     <h4 class="uk-comment-title uk-margin-remove">
                         {{comment.user}}
                     </h4>
                 </a>
-                <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-                    <li><a href="#">{{comment.comment_date|date:"d M Y, H:i"}}</a></li>
-                </ul>
+
+                <span>{{comment.comment_date|date:"d M Y, H:i"}}</span>
             </div>
         </header>
         <div class="uk-comment-body">

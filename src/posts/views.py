@@ -73,6 +73,7 @@ def post(request, post_id):
     else:
         print('not_authenticated')
     context = {
+        'title': target_post.title,
         'post': target_post,
         'comment_form': comment_form,
     }

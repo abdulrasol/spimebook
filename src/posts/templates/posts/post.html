@@ -9,8 +9,8 @@
             <div class="uk-width-auto">
                 <!-- user profile img -->
                 <a href="{% url 'user-profile' post.user %}">
-                    <img class="uk-border-circle" width="50" height="50" src="{{post.user.profile.picture.url}}"
-                        alt="{{post.user.profile.picture.url}}">
+                    <img class="uk-border-circle avatat-img" width="50" height="50"
+                        src="{{post.user.profile.picture.url}}" alt="{{post.user.profile.picture.url}}">
                     <br>
                     <h6 class="uk-margin-remove  uk-width-expand uk-text-center">
                         {{post.user}}
@@ -117,12 +117,17 @@
                 <hr>
                 <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
                     <div class="uk-width-auto">
-                        <img class="uk-comment-avatar uk-border-circle" src="{{comment.user.profile.picture.url}}"
-                            alt="{{post.user.profile.picture.url}}" width="30" height="30" alt="">
+                        <a class="uk-link-reset" href="{% url 'user-profile' comment.user %}">
+                            <img class="uk-comment-avatar uk-border-circle avatat-img"
+                                src="{{comment.user.profile.picture.url}}" alt="{{post.user.profile.picture.url}}"
+                                width="30" height="30" alt="">
+                        </a>
                     </div>
                     <div class="uk-width-expand">
-                        <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset"
-                                href="{% url 'user-profile' post.user %}">{{comment.user}}</a>
+                        <h4 class="uk-comment-title uk-margin-remove">
+                            <a class="uk-link-reset" href="{% url 'user-profile' comment.user %}">
+                                {{comment.user}}
+                            </a>
                         </h4>
                         <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
                             <li><a href="#">{{comment.comment_date|date:"d M Y, H:i"}}</a></li>

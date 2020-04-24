@@ -19,14 +19,17 @@
                 </li>
             </ul>
         </div>
-        <div class="uk-grid-small uk-flex me-text-center-m" uk-grid>
+        <div class="uk-grid-small uk-flex uk-flex-middle me-text-center-m" uk-grid>
             <div class="uk-width-auto@m book-img">
-                <img class="uk-border-rounded" data-src="{{user.profile.picture.url}}" alt="{{user.username}}" uk-img />
+                <img class="uk-border-rounded profile-img" data-src="{{user.profile.picture.url}}"
+                    alt="{{user.username}}" uk-img />
             </div>
             <div class="uk-width-expand uk-margin-small-left">
                 <h1 class="uk-margin-remove"> {{user.first_name}} {{user.last_name}}</h1>
                 <h3 class="uk-margin-remove-left uk-margin-small">{{user.username}}</h3>
-                <h4 class="uk-margin-remove-left uk-margin-small">{{user.profile.bio}}</h4>
+                <h4 class="uk-margin-remove-left uk-margin-small"><span class="uk-label">Bio </span>
+                    {{user.profile.bio}}
+                </h4>
             </div>
         </div>
     </div>
@@ -35,58 +38,63 @@
         <!-- start user books -->
         <!-- reads -->
         <h5 class="uk-heading-line uk-text-muted"><span>The books I read</span></h5>
-        <div uk-slider>
-            <div class="uk-position-relative">
-                <div class="uk-slider-container">
-                    <ul class="uk-slider-items uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-4@l uk-grid">
-
-                        {% for book in books %}
-                        <li class="uk-text-center">
-                            <div class="me-header">
-                                <div class="me-context-menu-profile-page">
-                                    <span type="button" class="uk-icon" uk-icon="icon:more-vertical; ratio:1.2"></span>
-                                </div>
-                                <div class="uk-padding-small" uk-dropdown="mode: click">
-                                    <ul class="uk-nav uk-dropdown-nav">
-                                        <li id="add-to-readed-book-parent">
-                                            <a id="add-to-readed-book" data-book="{% url 'readed-book' book.id %}">
-                                                <span class="uk-margin-small-right" uk-icon="icon: trash">
-                                                </span> remove from this list
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <a class="uk-link" href="{% url 'book' book.id %}">
-                                    <div>
-                                        <img class="uk-border-rounded" data-src="{{book.book_image.url}}" width="150"
-                                            height="" alt="" uk-img>
+        <div class="uk-margin-bottom me-books-slider">
+            <div uk-slider>
+                <div class="uk-position-relative">
+                    <div class="uk-slider-container">
+                        <ul class="uk-slider-items uk-child-width-auto@s uk-grid">
+                            {% for book in books %}
+                            <li class="uk-text-center">
+                                <div class="me-header uk-padding-small uk-padding-remove-vertical">
+                                    <div class="me-context-menu-profile-page">
+                                        <span type="button" class="uk-icon"
+                                            uk-icon="icon:more-vertical; ratio:1.2"></span>
                                     </div>
-                                    <h3 class="uk-text-muted">{{book.title}}</h3>
-                                </a>
+                                    <div class="uk-padding-small" uk-dropdown="mode: click">
+                                        <ul class="uk-nav uk-dropdown-nav">
+                                            <li id="add-to-readed-book-parent">
+                                                <a id="add-to-readed-book" data-book="{% url 'readed-book' book.id %}">
+                                                    <span class="uk-margin-small-right" uk-icon="icon: trash">
+                                                    </span> remove from this list
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <a class="uk-link" href="{% url 'book' book.id %}">
+                                        <div class="uk-card-media-top">
+                                            <img class="uk-border-rounded" data-src="{{ book.book_image.url }}"
+                                                width="125px" height="190px" alt="" uk-img>
+                                        </div>
+                                        <h3 class="uk-text-muted uk-margin-small-top uk-margin-remove-bottom">
+                                            {{book.title}}
+                                        </h3>
+                                    </a>
+                                </div>
+                            </li>
+                            {% endfor %}
 
-                            </div>
-                        </li>
-                        {% endfor %}
 
 
-
-                    </ul>
-                </div>
-                <div class="uk-hidden@s uk-light">
-                    <a style="color:#444" class="uk-position-center-left uk-position-small" href="#"
-                        uk-slidenav-previous uk-slider-item="previous"></a>
-                    <a style="color:#444" class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next
-                        uk-slider-item="next"></a>
-                </div>
-                <div class="uk-visible@s">
-                    <a class="uk-position-center-left-out uk-position-small" href="#" uk-slidenav-previous
-                        uk-slider-item="previous"></a>
-                    <a class="uk-position-center-right-out uk-position-small" href="#" uk-slidenav-next
-                        uk-slider-item="next"></a>
+                        </ul>
+                    </div>
+                    <div class="uk-hidden@s uk-light">
+                        <a style="color:#444" class="uk-position-center-left uk-position-small" href="#"
+                            uk-slidenav-previous uk-slider-item="previous"></a>
+                        <a style="color:#444" class="uk-position-center-right uk-position-small" href="#"
+                            uk-slidenav-next uk-slider-item="next"></a>
+                    </div>
+                    <div class="uk-visible@s">
+                        <a class="uk-position-center-left-out uk-position-small" href="#" uk-slidenav-previous
+                            uk-slider-item="previous"></a>
+                        <a class="uk-position-center-right-out uk-position-small" href="#" uk-slidenav-next
+                            uk-slider-item="next"></a>
+                    </div>
                 </div>
             </div>
         </div>
+
         <!-- want to read -->
+
         <!-- end user books -->
 
     </div>

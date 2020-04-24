@@ -5,7 +5,7 @@
             <div class="uk-grid-small uk-flex-middle" uk-grid>
                 <div class="uk-width-auto">
                     <a href="{% url 'user-profile' post.user %}">
-                        <img data-src="{{post.user.profile.picture.url}}" class="uk-border-circle" width="50"
+                        <img data-src="{{post.user.profile.picture.url}}" class="uk-border-circle avatat-img" width="50"
                             height="50" alt="{{post.user}}" uk-img>
                     </a>
                 </div>
@@ -20,7 +20,7 @@
             </div>
         </div>
         <!-- End header -->
-        <div class="uk-card-body uk-padding">
+        <div class="uk-card-body uk-padding uk-padding-remove-vertical uk-margin">
             {% if post.post_type == "Q" %}
             <q>
                 {{ post.content }}

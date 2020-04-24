@@ -47,8 +47,8 @@
                 <li>
                     {% if user.is_authenticated %}
                     <a type="button" class="uk-icon uk-animation-slide-right">
-                        <img class="uk-border-circle" width="45" height="45" data-src="{{user.profile.picture.url}}"
-                            alt="{{user.profile.picture.url}}" uk-img>
+                        <img class="uk-border-circle avatat-img" width="45" height="45"
+                            data-src="{{user.profile.picture.url}}" alt="{{user.profile.picture.url}}" uk-img>
                     </a>
                     {% else %}
                     <a type="button" class="uk-icon uk-animation-slide-right" uk-icon="icon:user; ratio:1.5"></a>

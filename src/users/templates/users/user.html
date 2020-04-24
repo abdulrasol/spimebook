@@ -5,10 +5,12 @@
 <!-- start post container -->
 <div class="uk-card uk-card-default">
     <div class="uk-card-header">
-        <div class="uk-grid-small uk-flex me-text-center-m" uk-grid>
+        <div class="uk-grid-small uk-flex uk-flex-middle me-text-center-m" uk-grid>
             <div class="uk-width-auto@m book-img">
-                <img class="uk-border-rounded" data-src="{{target_user.profile.picture.url}}"
-                    alt="{{target_user.username}}" uk-img />
+                <div>
+                    <img class="uk-border-rounded profile-img" data-src="{{target_user.profile.picture.url}}"
+                        alt="{{target_user.username}}" uk-img />
+                </div>
             </div>
             <div class="uk-width-expand uk-margin-small-left">
                 <h1 class="uk-margin-remove">{{target_user.first_name}} {{target_user.last_name}}</h1>
@@ -24,40 +26,43 @@
         <!-- start user books -->
         <!-- reads -->
         <h5 class="uk-heading-line uk-text-muted"><span>Books reads by {{target_user.username}}</span></h5>
-        <div uk-slider>
-            <div class="uk-position-relative">
-                <div class="uk-slider-container">
-                    <ul class="uk-slider-items uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-4@l uk-grid">
+        <div class="uk-margin-bottom me-books-slider">
+            <div uk-slider>
+                <div class="uk-position-relative">
+                    <div class="uk-slider-container">
+                        <ul class="uk-slider-items uk-child-width-auto@s uk-grid">
+                            {% for book in books %}
+                            <li class="uk-text-center">
+                                <div class="me-header uk-padding-small uk-padding-remove-vertical">
+                                    <a href="{% url 'book' book.id %}">
+                                        <div class="uk-card-media-top">
+                                            <img class="uk-border-rounded" data-src="{{ book.book_image.url }}"
+                                                width="125px" height="190px" alt="" uk-img>
+                                        </div>
+                                        <h3 class="uk-text-muted uk-margin-small-top uk-margin-remove-bottom">
+                                            {{book.title}}
+                                        </h3>
+                                    </a>
+                                </div>
+                            </li>
+                            {% endfor %}
 
-                        {% for book in books %}
-                        <li class="uk-text-center">
-                            <div>
-                                <a href="{% url 'book' book.id %}">
-                                    <div>
-                                        <img class="uk-border-rounded" data-src="{{book.book_image.url}}" width="150"
-                                            height="" alt="" uk-img>
-                                    </div>
-                                    <h3 class="uk-text-muted">{{book.title}}</h3>
-                                </a>
-                            </div>
-                        </li>
-                        {% endfor %}
 
 
-
-                    </ul>
-                </div>
-                <div class="uk-hidden@s uk-light">
-                    <a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous
-                        uk-slider-item="previous"></a>
-                    <a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next
-                        uk-slider-item="next"></a>
-                </div>
-                <div class="uk-visible@s">
-                    <a class="uk-position-center-left-out uk-position-small" href="#" uk-slidenav-previous
-                        uk-slider-item="previous"></a>
-                    <a class="uk-position-center-right-out uk-position-small" href="#" uk-slidenav-next
-                        uk-slider-item="next"></a>
+                        </ul>
+                    </div>
+                    <div class="uk-hidden@s uk-light">
+                        <a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous
+                            uk-slider-item="previous"></a>
+                        <a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next
+                            uk-slider-item="next"></a>
+                    </div>
+                    <div class="uk-visible@s">
+                        <a class="uk-position-center-left-out uk-position-small" href="#" uk-slidenav-previous
+                            uk-slider-item="previous"></a>
+                        <a class="uk-position-center-right-out uk-position-small" href="#" uk-slidenav-next
+                            uk-slider-item="next"></a>
+                    </div>
                 </div>
             </div>
         </div>

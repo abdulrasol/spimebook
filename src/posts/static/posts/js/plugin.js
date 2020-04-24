@@ -61,10 +61,17 @@ $('document').ready(function () {
         });
     });
 
+    $('#add-to-readed-book').click(function () {
+        var URL = $(this).data('book');
+        console.log('URL');
+    });
+
     // add or remove readed books
+
     $('#add-to-readed-book-parent').on('click', '#add-to-readed-book', function () {
         var btn = $(this);
         var URL = $(this).data('book');
+        console.log(URL);
         $.get(URL, function (data, state, xhr) {
             //console.log(data)
             UIkit.notification({
@@ -86,5 +93,8 @@ $('document').ready(function () {
         });
     });
 
-
 });
+
+function printData(e) {
+    console.log(e);
+}

@@ -50,7 +50,7 @@ class Book(models.Model):
     genres = models.ManyToManyField(Genres, related_name='genres')
     book_Bio = models.TextField(default='')
     book_or_Novel = models.CharField(
-        max_length=5, choices=book_type, default='1')
+        max_length=5, choices=book_type, default='Book')
 
     def __str__(self):
         return self.title

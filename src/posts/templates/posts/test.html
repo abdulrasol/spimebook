@@ -1,48 +1,112 @@
-{% extends "posts/basetest.html" %}
+{% extends "posts/base.html" %}
 {% load static %}
-{%comment %}
-<script src="{% static  'posts/js/jquery.js' %}"></script>
-<script src="{% static  'posts/js/jquery.waypoints.min.js'  %}"></script>
-<script src="{% static  'posts/js/infinite.min.js' %}"></script>
-{% endcomment %}
-
+{% load posts_extra %}
 {% block content %}
-<style type="text/css">
-    .infinite-item,
-    .loading {
-        margin-bottom: 5px;
-        background-color: #1eaedb;
-        color: #fff;
-        text-align: center;
-        padding: 25px 0;
-    }
+<!-- Srart Top Books Slider -->
+<div class="uk-margin-bottom me-books-slider">
+    <div uk-slider="">
+        <h5 class="uk-heading-line uk-text-muted"><span>Top 10 Books readed on Spimebook</span></h5>
+        <div class="uk-position-relative uk-visible-toggle uk-light uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top"
+            tabindex="-1">
+            <ul class="uk-slider-items uk-child-width-auto@s uk-grid">
+                {% for book in books%}
+                <li>
+                    <a href="{% url 'book' book.id  %}">
+                        <div class="uk-card uk-card-default uk-border-rounded uk-text-center uk-padding-small">
+                            <div class="uk-card-media-top">
+                                <img class="uk-border-rounded" data-src="{{ book.book_image.url }}" width="125px"
+                                    height="190px" alt="" uk-img>
+                            </div>
+                            <div class="uk-card-body uk-padding-remove">
+                                <h5 class="uk-card-title uk-margin-small-top uk-margin-remove-bottom">{{book.title}}
+                                </h5>
+                                <span class="uk-badge">{{book.readed}} readers</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
 
-    .loading {
-        background-color: #333;
-    }
-</style>
-<div class="infinite-container">
-    {% for number in numbers %}
-    <div class="infinite-item">{{ number }}</div>
+            </ul>
+
+            <a style="color:#666" class="uk-position-center-left uk-position-small uk-hidden-hover uk-dark" href="#"
+                uk-slidenav-previous uk-slider-item="previous"></a>
+            <a style="color:#666" class="uk-position-center-right uk-position-small uk-hidden-hover" href="#"
+                uk-slidenav-next uk-slider-item="next"></a>
+
+        </div>
+
+    </div>
+</div>
+<div class="uk-margin-bottom me-books-slider">
+    <div uk-slider="">
+        <h5 class="uk-heading-line uk-text-muted"><span>Top 10 Novels readed on Spimebook</span></h5>
+        <div class="uk-position-relative uk-visible-toggle uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top"
+            tabindex="-1">
+            <ul class="uk-slider-items uk-child-width-auto@s uk-grid">
+                {% for novel in novels %}
+                <li>
+                    <a href="{% url 'book' novel.id  %}">
+                        <div class="uk-card uk-card-default uk-border-rounded uk-text-center uk-padding-small">
+                            <div class="uk-card-media-top">
+                                <img class="uk-border-rounded" data-src="{{ novel.book_image.url }}" width="125px"
+                                    height="190px" alt="" uk-img>
+                            </div>
+                            <div class="uk-card-body uk-padding-remove">
+                                <h5 class="uk-card-title uk-margin-small-top uk-margin-remove-bottom">
+                                    {{novel.title}}
+                                </h5>
+                                <span>{{novel.readed}} readers</span></span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+
+            </ul>
+
+            <a style="color:#666" class="uk-position-center-left uk-position-small uk-hidden-hover uk-dark" href="#"
+                uk-slidenav-previous uk-slider-item="previous"></a>
+            <a style="color:#666" class="uk-position-center-right uk-position-small uk-hidden-hover" href="#"
+                uk-slidenav-next uk-slider-item="next"></a>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- End Top Books Slider -->
+<div class="article-feed">
+    {% for post in posts %}
+    {% post post user %}
     {% endfor %}
 </div>
 
-<div class="loading" style="display: none;">
-    Loading...
-</div>
 
-{% if numbers.has_next %}
-<a class="infinite-more-link" href="?page={{ numbers.next_page_number }}"></a>
+<!-- status elements -->
+<div class="page-load-status">
+    <div class="loader-ellips infinite-scroll-request">
+        <div style="display: none;" class="loading-more-post">
+            <div class="loading-more-post">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- pagination has path -->
+
+
+{% if posts.has_next %}
+<p class="pagination">
+    <a class="pagination__next" href="?page={{ posts.next_page_number }}"></a>
+</p>
 {% endif %}
-<script>
-    var infinite = new Waypoint.Infinite({
-        element: $('.infinite-container')[0],
-        onBeforePageLoad: function () {
-            $('.loading').show();
-        },
-        onAfterPageLoad: function ($items) {
-            $('.loading').hide();
-        }
-    });
-</script>
+
 {% endblock content %}
+{% block javascript %}
+{% infinite_scroll_js %}
+{% endblock javascript %}

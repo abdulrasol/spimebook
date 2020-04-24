@@ -143,10 +143,15 @@ nav .uk-logo {
 
 /* end loading */
 
-.infinite-container .infinite-item {
-    margin-top: 0!important;
-}
+/* Top Book Readed Slider */
 
+.me-books-slider .uk-card-media-top img {
+    width: 125px;
+    height: 190px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 /* Start Header */
 

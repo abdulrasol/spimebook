@@ -64,7 +64,7 @@ def profile(request):
     # print(request.user)
     all_posts = Post.objects.filter(user=user)
     page = request.GET.get('page', 1)
-    paginator = Paginator(all_posts, 3)
+    paginator = Paginator(all_posts, 5)
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
@@ -153,7 +153,7 @@ def user_profile(request, username):
     # print(f'userfrom url {username} and from db {user}')
     all_posts = Post.objects.filter(user=user)
     page = request.GET.get('page', 1)
-    paginator = Paginator(all_posts, 3)
+    paginator = Paginator(all_posts, 5)
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:

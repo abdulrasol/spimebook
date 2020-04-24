@@ -36,11 +36,7 @@
                         //var get_url = "lab".replace(/12345/, tmp.toString());
                         var get_url = "{% url 'ajax-book' '12345' %}".replace(/12345/, book);
                         console.log(get_url);
-                        $.get(
-                            get_url,
-                            function (data) {
-                                console.log(data);
-                            });
+                        $(location).attr('href',get_url);
                     },
                 });
                 var a = function () {

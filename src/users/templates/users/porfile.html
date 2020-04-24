@@ -73,9 +73,9 @@
                     </ul>
                 </div>
                 <div class="uk-hidden@s uk-light">
-                    <a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous
-                        uk-slider-item="previous"></a>
-                    <a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next
+                    <a style="color:#444" class="uk-position-center-left uk-position-small" href="#"
+                        uk-slidenav-previous uk-slider-item="previous"></a>
+                    <a style="color:#444" class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next
                         uk-slider-item="next"></a>
                 </div>
                 <div class="uk-visible@s">
@@ -94,64 +94,11 @@
         <h5 class="uk-heading-line uk-text-muted"><span>My Posts</span></h5>
         <div class="uk-width-expand">
             <!-- Start Users Posts -->
-            {% block javascript %}
-            <script>
-                var infinite = new Waypoint.Infinite({
-                    element: $('.infinite-container')[0],
-                    onBeforePageLoad: function () {
-                        $('.loading-more-post').show();
-                    },
-                    onAfterPageLoad: function ($items) {
-                        $('.loading-more-post').hide();
-                    }
-                });
-            </script>
-
-            {% endblock javascript %} {% for post in posts %}
-            <div class="uk-card uk-card-primary uk-margin uk-width-1-1 infinite-item">
-                <div class="uk-card-header">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <!-- user profile img -->
-                            <a href="{% url 'user-profile' post.user %}">
-                                <img class="uk-border-circle" width="50" height="50"
-                                    src="{{post.user.profile.picture.url}}" alt="{{post.user.profile.picture.url}}"">
-                                <br>
-                                <h6 class=" uk-margin-remove uk-width-expand uk-text-center">
-                                {{post.user}}
-                                </h6>
-                            </a>
-                        </div>
-                        <div class="uk-width-expand">
-                            <a href="{% url 'post' post.id %}">
-                                <h3 class="uk-card-title uk-margin-remove-bottom">{{post.title}}</h3>
-                            </a>
-                            <p class="uk-text-meta uk-margin-remove-top"><time
-                                    datetime="2016-04-01T19:00">{{post.post_date|date:"D d M Y, H:i"}}</time>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <!-- End header -->
-                <div class="uk-card-body uk-padding">
-                    {% if post.post_type == "Q" %}
-                    <q class="">
-                        {{ post.content }}
-                    </q> {% else %}
-                    <p class="">
-                        {{ post.content }}
-                    </p>
-                    {% endif %}
-
-                </div>
-                <!-- End body -->
-                <div class="uk-card-footer">
-                    <!-- start commnets -->
-                    {% reaction_bar post.id user %}
-                </div>
-                <!-- End footer -->
+            <div class="article-feed">
+                {% for post in posts %}
+                {% post post user %}
+                {% endfor %}
             </div>
-            {% endfor %}
 
             <div class="loading-more-post" style="display: block;">
 
@@ -164,9 +111,15 @@
                 </div>
             </div>
             {% if posts.has_next %}
-            <a class="infinite-more-link" href="?page={{ posts.next_page_number }}"></a>
+            <p class="pagination">
+                <a class="pagination__next" href="?page={{ posts.next_page_number }}"></a>
+            </p>
             {% endif %}
         </div>
     </div>
-    <!-- end post container -->
-    {% endblock content %}
+</div>
+<!-- end post container -->
+{% endblock content %}
+{% block javascript %}
+{% infinite_scroll_js %}
+{% endblock javascript %}

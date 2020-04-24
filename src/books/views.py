@@ -34,16 +34,6 @@ def books(request):
 
 def search_book(request):
     if request.is_ajax():
-        '''
-        query = request.GET.get("term", "")
-        titles = Book.objects.filter(title__istartswith=query)
-        ids = Book.objects.filter(title__istartswith=query)
-        results = list(titles) + list(ids)
-        data = json.dumps(results)
-    else:
-        data = 'fail'
-    return HttpResponse(data, 'application/json')
-    '''
         a = request.GET.get('term', '')
         titles = Book.objects.filter(title__istartswith=a)
         result = []
@@ -51,7 +41,6 @@ def search_book(request):
         for n in titles:
             result.append(n.title + f', {n.author}')
             data = json.dumps(result)
-
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
 
@@ -119,7 +108,10 @@ def book_by_ajax(request, book_title_author):
                'book': target_book,
                'readed_book': readed_book_state
                }
-    return render(request, 'books/book.html', context)
+    if not request.is_ajax():
+        return render(request, 'books/book.html', context)
+    else:
+        return HttpResponse('OK')
 
 
 @login_required(login_url='log-in')

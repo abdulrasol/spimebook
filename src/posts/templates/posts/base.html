@@ -91,11 +91,7 @@
                     <ul class="uk-nav uk-nav-default">
                         <li>
                             <div class="uk-margin">
-                                <form class="uk-search uk-search-default">
-                                    <a href="" uk-search-icon></a>
-                                    <input id="book-search-mobile" data-url="{% url 'search-book' %}"
-                                        class="uk-search-input" type="search" placeholder="Search...">
-                                </form>
+
                             </div>
                         </li>
                         {% if user.is_authenticated %}
@@ -169,13 +165,30 @@
                     <a href="{% url 'books' %}" class="uk-icon" uk-icon="icon:thumbnails; ratio:2"></a>
                 </div>
                 <div class="uk-width-1-4">
-                    <a href="{% url 'quotes' %}" class="uk-icon" uk-icon="icon:quote-right; ratio:2"></a>
-                </div>
+                    <a href="#search-mobile" class="uk-icon" uk-icon="icon:search; ratio:2"
+                        uk-toggle=" animation: uk-animation-slide-top-medium"></a> </div>
                 <div class="uk-width-1-4">
                     <a href="#mobile-slide-menu" uk-toggle class="uk-icon" uk-icon="icon:menu; ratio:2"></a>
                 </div>
 
             </ul>
+        </div>
+        <div id="search-mobile" class="uk-container uk-container-small uk-padding-small" hidden>
+
+            <div class="uk-padding uk-padding-remove-vertical uk-margin uk-margin-remove-vertical">
+                <form class="uk-search uk-width-expand uk-search-default">
+                    <div class="uk-grid-small uk-flex uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            <a href="" class="uk-icon-link" uk-icon="icon:cog;ratio:1.5"></a>
+                        </div>
+                        <div class="uk-width-expand">
+                            <span class="uk-search-icon-flip" uk-search-icon></span>
+                            <input id="book-search-mobile" data-url="{% url 'search-book' %}" class="uk-search-input"
+                                type="search" placeholder="Search...">
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <!-- End Mobile Navbar -->

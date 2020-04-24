@@ -72,7 +72,7 @@ $('document').ready(function () {
     });
 
     // search book fast
-    var URL = $("#book-search,#book-search-main,#book-search-mobile").data('url');
+    var URL = $("#book-search-main").data('url');
     //console.log(URL);
     $("#book-search,#book-search-main,#book-search-mobile").autocomplete({
         source: URL,
@@ -88,21 +88,6 @@ $('document').ready(function () {
             $(location).attr('href', get_url);
         },
     });
-    $("#book-search-mobile").autocomplete({
-        source: URL,
-        minLength: 2,
-        select: function (event, ui) {
-            //console.log(ui);
-            //console.log(ui.item);
-            console.log(ui.item.value);
-            var book = ui.item.value
-            //var get_url = "lab".replace(/12345/, tmp.toString());
-            var get_url = URL + '/' + ui.item.value
-            console.log(get_url);
-            $(location).attr('href', get_url);
-        },
-    });
-
 
 });
 

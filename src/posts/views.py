@@ -7,7 +7,7 @@ from .models import Post, Comment
 from .forms import AddCommentForm, EditPostForm
 from books.models import Author, Book
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.db.models import Count
+from django.db.models import Count, Avg
 
 # Create your views here.
 
@@ -18,12 +18,15 @@ def test(request):
         readed=Count('books')).order_by('-readed')[:10]
     top_ten_movels = Book.objects.filter(book_or_Novel='Novel').annotate(
         readed=Count('books')).order_by('-readed')[:10]
+    top_rate = Book.objects.order_by('-rating')[:10]
+    #rating = book.rating_set.all().aggregate(Avg('rating'))
+    print(top_rate)
     # print(top10[0].books_count)
     all_posts = Post.objects.filter(
         archived=False).annotate(loves_count=Count('comments')).order_by('-loves_count')
     #uestion.objects.filter(date__gt=datetime.now() - timedelta(hours=1)).annotate(num_votes=Count('has_voted')).order_by('-num_votes')
 
-    return render(request, 'posts/test.html', {'books': top_ten_books, 'novels': top_ten_movels, 'posts': all_posts})
+    return render(request, 'posts/test.html', {'books': top_ten_books, 'novels': top_ten_movels, 'top_rate': top_rate, 'posts': all_posts})
 
 
 def home(request):

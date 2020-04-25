@@ -74,6 +74,43 @@
 
     </div>
 </div>
+<div class="uk-margin-bottom me-books-slider">
+    <div uk-slider="">
+        <h5 class="uk-heading-line uk-text-muted"><span>Top 10 Books readed on Spimebook</span></h5>
+        <div class="uk-position-relative uk-visible-toggle uk-light uk-padding-small uk-padding-remove-horizontal uk-padding-remove-top"
+            tabindex="-1">
+            <ul class="uk-slider-items uk-child-width-auto@s uk-grid">
+                {% for book in top_rate %}
+                <li>
+                    <a href="{% url 'book' book.id  %}">
+                        <div class="uk-card uk-card-default uk-border-rounded uk-text-center uk-padding-small">
+                            <div class="uk-card-media-top">
+                                <img class="uk-border-rounded" data-src="{{ book.book_image.url }}" width="125px"
+                                    height="190px" alt="" uk-img>
+                            </div>
+                            <div class="uk-card-body uk-padding-remove">
+                                <h5 class="uk-card-title uk-margin-small-top uk-margin-remove-bottom">{{book.title}}
+                                </h5>
+                                <span class="uk-badge">{{book.readed}} readers, <span class="uk-badge">9.5</span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+
+            </ul>
+
+            <a style="color:#666" class="uk-position-center-left uk-position-small uk-hidden-hover uk-dark" href="#"
+                uk-slidenav-previous uk-slider-item="previous"></a>
+            <a style="color:#666" class="uk-position-center-right uk-position-small uk-hidden-hover" href="#"
+                uk-slidenav-next uk-slider-item="next"></a>
+
+        </div>
+
+    </div>
+</div>
+
 
 <!-- End Top Books Slider -->
 <div class="article-feed">

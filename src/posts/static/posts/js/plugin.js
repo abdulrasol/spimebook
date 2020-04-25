@@ -110,4 +110,17 @@ document.addEventListener('click', event => {
             }
         });
     }
+
+    //rating books
+    if (event.target.classList.contains('book-rating')) {
+        rate = event.target;
+        'http://127.0.0.1:8000/ajax/book/rate/1/9'
+        URL = '/ajax/book/rate/' + rate.parentNode.dataset.book + '/' + rate.value;
+        //console.log(URL);
+        $.get(URL, function (data, state, xhr) {
+            console.log(data.rating.rating__avg);
+            document.querySelector('.show-rating').innerHTML = data.rating.rating__avg;
+            document.querySelector('.ratings-num').innerHTML = data.ratings_num;
+        })
+    }
 });

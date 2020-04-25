@@ -2,13 +2,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import UpdateView
-from .models import Book, Author, Genres
+from .models import Book, Author, Genres, Rating
 from django.http import JsonResponse, HttpResponse
 from django.contrib import messages
 from .forms import AddAuthorForm, EditBookForm
 from posts.models import Post
 import json
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Avg
 
 
 # Create your views here.
@@ -57,6 +58,7 @@ def genres(request, genre):
 def book(request, book_id):
     target_book = get_object_or_404(Book, id=book_id)
     readed_book_state = False
+    rating = target_book.rating_set.all().aggregate(Avg('rating'))
     if request.user.is_authenticated:
         user = request.user.profile
         # print(user)
@@ -81,21 +83,21 @@ def book(request, book_id):
     context = {'title': target_book.title,
                'book': target_book,
                'posts': posts,
-               'readed_book': readed_book_state
+               'readed_book': readed_book_state,
+               'rating': rating
                }
     # print(target_book.genres.all())
     return render(request, 'books/book.html', context)
 
 
 def book_by_ajax(request, book_title_author):
-    # print(book_title_author)
     book_title = book_title_author.split(', ')[0]
-    # print(book_title)
+
     book_author = get_object_or_404(
         Author, author_Name=book_title_author.split(', ')[1])
     target_book = Book.objects.filter(
         title__icontains=book_title).get(author=book_author)
-    # print(target_book)
+    rating = target_book.rating_set.all().aggregate(Avg('rating'))
     readed_book_state = False
     if request.user.is_authenticated:
         user = request.user.profile
@@ -106,7 +108,8 @@ def book_by_ajax(request, book_title_author):
 
     context = {'title': target_book.title,
                'book': target_book,
-               'readed_book': readed_book_state
+               'readed_book': readed_book_state,
+               'rating': rating
                }
     if not request.is_ajax():
         return render(request, 'books/book.html', context)
@@ -184,7 +187,6 @@ def readed_book(request, book_id):
     book = Book.objects.get(id=book_id)
     user = request.user.profile
     print(user)
-    #  u1.saves.filter(id = 2).exists()
     if user.books.filter(id=book.id).exists():  # cheek:
         book.books.remove(user)
         msg = f'{book.title} removed from readed list!'
@@ -194,6 +196,27 @@ def readed_book(request, book_id):
         msg = f'{book.title} add to readed list.'
         readed_book_state = True
     return JsonResponse({'msg': msg, 'readed_book': readed_book_state})
+
+
+@login_required(login_url='log-in')
+def rating_book(request, book_id, rating):
+    book = Book.objects.get(id=book_id)
+    user = request.user
+    if Rating.objects.filter(book=book).filter(user=user).exists():
+        rate = Rating.objects.filter(book=book).get(user=user)
+        rate.rating = rating
+        rate.save()
+        msg = 'already'
+
+    else:
+        rate = Rating(book=book, user=user, rating=rating)
+        rate.save()
+        msg = 'Done'
+
+    rating = book.rating_set.all().aggregate(Avg('rating'))
+    #rating = round(rating.rating__avg, 2)
+    ratings_num = len(book.rating_set.all())
+    return JsonResponse({'msg': msg, 'rating': rating, 'ratings_num': ratings_num})
 
 
 def author(request, author_id, book_author):

@@ -1,8 +1,7 @@
 from django.db import models
 from django.utils import timezone
-#from multiselectfield import MultiSelectField
 from PIL import Image
-
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -62,3 +61,15 @@ class Book(models.Model):
             size = (250, 250)
             img.thumbnail(size)
             img.save(self.book_image.path)
+
+
+class Rating(models.Model):
+    class Meta:
+        unique_together = (('book', 'user'),)
+
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.FloatField(blank=False, null=False)
+
+    def __str__(self):
+        return f'{self.user} rate {self.book} by {self.rating} from 10'

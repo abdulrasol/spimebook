@@ -16,9 +16,11 @@
                             uk-icon="icon: pencil"></span> Edit book Info</a>
                 </li>
                 {% if readed_book %}
-                <li id="add-to-readed-book-parent"><a id="add-to-readed-book"
-                        data-book="{% url 'readed-book' book.id %}"><span class="uk-margin-small-right"
-                            uk-icon="icon: trash"></span>Remove from readed Books</a>
+                <li id="add-to-readed-book-parent">
+                    <a id="add-to-readed-book" data-book="{% url 'readed-book' book.id %}">
+                        <span class="uk-margin-small-right" uk-icon="icon: trash"></span>
+                        Remove from readed Books
+                    </a>
                 </li>
                 {% else %}
                 <li id="add-to-readed-book-parent"><a id="add-to-readed-book"

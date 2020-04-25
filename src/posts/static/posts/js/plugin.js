@@ -40,37 +40,6 @@ $('document').ready(function () {
         //$('.me-form button').addClass('uk-disabled')
     });
 
-    $('#add-to-readed-book').click(function () {
-        var URL = $(this).data('book');
-        console.log('URL');
-    });
-
-    // add or remove readed books
-    $('#add-to-readed-book-parent').on('click', '#add-to-readed-book', function () {
-        var btn = $(this);
-        var URL = $(this).data('book');
-        console.log(URL);
-        $.get(URL, function (data, state, xhr) {
-            //console.log(data)
-            UIkit.notification({
-                message: data.msg,
-                status: 'success',
-                pos: 'top-right',
-                timeout: 3000
-            });
-            if (data.readed_book == true) {
-                var str = `<li><a id='add-to-readed-book' data-book='${URL}'><span class='uk-margin-small-right' uk-icon='icon: trash'></span>Remove from readed Books</a>`
-                btn.hide().parent().append(str)
-            } else {
-                var str = `<li><a id='add-to-readed-book' data-book='${URL}'><span class='uk-margin-small-right' uk-icon='icon: plus'></span>Add to readed Books</a>`
-                //$('.me-context-menu-profile-page').offsetParent().remove();
-                btn.hide().parent().append(str);
-                console.log(data.msg)
-                console.log(data.readed_book)
-            }
-        });
-    });
-
     // search book fast
     var URL = $("#book-search-main").data('url');
     //console.log(URL);
@@ -115,4 +84,30 @@ document.addEventListener('click', event => {
         });
     }
 
+    // Add to readed Books
+    if (event.target.id == 'add-to-readed-book') {
+        let book = event.target, URL = book.dataset.book;
+        let item = document.createElement("a"); item.dataset.book = URL; item.id = 'add-to-readed-book';
+        let sp = document.createElement('span'); sp.classList.add("uk-margin-small-right");
+        $.get(URL, function (data, state, xhr) {
+            UIkit.notification({
+                message: data.msg,
+                status: 'success',
+                pos: 'top-right',
+                timeout: 3000
+            });
+            if (data.readed_book == true) {
+                var node = document.createTextNode("Remove from readed Books");
+                sp.setAttribute('uk-icon', 'icon: trash');
+                item.appendChild(sp); item.appendChild(node);
+                book.parentNode.appendChild(item); book.remove();
+            } else {
+                var node = document.createTextNode("Add to readed Books");
+                sp.setAttribute('uk-icon', 'icon: plus');
+                item.appendChild(sp);
+                item.appendChild(node);
+                book.parentNode.appendChild(item); book.remove();
+            }
+        });
+    }
 });

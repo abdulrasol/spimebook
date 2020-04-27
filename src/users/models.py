@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 from PIL import Image
 from posts.models import Post
 from books.models import Book
-
+from django.conf import settings
 # Create your models here.
 
 
@@ -14,12 +14,12 @@ class Profile(models.Model):
     picture = models.ImageField(
         upload_to='users/Profiles/', blank=True, null=True, default='user.png')
     bio = models.CharField(max_length=221, blank=True, null=True)
-    # saves = models.ManyToManyField(
-    #    Post, related_name='save', blank=True)
     loves = models.ManyToManyField(
         Post, related_name='loves', blank=True)
     books = models.ManyToManyField(
         Book, related_name='books', blank=True)
+    lang = models.CharField(
+        max_length=2, choices=settings.LANGUAGES, default='en')
 
     def __str__(self):
         return str(self.user)

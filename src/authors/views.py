@@ -3,6 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from books.models import Book, AR as book_AR, EN as book_EN, FR as book_FR
 from googletrans import Translator
 from django.conf import settings
 from .models import *
@@ -34,6 +35,9 @@ def authors(request):
 def author(request, author_id, author_name):
     lang = get_lang(request)
     target_author = eval(f"{lang.upper()}.objects.get(id={author_id})")
+    books = eval(
+        f"book_{lang.upper()}.objects.filter(book__author='{target_author.author.id}')")
+    print(books)
     context = {
         'title': f'{target_author}, Spimebook',
         'author': target_author,
@@ -55,7 +59,7 @@ def add_author(request):
         FILES = dict(request.FILES)
         if FILES.__contains__('Author_Image'):
             image = FILES['Author_Image'][0]
-            author = Author(title=name, born_date=born_date,
+            author = Author(title=english_name, born_date=born_date,
                             Author_Image=image)
         else:
             author = Author(title=english_name, born_date=born_date)

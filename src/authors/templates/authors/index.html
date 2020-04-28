@@ -8,7 +8,7 @@
 <div class="books uk-grid-small uk-child-width-auto uk-text-center article-feed" uk-grid>
     {% for author in authors %}
     <div class="uk-width-1-2@s uk-width-1-3@m uk-width-1-4@l article">
-        <a href="{% url 'author' author.id author.name %}">
+        <a href="{% url 'author' author.id author.author.title %}">
             <div class="uk-padding-small">
                 <div class="uk-card-media-top">
                     <img class="uk-border-rounded profile-img" data-src="{{ author.author.Author_Image.url }}" width="125px"

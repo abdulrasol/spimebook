@@ -146,9 +146,6 @@ def add_book(request):
 
     return render(request, 'books/add_book.html', {'title': 'Add Book'})
 
-
-@login_required(login_url='log-in')
-def author_autocomplete(request):
     if request.is_ajax():
         a = request.GET.get('term', '')
         names = Author.objects.filter(author_Name__istartswith=a)
@@ -219,6 +216,10 @@ def rating_book(request, book_id, rating):
     return JsonResponse({'msg': msg, 'rating': rating, 'ratings_num': ratings_num})
 
 
+'''
+@login_required(login_url='log-in')
+def author_autocomplete(request):
+
 def author(request, author_id, book_author):
     author = get_object_or_404(Author, id=author_id)
     all_books = Book.objects.filter(author=author)
@@ -237,7 +238,6 @@ def author(request, author_id, book_author):
                }
     return render(request, 'books/author.html', context)
 
-
 @login_required(login_url='log-in')
 def add_author(request):
     if request.method == 'POST':
@@ -253,7 +253,6 @@ def add_author(request):
             return render(request, 'books/add_author.html', {'title': 'Add author', 'form': form})
     form = AddAuthorForm()
     return render(request, 'books/add_author.html', {'title': 'Add author', 'form': form})
-
 
 @login_required(login_url='log-in')
 def edit_author(request, author_id, author_name):
@@ -276,3 +275,4 @@ def edit_author(request, author_id, author_name):
 
     # form = AddAuthorForm(data=data)
     return render(request, 'books/edit_author.html', {'title': f'Edit {author.author_Name} details', 'author': author, 'form': form})
+'''

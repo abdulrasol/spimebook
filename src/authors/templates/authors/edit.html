@@ -1,0 +1,60 @@
+{% extends "posts/base.html" %}
+{% load static %}
+{% block content %}
+<form method="POST" enctype="multipart/form-data" class="uk uk-padding uk-padding-remove-vertical">
+    {% csrf_token %}
+    <legend class="uk-legend uk-margin-bottom">Update {{author}} Info</legend>
+
+    <div class="uk-grid" uk-grid>
+
+        <div class="uk-width-1-2@s">
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Author name</label>
+            <input type="text" name="name" maxlength="255" placeholder="Author Name" required class="uk-input"
+                id="id_author_Name" value="{{ author.name }}">
+        </div>
+        <div class="uk-width-1-2@s">
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Author Short</label>
+            <input type="text" name="short" maxlength="255" placeholder="Short" class="uk-input"
+                value="{{ author.short }}" required id="id_short">
+        </div>
+        <div class="uk-width-1-2@s">
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Birth Date</label>
+            <input type="date" name="born_date" value="{{ author.author.born_date|date:"Y-m-d" }}"
+                class="uk-input uk-width-auto" required id="id_born_date"><input type="hidden" name="initial-born_date"
+                value="2020-04-27 07:02:13+00:00" class="uk-input uk-width-auto" id="initial-id_born_date">
+        </div>
+        <div class="uk-margin uk-width-1-1 uk-margin-small-bottom">
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom" for="form-stacked-text">Author
+                Bio</label>
+            <div class="uk-form-controls">
+                <textarea id="author_Bio" name="author_Bio" class="uk-textarea uk-padding-small" rows="5"
+                    placeholder="Write Some Information About This Author" spellcheck="false">
+                    {{author.author_Bio}}
+                </textarea>
+            </div>
+        </div>
+        <div class="uk-grid-small uk-flex uk-flex-center uk-text-center" uk-grid>
+            <div class="uk-margin uk-text-center uk-width-1-2@s">
+                <label style="display: block;" class="uk-form-label uk-margin-small-bottom" for="form-stacked-text">
+                    Old Picture
+                </label>
+                <div>
+                    <img class="uk-border-rounded" src="{{author.author.Author_Image.url}}" alt="{{author}}">
+                </div>
+            </div>
+            <div class="uk-margin-large-top uk-width-1-2@s">
+                <label style="display: block;" class="uk-form-label uk-margin-small-bottom" for="form-stacked-text">
+                    Select New Picture
+                </label>
+                <div uk-form-custom="target: true">
+                    <input type="file" name="Author_Image" accept="image/*" id="id_Author_Image">
+                    <input class="uk-input uk-width-auto@s" type="text" placeholder="Select file" disabled>
+                </div>
+            </div>
+        </div>
+        <div class="uk-width-1-1">
+            <button type="submit" class="uk-button uk-button-primary">Update Author Info</button>
+        </div>
+    </div>
+</form>
+{% endblock content %}

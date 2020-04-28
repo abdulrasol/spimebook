@@ -1,13 +1,14 @@
+from django.utils.translation import gettext as _, LANGUAGE_SESSION_KEY, get_language_from_request
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import UpdateView
-from .models import Book, Author, Genres, Rating
+from .models import *
+from authors.models import AR as author_AR, FR as author_FR, EN as author_EN
 from django.http import JsonResponse, HttpResponse
 from django.contrib import messages
 from .forms import AddAuthorForm, EditBookForm
 from posts.models import Post
 import json
+from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Avg
 
@@ -16,8 +17,9 @@ from django.db.models import Avg
 
 
 def books(request):
+
     genres = Genres.objects.all()
-    all_books = Book.objects.all()
+    all_books = get_query(request)
     page = request.GET.get('page', 1)
     paginator = Paginator(all_books, 16)
 
@@ -33,44 +35,18 @@ def books(request):
     return render(request, 'books/index.html', context)
 
 
-def search_book(request):
-    if request.is_ajax():
-        a = request.GET.get('term', '')
-        titles = Book.objects.filter(title__istartswith=a)
-        result = []
-        data = ''
-        for n in titles:
-            result.append(n.title + f', {n.author}')
-            data = json.dumps(result)
-    mimetype = 'application/json'
-    return HttpResponse(data, mimetype)
-
-
-def genres(request, genre):
-    genre_id = Genres.objects.get(genre=genre).id
-    books = Book.objects.filter(genres=genre_id)
-    genres = Genres.objects.all()
-    context = {'title': f'Browser {genre} books, Spimebook',
-               'books': books, 'genres': genres}
-    return render(request, 'books/index.html', context)
-
-
 def book(request, book_id):
-    target_book = get_object_or_404(Book, id=book_id)
+    target_book = get_object(request, book_id)
     readed_book_state = False
-    rating = target_book.rating_set.all().aggregate(Avg('rating'))
+    rating = target_book.book.rating_set.all().aggregate(Avg('rating'))
     if request.user.is_authenticated:
         user = request.user.profile
-        # print(user)
-        if user.books.filter(id=target_book.id).exists():  # cheek:
-            # target_book.books.remove(user)
+        if user.books.filter(id=target_book.book.id).exists():  # cheek:
             readed_book_state = True
         else:
-            # target_book.books.add(user)  # love
             readed_book_state = False
-
     all_posts = Post.objects.filter(
-        for_book=target_book).filter(archived=False)
+        for_book=target_book.book).filter(archived=False)
     page = request.GET.get('page', 1)
     paginator = Paginator(all_posts, 5)
     try:
@@ -86,28 +62,56 @@ def book(request, book_id):
                'readed_book': readed_book_state,
                'rating': rating
                }
-    # print(target_book.genres.all())
     return render(request, 'books/book.html', context)
 
 
-def book_by_ajax(request, book_title_author):
-    book_title = book_title_author.split(', ')[0]
+def search_book(request):
+    if request.is_ajax():
+        lang = get_lang(request)
+        a = request.GET.get('term', '')
+        objects = get_query(request)
+        titles = objects.filter(title__istartswith=a)
+        print(titles)
+        result = []
+        data = ''
+        for n in titles:
+            author = eval(f'n.book.author.{lang}')
+            result.append(n.title + f', {author}')
+            data = json.dumps(result)
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
 
-    book_author = get_object_or_404(
-        Author, author_Name=book_title_author.split(', ')[1])
-    target_book = Book.objects.filter(
-        title__icontains=book_title).get(author=book_author)
-    rating = target_book.rating_set.all().aggregate(Avg('rating'))
+
+def genres(request, genre):
+    genre_id = Genres.objects.get(genre=genre).id
+    books = get_query(request).filter(book__genres=genre_id)
+    genres = Genres.objects.all()
+    context = {'title': f'Browser {genre} books, Spimebook',
+               'books': books, 'genres': genres}
+    return render(request, 'books/index.html', context)
+
+
+def book_by_ajax(request, book_title_author):
+    lang = get_lang(request)
+    book_title = book_title_author.split(', ')[0]
+    book_author = book_title_author.split(', ')[1]
+    author = eval(
+        f"get_object_or_404(author_{lang.upper()},name = '{book_author}')")
+    book = get_query(request).filter(
+        title=book_title).get(book__author=author.author)
+    print(author.author)
+    print(book)
+    rating = book.book.rating_set.all().aggregate(Avg('rating'))
     readed_book_state = False
     if request.user.is_authenticated:
         user = request.user.profile
         # print(user)
-        if user.books.filter(id=target_book.id).exists():  # cheek:
+        if user.books.filter(id=book.book.id).exists():  # cheek:
             # target_book.books.remove(user)
             readed_book_state = True
 
-    context = {'title': target_book.title,
-               'book': target_book,
+    context = {'title': book.title,
+               'book': book,
                'readed_book': readed_book_state,
                'rating': rating
                }
@@ -125,13 +129,13 @@ def add_book(request):
         b_type = request.POST['b_type']
         author = request.POST['author']
         bio = request.POST['book_Bio']
-        if not Author.objects.filter(author_Name=author).exists():
+        if not Author.objects.filter(name=author).exists():
             messages.add_message(
                 request, messages.ERROR, 'Author not found, kindly correct name or add to database')
 
         else:
             FILES = dict(request.FILES)
-            author = Author.objects.get(author_Name=author)
+            author = Author.objects.get(name=author)
             if FILES.__contains__('image'):
                 image = FILES['image'][0]
                 book = Book(title=title, book_image=image,
@@ -148,10 +152,10 @@ def add_book(request):
 
     if request.is_ajax():
         a = request.GET.get('term', '')
-        names = Author.objects.filter(author_Name__istartswith=a)
+        names = Author.objects.filter(name__istartswith=a)
         result = []
         for n in names:
-            name_json = n.author_Name
+            name_json = n.author.name
             result.append(name_json)
             data = json.dumps(result)
     mimetype = 'application/json'
@@ -216,63 +220,44 @@ def rating_book(request, book_id, rating):
     return JsonResponse({'msg': msg, 'rating': rating, 'ratings_num': ratings_num})
 
 
-'''
-@login_required(login_url='log-in')
-def author_autocomplete(request):
+def get_lang(request):
+    if request.user.is_authenticated:
+        lang = request.user.profile.lang
+    else:
+        lang = get_language_from_request(request)
+        for tu in settings.LANGUAGES:
+            if lang in tu:
+                break
+            else:
+                lang = 'en'
+    return lang
 
-def author(request, author_id, book_author):
-    author = get_object_or_404(Author, id=author_id)
-    all_books = Book.objects.filter(author=author)
-    page = request.GET.get('page', 1)
-    paginator = Paginator(all_books, 6)
-    try:
-        books = paginator.page(page)
-    except PageNotAnInteger:
-        books = paginator.page(1)
-    except EmptyPage:
-        books = paginator.page(paginator.num_pages)
-        # print(books)
-    context = {'title': author.author_Name,
-               'author': author,
-               'books': books
-               }
-    return render(request, 'books/author.html', context)
 
-@login_required(login_url='log-in')
-def add_author(request):
-    if request.method == 'POST':
-        author = request.POST['author_Name']
-        form = AddAuthorForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.add_message(
-                request, messages.ERROR, f'{author} Added to database, ')
-            return render(request, 'books/add_author.html', {'title': 'Add author', 'form': form})
-        else:
-            form = AddAuthorForm(initial=request.POST)
-            return render(request, 'books/add_author.html', {'title': 'Add author', 'form': form})
-    form = AddAuthorForm()
-    return render(request, 'books/add_author.html', {'title': 'Add author', 'form': form})
+def get_query(request):
+    if request.user.is_authenticated:
+        lang = request.user.profile.lang
+    else:
+        lang = get_language_from_request(request)
+        for tu in settings.LANGUAGES:
+            if lang in tu:
+                break
+            else:
+                lang = 'en'
+    lang = lang.upper()
+    translate = eval(f"{lang}.objects.all()")
+    return translate
 
-@login_required(login_url='log-in')
-def edit_author(request, author_id, author_name):
-    author = get_object_or_404(Author, id=author_id)
-    form = AddAuthorForm(request.POST or None,
-                         request.FILES or None, instance=author)
-    if request.method == 'POST':
-        author_Name = author.author_Name
-        form = AddAuthorForm(request.POST, request.FILES, instance=author)
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.save()
-            print(type(instance))
-            messages.add_message(
-                request, messages.ERROR, f'{author_Name} Saved, ')
-            return redirect(f'/authors/{author_id}/{author}')
-        else:
-            form = AddAuthorForm(initial=request.POST)
-            return render(request, 'books/add_author.html', {'title': 'Add author', 'form': form})
 
-    # form = AddAuthorForm(data=data)
-    return render(request, 'books/edit_author.html', {'title': f'Edit {author.author_Name} details', 'author': author, 'form': form})
-'''
+def get_object(request, id):
+    if request.user.is_authenticated:
+        lang = request.user.profile.lang
+    else:
+        lang = get_language_from_request(request)
+        for tu in settings.LANGUAGES:
+            if lang in tu:
+                break
+            else:
+                lang = 'en'
+    lang = lang.upper()
+    translate = eval(f'get_object_or_404({lang},id = {id})')
+    return translate

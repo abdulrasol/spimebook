@@ -60,14 +60,15 @@
         <div class="uk-card-header">
             <div class="uk-grid-small uk-flex-middle" uk-grid>
                 <div class="uk-width-auto">
-                    <img class="uk-border-rounded" data-src="{{book.book_image.url}}" alt="{{book.title}}" uk-img>
+                    <img class="uk-border-rounded" data-src="{{book.book.book_image.url}}" alt="{{book}}" uk-img>
                 </div>
                 <div class="uk-width-expand uk-text-left">
-                    <h3 class="uk-margin-small"><a href="{% url 'book' book.id %}">{{book.title}}</a></h3>
+                    <h3 class="uk-margin-small"><a href="{% url 'book' book.id %}">{{book}}</a></h3>
                     <h4 class="uk-margin-small uk-text-meta"><a class="uk-h4"
-                            href="{% url 'author' book.author.id book.author  %}">{{book.author}}</a></h4>
+                            href="{% url 'author' book.book.author.id book.book.author  %}">{{book.book.author}}</a>
+                    </h4>
                     <h5 class="uk-margin-small uk-text-meta"><a href="#"></a></h5>
-                    <a class="uk-label" href="#">{{book.book_or_Novel}}</a>
+                    <a class="uk-label" href="#">{{book.book.book_or_Novel}}</a>
                 </div>
             </div>
         </div>

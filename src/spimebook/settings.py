@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'books.apps.BooksConfig',
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
+    'authors.apps.AuthorsConfig',
     'widget_tweaks',
 
 ]
@@ -110,6 +111,18 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
+
+LANGUAGES = (
+    ('en', 'English'),
+    ('ar', 'Arabic'),
+    ('fr', 'Franch'),
+)
+
+SUPPORTED_LANGS = ('AR', 'EN', 'FR')
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, "locale"),
+]
 
 TIME_ZONE = 'UTC'
 

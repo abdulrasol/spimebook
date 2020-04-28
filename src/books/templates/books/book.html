@@ -19,14 +19,14 @@
                 </li>
                 {% if readed_book %}
                 <li id="add-to-readed-book-parent">
-                    <a id="add-to-readed-book" data-book="{% url 'readed-book' book.id %}">
+                    <a id="add-to-readed-book" data-book="{% url 'readed-book' book.book.id %}">
                         <span class="uk-margin-small-right" uk-icon="icon: trash"></span>
                         Remove from readed Books
                     </a>
                 </li>
                 {% else %}
                 <li id="add-to-readed-book-parent"><a id="add-to-readed-book"
-                        data-book="{% url 'readed-book' book.id %}"><span class="uk-margin-small-right"
+                        data-book="{% url 'readed-book' book.book.id %}"><span class="uk-margin-small-right"
                             uk-icon="icon: plus"></span> Add to
                         readed Books</a>
                 </li>
@@ -39,21 +39,22 @@
         {% endif %}
         <div class="uk-grid-small uk-flex me-text-center-m" uk-grid>
             <div class="uk-width-auto@m book-img">
-                <img class="uk-border-rounded" data-src="{{book.book_image.url}}" alt="{{book.title}}" uk-img />
+                <img class="uk-border-rounded" data-src="{{book.book.book_image.url}}" alt="{{book}}" uk-img />
             </div>
             <div class="uk-width-expand uk-margin-small-left">
-                <h1 class="uk-margin-remove">{{book.title}}</h1>
+                <h1 class="uk-margin-remove">{{book}}</h1>
                 <h2 class="uk-margin-remove-left uk-margin-small"><a
-                        href="{% url 'author' book.author.id book.author  %}" class="uk-link-muted">{{book.author}}</a>
+                        href="{% url 'author' book.book.author.id book.book.author  %}"
+                        class="uk-link-muted">{{book.book.author}}</a>
                 </h2>
-                <h4 class="uk-margin-remove-left uk-margin-small">Originally published: {{book.publish_date}}</h4>
+                <h4 class="uk-margin-remove-left uk-margin-small">Originally published: {{book.book.publish_date}}</h4>
 
                 <div class="uk-margin-small uk-margin-remove-top">
                     <div class="uk-margin uk-gird-small uk-flex uk-flex-middle uk-flex-left" uk-grid>
 
                         {% if user.is_authenticated %}
                         <div>
-                            <fieldset data-book="{{book.id}}" class="rating uk-width-auto">
+                            <fieldset data-book="{{book.book.id}}" class="rating uk-width-auto">
                                 <input class="book-rating" type="radio" id="star5" name="rating" value="10" /><label
                                     class="full" for="star5" title="Awesome - 10 stars"></label>
                                 <input class="book-rating" type="radio" id="star4half" name="rating" value="9" /><label
@@ -80,7 +81,7 @@
                         <div>
                             <span>
                                 <span class="show-rating">{{rating.rating__avg|truncatechars:4 }}</span>,
-                                <span class="ratings-num">{{book.rating_set.all|length}}</span> ratings
+                                <span class="ratings-num">{{book.book.rating_set.all|length}}</span> ratings
                             </span>
                         </div>
                     </div>

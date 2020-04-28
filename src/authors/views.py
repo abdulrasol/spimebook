@@ -3,29 +3,26 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from .models import *
-
-
-import json
+from googletrans import Translator
 from django.conf import settings
+from .models import *
+import json
 
-# Create your views here.
+
+translator = Translator()
 
 
 def authors(request):
     lang = get_lang(request)
     authors_list = eval(f"{lang.upper()}.objects.all()")
-
     page = request.GET.get('page', 1)
     paginator = Paginator(authors_list, 20)
-
     try:
         authors = paginator.page(page)
     except PageNotAnInteger:
         authors = paginator.page(1)
     except EmptyPage:
         authors = paginator.page(paginator.num_pages)
-
     context = {
         'title': _('Authors, Spimebook'),
         'authors': authors,
@@ -37,7 +34,6 @@ def authors(request):
 def author(request, author_id, author_name):
     lang = get_lang(request)
     target_author = eval(f"{lang.upper()}.objects.get(id={author_id})")
-    # print(str(target_author))
     context = {
         'title': f'{target_author}, Spimebook',
         'author': target_author,
@@ -48,9 +44,11 @@ def author(request, author_id, author_name):
 
 @login_required(login_url='log-in')
 def add_author(request):
+    lang = get_lang(request)
     if request.method == 'POST':
-        lang = request.user.profile.lang.upper()
+        lang = lang.upper()
         name = request.POST['name']
+        english_name = translator.translate(name).text
         born_date = request.POST['born_date']
         short = request.POST['short']
         bio = request.POST['author_Bio']
@@ -60,14 +58,14 @@ def add_author(request):
             author = Author(title=name, born_date=born_date,
                             Author_Image=image)
         else:
-            author = Author(title=name, born_date=born_date)
+            author = Author(title=english_name, born_date=born_date)
         author.save()
         trans_author = eval(f"{lang}.objects.get(id={author.id})")
         trans_author.name = name
         trans_author.author_Bio = bio
         trans_author.short = short
         trans_author.save()
-        return redirect(f'auth/a/{author.id}/{name}')
+        return redirect(f'/authors/{author.id}/{name}')
     else:
         pass
     title = _('Add Author, Spimebook')
@@ -79,7 +77,9 @@ def edit_author(request, author_id, author_name):
     lang = get_lang(request)
     author = get_object_or_404(Author, id=author_id)
     translate = eval(f"get_object_or_404({lang.upper()}, id = {author_id})")
-    print(translate, author)
+    if translate.name is None:
+        translate.name = translator.translate(author.title, dest=lang).text
+        translate.save()
     if request.method == 'POST':
         lang = request.user.profile.lang.upper()
         name = request.POST['name']
@@ -98,7 +98,7 @@ def edit_author(request, author_id, author_name):
         translate.author_Bio = bio
         translate.short = short
         translate.save()
-        return redirect(f'/author/{author.id}/{name}')
+        return redirect(f'/authors/{author.id}/{name}')
     context = {
         'title': f'Edit {translate} details, Spimebook',
         'author': translate,
@@ -135,13 +135,9 @@ def get_lang(request):
     return lang
 
 
-def get_trans(request):
+def get_query(request):
     if request.user.is_authenticated:
         lang = request.user.profile.lang
-        lang = lang.upper()
-        print(lang)
-        translate = eval(f"({lang}()")
-        print(translate)
     else:
         lang = get_language_from_request(request)
         for tu in settings.LANGUAGES:
@@ -149,5 +145,6 @@ def get_trans(request):
                 break
             else:
                 lang = 'en'
-            translate = eval(f"({lang.upper()}()")
+    lang = lang.upper()
+    translate = eval(f"({lang}.objects.all()")
     return translate

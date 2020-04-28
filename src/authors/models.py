@@ -4,8 +4,12 @@ from django.utils.translation import gettext as _
 from django.shortcuts import reverse
 from django.db.models.signals import post_save
 from PIL import Image
+from googletrans import Translator
+from django.conf import settings
 
 # Create your models here.
+
+translator = Translator()
 
 
 class Author(models.Model):
@@ -23,12 +27,10 @@ class Author(models.Model):
             img.save(self.Author_Image.path)
 
     def __str__(self):
-        if not self.en.name is None:
-            return str(self.en.name)
-        elif not self.ar.name is None:
+        if self.title is None:
             return str(self.en.name)
         else:
-            return str(self.title)
+            return self.title
 
 
 class EN(models.Model):
@@ -47,8 +49,8 @@ class EN(models.Model):
         verbose_name_plural = _("English Translation")
 
     def __str__(self):
-        if self.name == None:
-            return self.author.title
+        if self.name is None:
+            return translator.translate(self.author.title).text
         else:
             return self.name
 
@@ -72,8 +74,8 @@ class AR(models.Model):
         verbose_name_plural = ("Arabic Translateion")
 
     def __str__(self):
-        if self.name == None:
-            return self.author.title
+        if self.name is None:
+            return translator.translate(self.author.title, dest='ar').text
         else:
             return self.name
 
@@ -97,8 +99,8 @@ class FR(models.Model):
         verbose_name_plural = ("French Translateion")
 
     def __str__(self):
-        if self.name == None:
-            return self.author.title
+        if self.name is None:
+            return translator.translate(self.author.title, dest='fr').text
         else:
             return self.name
 
@@ -108,9 +110,11 @@ class FR(models.Model):
 
 def create_langs(sender, **kwargs):
     if kwargs['created']:
-        EN.objects.create(author=kwargs['instance'])
-        AR.objects.create(author=kwargs['instance'])
-        FR.objects.create(author=kwargs['instance'])
+        for lang in settings.SUPPORTED_LANGS:
+            title = kwargs['instance'].title + ', auto translate'
+            title = translator.translate(title, dest=lang.lower()).text
+            eval(
+                f"{lang}.objects.create(author=kwargs['instance'], name='{title}')")
 
 
 post_save.connect(create_langs, sender=Author)

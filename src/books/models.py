@@ -52,7 +52,7 @@ class Book(models.Model):
 
 class AR(models.Model):
     lang = models.CharField(max_length=2, default='ar', auto_created='ar')
-    book = models.ForeignKey(
+    book = models.OneToOneField(
         Book, on_delete=models.CASCADE, verbose_name=_('Orginal Book'))
     title = models.CharField(max_length=255, blank=True,
                              null=True, verbose_name=_('Book Title'))
@@ -62,6 +62,7 @@ class AR(models.Model):
     class Meta:
         verbose_name = _("Arabic Translation")
         verbose_name_plural = _("Arabic Translation")
+        ordering = ['-id']
 
     def __str__(self):
         if self.title is None:
@@ -75,7 +76,7 @@ class AR(models.Model):
 
 class EN(models.Model):
     lang = models.CharField(max_length=2, default='en', auto_created='en')
-    book = models.ForeignKey(
+    book = models.OneToOneField(
         Book, on_delete=models.CASCADE, verbose_name=_('Orginal Book'))
     title = models.CharField(max_length=255, blank=True,
                              null=True, verbose_name=_('Book Title'))
@@ -85,6 +86,7 @@ class EN(models.Model):
     class Meta:
         verbose_name = _("English Translation")
         verbose_name_plural = _("English Translation")
+        ordering = ['-id']
 
     def __str__(self):
         if self.title is None:
@@ -98,7 +100,7 @@ class EN(models.Model):
 
 class FR(models.Model):
     lang = models.CharField(max_length=2, default='fr', auto_created='fr')
-    book = models.ForeignKey(
+    book = models.OneToOneField(
         Book, on_delete=models.CASCADE, verbose_name=_('Orginal Book'))
     title = models.CharField(max_length=255, blank=True,
                              null=True, verbose_name=_('Book Title'))
@@ -108,6 +110,7 @@ class FR(models.Model):
     class Meta:
         verbose_name = _("French Translation")
         verbose_name_plural = _("French Translation")
+        ordering = ['-id']
 
     def __str__(self):
         if self.title is None:
@@ -124,10 +127,7 @@ class FR(models.Model):
 def create_langs(sender, **kwargs):
     if kwargs['created']:
         for lang in settings.SUPPORTED_LANGS:
-            title = kwargs['instance'].title + ', auto translate'
-            title = translator.translate(title, dest=lang.lower()).text
-            eval(
-                f"{lang}.objects.create(book=kwargs['instance'], title='{title}')")
+            eval(f"{lang}.objects.create(book=kwargs['instance'])")
 
 
 post_save.connect(create_langs, sender=Book)

@@ -17,12 +17,10 @@ from django.db.models import Avg
 
 
 def books(request):
-
     genres = Genres.objects.all()
     all_books = get_query(request)
     page = request.GET.get('page', 1)
     paginator = Paginator(all_books, 16)
-
     try:
         books = paginator.page(page)
     except PageNotAnInteger:
@@ -123,30 +121,35 @@ def book_by_ajax(request, book_title_author):
 
 @login_required(login_url='log-in')
 def add_book(request):
+    lang = get_lang(request)
     if request.method == 'POST':
-        title = request.POST['title']
-        pub_date = request.POST['pub_date']
-        b_type = request.POST['b_type']
         author = request.POST['author']
-        bio = request.POST['book_Bio']
-        if not Author.objects.filter(name=author).exists():
+        aut = eval(f"author_{lang.upper()}.objects.get(name=author)")
+        if not eval(f"Author.objects.filter(title='{aut.author.title}').exists()"):
             messages.add_message(
-                request, messages.ERROR, 'Author not found, kindly correct name or add to database')
-
+                request, messages.ERROR, _('Author not found, please correct name or add to database.'))
         else:
+
+            title = request.POST['title']
+            pub_date = request.POST['pub_date']
+            b_type = request.POST['b_type']
+            bio = request.POST['book_Bio']
             FILES = dict(request.FILES)
-            author = Author.objects.get(name=author)
+            author = aut.author
+            english_title = translator.translate(title).text
             if FILES.__contains__('image'):
                 image = FILES['image'][0]
-                book = Book(title=title, book_image=image,
-                            author=author, publish_date=pub_date, book_Bio=bio, book_or_Novel=b_type)
+                book = Book(title=english_title, book_image=image,
+                            author=author, publish_date=pub_date, book_or_Novel=b_type)
             else:
-                book = Book(title=title, author=author,
-                            publish_date=pub_date, book_Bio=bio, book_or_Novel=b_type)
-
+                book = Book(title=english_title, author=author,
+                            publish_date=pub_date, book_or_Novel=b_type)
             book.save()
-            # print(book.id)
-            return redirect(f'/books/{book.id}')
+            save_translate_for_all(lang, title, object=book)
+            translate = eval(f"{lang.upper()}.objects.get(id=book.{lang}.id)")
+            translate.title = title
+            translate.book_Bio = bio
+            # return redirect(f'/books/{book.id}')
 
     return render(request, 'books/add_book.html', {'title': 'Add Book'})
 
@@ -261,3 +264,19 @@ def get_object(request, id):
     lang = lang.upper()
     translate = eval(f'get_object_or_404({lang},id = {id})')
     return translate
+
+
+def save_translate_for_all(native_lang, text, object):
+    book = object
+    print(book, type(book))
+    for lang in settings.SUPPORTED_LANGS:
+        #print(f"native: {native_lang, lang}")
+        if lang.lower() == native_lang:
+            continue
+        auto_text = translator.translate(
+            text=', Google translator', dest=lang).text
+        translate = translator.translate(text, dest=lang, src=native_lang).text
+        translated_object = eval(
+            f"{lang.upper()}.objects.get(id=book.{lang.lower()}.id)")
+        translated_object.title = translate + ', ' + auto_text
+        translated_object.save()

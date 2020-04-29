@@ -1,8 +1,19 @@
 {% extends "posts/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load posts_extra %}
+{% load books_extra %}
 
 {% block content %}
+
+{# get user lang to show correct translate #}
+{% get_current_language as LANGUAGE_CODE %}
+{% if user.is_authenticated %}
+{% define user.profile.lang as user_lang %}
+{% else %}
+{% define 'en' as user_lang %}
+{% define user.profile.lang as ulang %}
+{% endif %}
 <!-- Start Books Categoty -->
 <div class="uk-grid-small uk-width-1-1@s" uk-grid>
     <div class="uk-width-expand@s">
@@ -65,7 +76,7 @@
                 <div class="uk-width-expand uk-text-left">
                     <h3 class="uk-margin-small"><a href="{% url 'book' book.id %}">{{book}}</a></h3>
                     <h4 class="uk-margin-small uk-text-meta"><a class="uk-h4"
-                            href="{% url 'author' book.book.author.id book.book.author  %}">{{book.book.author}}</a>
+                            href="{% url 'author' book.book.author.id book.book.author  %}">{{book.book.author|get_translate:user_lang}}</a>
                     </h4>
                     <h5 class="uk-margin-small uk-text-meta"><a href="#"></a></h5>
                     <a class="uk-label" href="#">{{book.book.book_or_Novel}}</a>

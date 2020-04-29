@@ -7,7 +7,6 @@
 {% block content %}
 
 {# get user lang to show correct translate #}
-{% get_current_language as LANGUAGE_CODE %}
 {% if user.is_authenticated %}
 {% define user.profile.lang as user_lang %}
 {% else %}

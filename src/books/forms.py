@@ -11,4 +11,4 @@ class AddAuthorForm(forms.ModelForm):
 class EditBookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = '__all__'
+        fields = ['book_image', 'genres']

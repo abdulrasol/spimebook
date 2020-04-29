@@ -68,7 +68,8 @@ def search_book(request):
         lang = get_lang(request)
         a = request.GET.get('term', '')
         objects = get_query(request)
-        titles = objects.filter(title__istartswith=a)
+        # titles = objects.filter(title__istartswith=a)
+        titles = objects.filter(title__contains=a)
         print(titles)
         result = []
         data = ''
@@ -90,15 +91,26 @@ def genres(request, genre):
 
 
 def book_by_ajax(request, book_title_author):
+    title = book_title_author.split(', ')[0]
+    book = get_query(request).get(title__istartswith=title)
+    '''
     lang = get_lang(request)
     book_title = book_title_author.split(', ')[0]
+    # print(book_title)
     book_author = book_title_author.split(', ')[1]
+
+    if(len(list(book_title_author.split(', '))) == 3):
+        book_author = book_title_author.split(', ')[2]
+    a = (list(book_title_author.split(', ')))
+    for i in a:
+        print(i)
     author = eval(
         f"get_object_or_404(author_{lang.upper()},name = '{book_author}')")
-    book = get_query(request).filter(
-        title=book_title).get(book__author=author.author)
+    # .(book__author=author.author)
+    book = get_query(request).get(title__istartswith=book_title)
     print(author.author)
     print(book)
+    '''
     rating = book.book.rating_set.all().aggregate(Avg('rating'))
     readed_book_state = False
     if request.user.is_authenticated:
@@ -107,7 +119,6 @@ def book_by_ajax(request, book_title_author):
         if user.books.filter(id=book.book.id).exists():  # cheek:
             # target_book.books.remove(user)
             readed_book_state = True
-
     context = {'title': book.title,
                'book': book,
                'readed_book': readed_book_state,
@@ -124,32 +135,33 @@ def add_book(request):
     lang = get_lang(request)
     if request.method == 'POST':
         author = request.POST['author']
-        aut = eval(f"author_{lang.upper()}.objects.get(name=author)")
-        if not eval(f"Author.objects.filter(title='{aut.author.title}').exists()"):
+        if not eval(f"author_{lang.upper()}.objects.filter(name='{author}').exists()"):
             messages.add_message(
                 request, messages.ERROR, _('Author not found, please correct name or add to database.'))
         else:
-
+            aut = eval(f"author_{lang.upper()}.objects.get(name=author)")
             title = request.POST['title']
             pub_date = request.POST['pub_date']
-            b_type = request.POST['b_type']
             bio = request.POST['book_Bio']
+            b_type = request.POST['b_type']
             FILES = dict(request.FILES)
             author = aut.author
             english_title = translator.translate(title).text
             if FILES.__contains__('image'):
                 image = FILES['image'][0]
                 book = Book(title=english_title, book_image=image,
-                            author=author, publish_date=pub_date, book_or_Novel=b_type)
+                            author=author.author, publish_date=pub_date, book_or_Novel=b_type)
             else:
                 book = Book(title=english_title, author=author,
                             publish_date=pub_date, book_or_Novel=b_type)
             book.save()
             save_translate_for_all(lang, title, object=book)
-            translate = eval(f"{lang.upper()}.objects.get(id=book.{lang}.id)")
+            translate = eval(
+                f"{lang.upper()}.objects.get(id=book.{lang}.id)")
             translate.title = title
             translate.book_Bio = bio
-            # return redirect(f'/books/{book.id}')
+            translate.save()
+            return redirect(f'/books/{book.id}')
 
     return render(request, 'books/add_book.html', {'title': 'Add Book'})
 
@@ -167,21 +179,38 @@ def add_book(request):
 
 @login_required(login_url='log-in')
 def edit_book(request, book_id):
-    book = get_object_or_404(Book, id=book_id)
+    lang = get_lang(request)
+    book = get_object(request, book_id)
     form = EditBookForm(request.POST or None,
                         request.FILES or None, instance=book)
     if request.method == 'POST':
-        form = EditBookForm(request.POST, request.FILES, instance=book)
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.save()
-            form.save_m2m()
+        form = EditBookForm(request.POST, request.FILES, instance=book.book)
+        author = request.POST['author']
+        if not eval(f"author_{lang.upper()}.objects.filter(name='{author}').exists()"):
             messages.add_message(
-                request, messages.ERROR, f'{book.title} Saved, ')
-            return redirect(f'/books/{book_id}')
+                request, messages.ERROR, _('Author not found, please correct name or add to database.'))
         else:
-            form = EditBookForm(initial=request.POST)
-            return render(request, 'books/edit_book.html', {'title': f'Edit {book.title} details', 'book': book, 'form': form})
+            if form.is_valid():
+                instance = form.save(commit=False)
+                instance.save()
+                form.save_m2m()
+                messages.add_message(
+                    request, messages.ERROR, f'{book.title} Saved, ')
+                title = request.POST['title']
+                b_type = request.POST['book_or_Novel']
+                pub_date = request.POST['pub_date']
+                bio = request.POST['book_Bio']
+                book.title = title
+                book.book_Bio = bio
+                main_book = book.book
+                main_book.book_or_Novel = b_type
+                main_book.publish_date = pub_date
+                book.save()
+                main_book.save()
+                return redirect(f'/books/{book_id}')
+            else:
+                form = EditBookForm(initial=request.POST)
+                return render(request, 'books/edit_book.html', {'title': f'Edit {book.title} details', 'book': book, 'form': form})
 
     return render(request, 'books/edit_book.html', {'title': f'Edit {book.title} details', 'book': book, 'form': form})
 

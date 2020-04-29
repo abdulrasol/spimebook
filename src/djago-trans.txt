@@ -1,0 +1,13 @@
+1- 'django.middleware.locale.LocaleMiddleware'
+    add to Middlerware, to detact lang auto.
+
+2- django-admin makemessages -l [ar]
+    this command to generate lang [ar] translations file
+    - should make locale dir before do this.
+3- django-admin compilemessages 
+    to cmpile messages files
+
+4- LOCALE_PATHS = [
+    os.path.join(BASE_DIR, "locale"),
+    ]
+    - add this code to settings.py to locate path

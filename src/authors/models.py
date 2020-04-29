@@ -111,10 +111,8 @@ class FR(models.Model):
 def create_langs(sender, **kwargs):
     if kwargs['created']:
         for lang in settings.SUPPORTED_LANGS:
-            title = kwargs['instance'].title + ', auto translate'
-            title = translator.translate(title, dest=lang.lower()).text
             eval(
-                f"{lang}.objects.create(author=kwargs['instance'], name='{title}')")
+                f"{lang}.objects.create(author=kwargs['instance'])")
 
 
 post_save.connect(create_langs, sender=Author)

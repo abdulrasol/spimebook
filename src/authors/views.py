@@ -41,6 +41,7 @@ def author(request, author_id, author_name):
     context = {
         'title': f'{target_author}, Spimebook',
         'author': target_author,
+        'books': books,
     }
     response = render(request, 'authors/author.html', context)
     return response
@@ -64,6 +65,8 @@ def add_author(request):
         else:
             author = Author(title=english_name, born_date=born_date)
         author.save()
+        save_translate_for_all(lang, name, author)
+        author.id
         trans_author = eval(f"{lang}.objects.get(id={author.id})")
         trans_author.name = name
         trans_author.author_Bio = bio
@@ -152,3 +155,20 @@ def get_query(request):
     lang = lang.upper()
     translate = eval(f"({lang}.objects.all()")
     return translate
+
+
+def save_translate_for_all(native_lang, text, object):
+    author = object
+    id = author.id
+    id += 1
+    print(author, type(author))
+    for lang in settings.SUPPORTED_LANGS:
+        #print(f"native: {native_lang, lang}")
+        if lang.lower() == native_lang:
+            continue
+        translate = translator.translate(text, dest=lang, src=native_lang).text + \
+            ', ' + \
+            translator.translate(text='Google translator', dest=lang).text
+        translated_object = eval(f"{lang}.objects.get(id={author.id})")
+        translated_object.name = translate
+        translated_object.save()

@@ -1,9 +1,16 @@
 {% extends "posts/base.html" %}
 {% load static %}
 {% load posts_extra %}
+{% load books_extra %}
 
 
 {% block content %}
+{% if user.is_authenticated %}
+{% define user.profile.lang as user_lang %}
+{% else %}
+{% define 'en' as user_lang %}
+{% define user.profile.lang as ulang %}
+{% endif %}
 <link rel="stylesheet" href="{% static 'posts/css/rating.css' %}">
 
 <div class="uk-card uk-card-default">
@@ -45,10 +52,9 @@
                 <h1 class="uk-margin-remove">{{book}}</h1>
                 <h2 class="uk-margin-remove-left uk-margin-small"><a
                         href="{% url 'author' book.book.author.id book.book.author  %}"
-                        class="uk-link-muted">{{book.book.author}}</a>
+                        class="uk-link-muted">{{book.book.author|get_translate:user_lang}}</a>
                 </h2>
                 <h4 class="uk-margin-remove-left uk-margin-small">Originally published: {{book.book.publish_date}}</h4>
-
                 <div class="uk-margin-small uk-margin-remove-top">
                     <div class="uk-margin uk-gird-small uk-flex uk-flex-middle uk-flex-left" uk-grid>
 

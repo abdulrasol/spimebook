@@ -54,7 +54,7 @@ def book(request, book_id):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
 
-    context = {'title': target_book.title,
+    context = {'title': target_book.title + _(', Spimebook'),
                'book': target_book,
                'posts': posts,
                'readed_book': readed_book_state,
@@ -119,13 +119,10 @@ def book_by_ajax(request, book_title_author):
         if user.books.filter(id=book.book.id).exists():  # cheek:
             # target_book.books.remove(user)
             readed_book_state = True
-    context = {'title': book.title,
-               'book': book,
-               'readed_book': readed_book_state,
-               'rating': rating
-               }
+    # context = {'title': book.title,'book': book,'readed_book': readed_book_state,'rating': rating}
     if not request.is_ajax():
-        return render(request, 'books/book.html', context)
+        return redirect(f'/books/{book.id}/')
+        # return render(request, 'books/book.html', context)
     else:
         return HttpResponse('OK')
 

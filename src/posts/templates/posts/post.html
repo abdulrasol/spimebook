@@ -1,8 +1,15 @@
 {% extends "posts/base.html" %}
 {% load static %}
 {% load posts_extra %}
+{% load books_extra %}
 
 {% block content %}
+{# get user lang to show correct translate #}
+{% if user.is_authenticated %}
+{% define user.profile.lang as user_lang %}
+{% else %}
+{% define 'en' as user_lang %}
+{% endif %}
 <div class="uk-card uk-card-primary uk-margin uk-width-1-1">
     <div class="uk-card-header">
         <div class="uk-grid-small uk-flex-middle" uk-grid>
@@ -43,7 +50,7 @@
                 {% if post.post_type == "Q" %}
                 <span class="uk-icon" uk-icon="quote-right"></span>
                 {% endif %}
-                <a href="{% url 'book' post.for_book.id %}" class="uk-label uk-margin-left">{{ post.for_book }}</a>
+                <a href="{% url 'book' post.for_book.id %}" class="uk-label uk-margin-left">{{ post.for_book|get_translate:user_lang }}</a>
             </div>
             <div>
                 <span class="uk-button uk-button-text uk-text-meta">{{post.loves.all|length}} loves</span>

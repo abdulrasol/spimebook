@@ -3,7 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from books.models import Book, AR as book_AR, EN as book_EN, FR as book_FR
+from books.models import Book
 from googletrans import Translator
 from django.conf import settings
 from .models import *
@@ -34,10 +34,10 @@ def authors(request):
 
 def author(request, author_id, author_name):
     lang = get_lang(request)
-    target_author = eval(f"{lang.upper()}.objects.get(id={author_id})")
+    target_author = get_object_or_404(Author, id=author_id).translate(lang)
+    exec(f'from books.models import {lang.upper()} as Book_lang')
     books = eval(
-        f"book_{lang.upper()}.objects.filter(book__author='{target_author.author.id}')")
-    print(books)
+        f"Book_lang.objects.filter(book__author='{target_author.author.id}')")
     context = {
         'title': f'{target_author}, Spimebook',
         'author': target_author,
@@ -83,10 +83,11 @@ def add_author(request):
 def edit_author(request, author_id, author_name):
     lang = get_lang(request)
     author = get_object_or_404(Author, id=author_id)
-    translate = eval(f"get_object_or_404({lang.upper()}, id = {author_id})")
-    if translate.name is None:
-        translate.name = translator.translate(author.title, dest=lang).text
-        translate.save()
+    translate = author.translate(lang)
+    if author.translate(lang).name is None:
+        author.translate(lang).name = translator.translate(
+            author.title, dest=lang).text
+        author.translate(lang).save()
     if request.method == 'POST':
         lang = request.user.profile.lang.upper()
         name = request.POST['name']
@@ -97,14 +98,12 @@ def edit_author(request, author_id, author_name):
         if FILES.__contains__('Author_Image'):
             image = FILES['Author_Image'][0]
             author.Author_Image = image
-
         author.born_date = born_date
+        author.translate(lang).name = name
+        author.translate(lang).author_Bio = bio
+        author.translate(lang).short = short
         author.save()
-
-        translate.name = name
-        translate.author_Bio = bio
-        translate.short = short
-        translate.save()
+        author.translate(lang).save()
         return redirect(f'/authors/{author.id}/{name}')
     context = {
         'title': f'Edit {translate} details, Spimebook',
@@ -159,11 +158,7 @@ def get_query(request):
 
 def save_translate_for_all(native_lang, text, object):
     author = object
-    id = author.id
-    id += 1
-    print(author, type(author))
     for lang in settings.SUPPORTED_LANGS:
-        #print(f"native: {native_lang, lang}")
         if lang.lower() == native_lang:
             continue
         translate = translator.translate(text, dest=lang, src=native_lang).text + \

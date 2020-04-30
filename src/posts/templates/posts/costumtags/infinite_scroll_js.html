@@ -18,5 +18,9 @@
         $('.loading-more-post').hide();
 
     });
+    $('.article-feed').on('last.infiniteScroll', function (event, response, path) {
+        $('.loading-more-post').hide();
+    });
+
 </script>
 {% endblock javascript %}

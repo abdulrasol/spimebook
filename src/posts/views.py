@@ -85,7 +85,6 @@ def post(request, post_id):
 
 @login_required(login_url='log-in')
 def new_post(request):
-
     if request.method == 'POST':
         title = request.POST['title']
         content = request.POST['content']
@@ -93,14 +92,11 @@ def new_post(request):
         for_book = request.POST['for_book']
         # get book for this post
         book_title = for_book.split(', ')[0]
-        book_author = get_object_or_404(
-            Author, author_Name=for_book.split(', ')[1])
-        target_book = Book.objects.filter(
-            title__icontains=book_title).get(author=book_author)
+        book = get_book(request, book_title)
+        print(book)
         #print(f'title: {book_title} for {book_author}, {target_book}')
-
         post = Post(user=request.user, title=title,
-                    content=content, post_type=p_type, for_book=target_book)
+                    content=content, post_type=p_type, for_book=book.book)
         post.save()
         return redirect(f'/post/{post.id}')
 
@@ -216,3 +212,12 @@ def save(request, post_id):
     # post = Post.objects.get(id=post_id)
     # print(post)
     return render(request, 'posts/post.html', context)
+
+
+def get_book(requset, title):
+    lang = requset.user.profile.lang
+    lang = lang.upper()
+    #from books.models import EN as book_EN
+    exec(f'from books.models import {lang} as book_{lang}')
+    book = eval(f"get_object_or_404(book_{lang}, title = '{title}')")
+    return book

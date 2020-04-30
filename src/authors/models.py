@@ -18,6 +18,19 @@ class Author(models.Model):
         upload_to='author/images', default='author.jpg')
     born_date = models.DateField(default=timezone.now)
 
+    def __str__(self):
+        if self.title is None:
+            return str(self.en.name)
+        else:
+            return self.title
+
+    def translate(self, lang):
+        if lang in settings.LANGUAGES:
+            print('IS')
+        lang = lang.lower()
+        translated = eval(f"self.{lang}")
+        return translated
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         img = Image.open(self.Author_Image.path)
@@ -25,12 +38,6 @@ class Author(models.Model):
             size = (250, 250)
             img.thumbnail(size)
             img.save(self.Author_Image.path)
-
-    def __str__(self):
-        if self.title is None:
-            return str(self.en.name)
-        else:
-            return self.title
 
 
 class EN(models.Model):

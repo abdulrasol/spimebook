@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, DatabaseError
 from django.utils import timezone
 from PIL import Image
 from django.shortcuts import reverse
@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from googletrans import Translator
 from django.conf import settings
+
 # Create your models here.
 
 translator = Translator()
@@ -48,6 +49,11 @@ class Book(models.Model):
             size = (250, 250)
             img.thumbnail(size)
             img.save(self.book_image.path)
+
+    def translate(self, lang):
+        lang = lang.lower()
+        translated = eval(f"self.{lang}")
+        return translated
 
 
 class AR(models.Model):
@@ -144,3 +150,7 @@ class Rating(models.Model):
 
     def __str__(self):
         return f'{self.user} rate {self.book} by {self.rating} from 10'
+
+
+class BookManager(models.Manager):
+    pass

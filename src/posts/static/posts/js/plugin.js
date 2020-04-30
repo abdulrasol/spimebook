@@ -114,7 +114,7 @@ document.addEventListener('click', event => {
     //rating books
     if (event.target.classList.contains('book-rating')) {
         rate = event.target;
-        URL = '/ajax/book/rate/' + rate.parentNode.dataset.book + '/' + rate.value;
+        URL = '/books/ajax/book/rate/' + rate.parentNode.dataset.book + '/' + rate.value;
         //console.log(URL);
         $.get(URL, function (data, state, xhr) {
             console.log(data.rating.rating__avg);

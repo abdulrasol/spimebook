@@ -8,7 +8,6 @@ from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from googletrans import Translator
 from django.conf import settings
-
 # Create your models here.
 
 translator = Translator()
@@ -19,6 +18,7 @@ book_type = [
 
 
 class Genres(models.Model):
+
     genre = models.CharField(max_length=100)
 
     def __str__(self):

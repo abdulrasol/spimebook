@@ -147,7 +147,7 @@ def add_book(request):
             if FILES.__contains__('image'):
                 image = FILES['image'][0]
                 book = Book(title=english_title, book_image=image,
-                            author=author.author, publish_date=pub_date, book_or_Novel=b_type)
+                            author=author, publish_date=pub_date, book_or_Novel=b_type)
             else:
                 book = Book(title=english_title, author=author,
                             publish_date=pub_date, book_or_Novel=b_type)

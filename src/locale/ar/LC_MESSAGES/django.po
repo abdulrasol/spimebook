@@ -1,0 +1,113 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-29 20:43+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: aspoha/models.py:10
+msgid "Name"
+msgstr "الاسم"
+
+#: authors/models.py:48
+msgid "English Translation)"
+msgstr "الترجمة الانكليزية"
+
+#: authors/models.py:49 books/models.py:87 books/models.py:88
+msgid "English Translation"
+msgstr "الترجمة الانكليزية"
+
+#: authors/views.py:28
+msgid "Authors, Spimebook"
+msgstr "المؤلفون"
+
+#: authors/views.py:78
+#, fuzzy
+#| msgid "Authors, Spimebook"
+msgid "Add Author, Spimebook"
+msgstr "المؤلفون، سبايمبوك"
+
+#: books/models.py:16
+msgid "Book"
+msgstr ""
+
+#: books/models.py:17
+msgid "Novel"
+msgstr ""
+
+#: books/models.py:29 books/models.py:58 books/models.py:82 books/models.py:106
+msgid "Book Title"
+msgstr ""
+
+#: books/models.py:31
+msgid "Book Cover Image"
+msgstr ""
+
+#: books/models.py:33
+msgid "The Author"
+msgstr ""
+
+#: books/models.py:35
+msgid "Publish Date"
+msgstr ""
+
+#: books/models.py:37
+msgid "Genres"
+msgstr ""
+
+#: books/models.py:39
+msgid "Type"
+msgstr ""
+
+#: books/models.py:56 books/models.py:80 books/models.py:104
+msgid "Orginal Book"
+msgstr ""
+
+#: books/models.py:60 books/models.py:84 books/models.py:108
+msgid "Book Bio"
+msgstr ""
+
+#: books/models.py:63 books/models.py:64
+#, fuzzy
+#| msgid "Translation"
+msgid "Arabic Translation"
+msgstr "الترجمة"
+
+#: books/models.py:111 books/models.py:112
+#, fuzzy
+#| msgid "Translation"
+msgid "French Translation"
+msgstr "الترجمة"
+
+#: books/views.py:57
+#, fuzzy
+#| msgid "Authors, Spimebook"
+msgid ", Spimebook"
+msgstr "المؤلفون"
+
+#: books/views.py:137 books/views.py:188
+msgid "Author not found, please correct name or add to database."
+msgstr ""
+
+#~ msgid "Translations"
+#~ msgstr "الترجمات"
+
+#~ msgid "language"
+#~ msgstr "اللغة"
+
+#~ msgid "{target_author}, Spimebook"
+#~ msgstr "، سبايمبوك"

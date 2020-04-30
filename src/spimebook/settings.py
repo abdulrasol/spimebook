@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'authors.apps.AuthorsConfig',
     'widget_tweaks',
+    'parler',
 
 ]
 
@@ -110,13 +111,19 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'  # 'en-us'
 
 LANGUAGES = (
     ('en', 'English'),
-    ('ar', 'Arabic'),
-    ('fr', 'Franch'),
+    ('ar', 'العربية'),
+    ('fr', 'français'),
 )
+'''
+    ('ru', 'русский'),
+    ('es', 'Spanish'),
+    ('de', 'Deutsch'),
+    ('it', 'Italiano')
+    '''
 
 SUPPORTED_LANGS = ('AR', 'EN', 'FR')
 

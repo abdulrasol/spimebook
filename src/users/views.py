@@ -92,6 +92,8 @@ def settings(request):
         username = request.POST['username']
         password = request.POST['password']
         email = request.POST['email']
+        language = request.POST['language']
+        print(language)
         user = request.user
         if username != '':
             if not User.objects.filter(username=username).exists():
@@ -117,6 +119,8 @@ def settings(request):
                 messages.add_message(
                     request, messages.SUCCESS, 'Password you entered less than 6 char!')
                 return redirect('settings')
+        user.profile.lang = language
+        user.profile.save()
         user.save()
         return redirect('profile')
 

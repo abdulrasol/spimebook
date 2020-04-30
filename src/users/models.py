@@ -19,7 +19,7 @@ class Profile(models.Model):
     books = models.ManyToManyField(
         Book, related_name='books', blank=True)
     lang = models.CharField(
-        max_length=2, choices=settings.LANGUAGES, default='en')
+        max_length=2, choices=settings.LANGUAGES, default='en', verbose_name='Language')
 
     def __str__(self):
         return str(self.user)

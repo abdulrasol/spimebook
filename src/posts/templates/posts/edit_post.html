@@ -1,51 +1,95 @@
 {% extends "posts/base.html" %}
 {% load static %}
-{% load widget_tweaks %}
+{% load books_extra %}
 {% block content %}
-
+{# get user lang to show correct translate #}
+{% if user.is_authenticated %}
+{% define user.profile.lang as user_lang %}
+{% else %}
+{% define 'en' as user_lang %}
+{% endif %}
+<link rel="stylesheet" href="{% static 'posts/css/jquery-ui.css'%}">
+<script src="{% static 'posts/js/jquery-ui.min.js' %}"></script>
 <form method="POST" enctype="multipart/form-data" class="uk uk-padding uk-padding-remove-vertical">
     {% csrf_token %}
     <legend class="uk-legend uk-margin-bottom">Edit {{post.title}} </legend>
-
     <div class="uk-grid" uk-grid>
-
         <div class="uk-width-1-1@s">
             {% for message in messages %}
             <div class="uk-margin uk-margin-large-top">
-                <div class="uk-alert-success existed" uk-alert>
+                <div class="uk-alert-warning existed" uk-alert>
                     <p>
-                        {{message}}<a href="{% url 'add-book' %}">click here</a> to add book or <a
-                            href="{% url 'books' %}">here</a> books browser.
+                        {{message}}<a href="{% url 'add-book' %}">click here</a> to add book
                     </p>
                 </div>
             </div>
             {% endfor %}
         </div>
-
-
         <div class="uk-width-1-1@s">
             <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Title</label>
-            {{ form.title|add_class:"uk-input"|attr:"type:text"|attr:"required"|attr:"placeholder:Post Title" }}
+            <input type="text" name="title" value="{{post.title}}" maxlength="120" placeholder="Post Title" required
+                class="uk-input" id="id_title">
         </div>
         <div class="uk-margin uk-width-1-1">
             <label style="display: block;" class="uk-form-label uk-margin-small-bottom" for="form-stacked-text">Book
                 Post</label>
             <div class="uk-form-controls">
-                {{ form.content|add_class:"uk-textarea uk-padding-small"|attr:"rows:5"|attr:"required"}}
+                <textarea name="content" cols="40" rows="5" required class="uk-textarea uk-padding-small"
+                    id="id_content">{{post.content}}</textarea>
             </div>
         </div>
         <div class="uk-width-auto@s">
             <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Book</label>
-            {{form.for_book|add_class:"uk-select"}}
+            <input class="uk-input" value="{{post.for_book|get_translate:user_lang}}" id="for_book" name="for_book"
+                type="input" placeholder="Book Title" required>
+            <script>
+                $(function () {
+                    var URL = "{% url 'search-book' %}";
+                    $("#for_book").autocomplete({
+                        source: URL,
+                        minLength: 2,
+                        select: function (event, ui) {
+                            console.log(ui.item.value);
+                            var book = ui.item.value
+                            var get_url = "{% url 'ajax-book' '12345' %}".replace(/12345/, book);
+                            console.log(get_url);
+                        }
+                    });
+                    var a = function () {
+                        var BOOK_URL = "ajax/book/search/" + $("#book-search").val();
+                        return BOOK_URL;
+                    }
+                });
+            </script>
+            <span style="display: block;" class="uk-margin-small-top uk-text-muted author-autocomplete">
+                If Book Doesn't Appear
+                <a href="{% url 'add-book' %}">click here to
+                    add</a>
+            </span>
         </div>
         <div class="uk-width-auto@s">
             <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Type</label>
-            {{form.post_type|add_class:"uk-select"}}
+            <select name="post_type" class="uk-select" id="id_post_type">
+                {% if post.post_type == 'Q'  %}
+                <option value="Q" selected>Quote</option>
+                <option value="R">Review</option>
+                <option value="P">Post</option>
+                {% elif post.post_type == 'R'%}
+                <option value="Q">Quote</option>
+                <option value="R" selected>Review</option>
+                <option value="P">Post</option>
+                {% else  %}
+                <option value="Q">Quote</option>
+                <option value="R">Review</option>
+                <option value="P" selected>Post</option>
+                {% endif %}
+            </select>
         </div>
         <div class="uk-width-auto@s">
             <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Archived</label>
-            {{form.archived|add_class:"uk-checkbox"|attr:"type:checkbox"}}
-            <label class="CheckboxLabel" for="id_archived">is archived post?</label>
+            <input type="checkbox" {% if post.archived %} checked {% endif %} name="archiving" class="uk-checkbox"
+                id="id_archived">
+            <label class="" for="id_archived">is archived post?</label>
             <p>
                 When Archiving Posts, will no longer be visible for others.
             </p>

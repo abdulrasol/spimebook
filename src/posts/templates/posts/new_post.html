@@ -8,6 +8,17 @@
     {% csrf_token %}
     <legend class="uk-legend uk-margin-bottom">New Post</legend>
     <div class="uk-grid" uk-grid>
+    <div class="uk-width-1-1@s">
+            {% for message in messages %}
+            <div class="uk-margin uk-margin-large-top">
+                <div class="uk-alert-warning existed" uk-alert>
+                    <p>
+                        {{message}}<a href="{% url 'add-book' %}">click here</a> to add book
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
         <div class="uk-width-1-1@s">
             <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Title</label>
             <input class="uk-input" id="title" name="title" type="text" placeholder="Post Title" required>

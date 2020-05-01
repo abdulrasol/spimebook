@@ -8,6 +8,7 @@ from .forms import AddCommentForm, EditPostForm
 from books.models import Author, Book
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count, Avg
+from django.utils.translation import gettext as _
 
 # Create your views here.
 
@@ -19,12 +20,12 @@ def test(request):
     top_ten_movels = Book.objects.filter(book_or_Novel='Novel').annotate(
         readed=Count('books')).order_by('-readed')[:10]
     top_rate = Book.objects.order_by('-rating')[:10]
-    #rating = book.rating_set.all().aggregate(Avg('rating'))
+    # rating = book.rating_set.all().aggregate(Avg('rating'))
     print(top_rate)
     # print(top10[0].books_count)
     all_posts = Post.objects.filter(
         archived=False).annotate(loves_count=Count('comments')).order_by('-loves_count')
-    #uestion.objects.filter(date__gt=datetime.now() - timedelta(hours=1)).annotate(num_votes=Count('has_voted')).order_by('-num_votes')
+    # uestion.objects.filter(date__gt=datetime.now() - timedelta(hours=1)).annotate(num_votes=Count('has_voted')).order_by('-num_votes')
 
     return render(request, 'posts/test.html', {'books': top_ten_books, 'novels': top_ten_movels, 'top_rate': top_rate, 'posts': all_posts})
 
@@ -86,19 +87,25 @@ def post(request, post_id):
 @login_required(login_url='log-in')
 def new_post(request):
     if request.method == 'POST':
-        title = request.POST['title']
-        content = request.POST['content']
-        p_type = request.POST['p_type']
-        for_book = request.POST['for_book']
-        # get book for this post
-        book_title = for_book.split(', ')[0]
-        book = get_book(request, book_title)
-        print(book)
-        #print(f'title: {book_title} for {book_author}, {target_book}')
-        post = Post(user=request.user, title=title,
-                    content=content, post_type=p_type, for_book=book.book)
-        post.save()
-        return redirect(f'/post/{post.id}')
+        book = request.POST['for_book']
+        book = book.split(', ')[0]
+        lang = request.user.profile.lang.upper()
+        exec(f'from books.models import {lang} as book_{lang}')
+        if not eval(f"book_{lang}.objects.filter(title='{book}').exists()"):
+            messages.add_message(
+                request, messages.ERROR, _('Book not found, please correct title or add to database.'))
+        else:
+            title = request.POST['title']
+            content = request.POST['content']
+            p_type = request.POST['p_type']
+            # get book for this post
+            book = get_book(request, book)
+            print(book)
+        # print(f'title: {book_title} for {book_author}, {target_book}')
+            post = Post(user=request.user, title=title,
+                        content=content, post_type=p_type, for_book=book.book)
+            post.save()
+            return redirect(f'/post/{post.id}')
 
     return render(request, 'posts/new_post.html', {'title': 'New Post'})
 
@@ -108,18 +115,38 @@ def edit_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if not request.user == post.user:
         return HttpResponseForbidden()
-    form = EditPostForm(request.POST or None, instance=post)
     if request.method == 'POST':
-        form = EditPostForm(request.POST, instance=post)
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.save()
-            return redirect(f'/post/{post_id}')
+        # get book for this post
+        book = request.POST['for_book']
+        book = book.split(', ')[0]
+        lang = request.user.profile.lang.upper()
+        exec(f'from books.models import {lang} as book_{lang}')
+        if not eval(f"book_{lang}.objects.filter(title='{book}').exists()"):
+            messages.add_message(
+                request, messages.ERROR, _('Book title incorrect, please correct title or add to database.'))
         else:
-            form = EditPostForm(initial=request.POST)
-            return render(request, 'posts/edit_post.html', {'title': f'Edit {post.title} details', 'book': book, 'form': form})
+            book = request.POST['for_book']
+            book = book.split(', ')[0]
+            book = get_book(request, book)
+            title = request.POST['title']
+            content = request.POST['content']
+            p_type = request.POST['post_type']
 
-    return render(request, 'posts/edit_post.html', {'title': f'Edit {post.title}', 'post': post, 'form': form})
+            post.for_book = book.book
+
+            post.title = title
+            post.content = content
+            post.post_type = p_type
+
+            archived = request.POST.getlist('archiving')
+            if not (not archived):
+                post.archived = True
+            else:
+                post.archived = False
+            post.save()
+            return redirect(f'/post/{post.id}')
+
+    return render(request, 'posts/edit_post.html', {'title': f'Edit {post.title}', 'post': post})
 
 
 @login_required(login_url='log-in')
@@ -217,7 +244,8 @@ def save(request, post_id):
 def get_book(requset, title):
     lang = requset.user.profile.lang
     lang = lang.upper()
-    #from books.models import EN as book_EN
     exec(f'from books.models import {lang} as book_{lang}')
-    book = eval(f"get_object_or_404(book_{lang}, title = '{title}')")
+    if eval(f"book_{lang}.objects.get(title='{title}')"):
+        book = eval(f"get_object_or_404(book_{lang}, title = '{title}')")
+
     return book

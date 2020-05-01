@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'authors.apps.AuthorsConfig',
     'widget_tweaks',
-    'parler',
+    # 'multiselectfield',
 
 ]
 

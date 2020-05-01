@@ -33,7 +33,7 @@ class UserPost(models.Model):
 class Post(models.Model):
     POST_TYPE = [
         ('Q', 'Quote'),
-        ('R', 'Reviw'),
+        ('R', 'Review'),
         ('P', 'Post'),
     ]
     title = models.CharField(max_length=120, default='')

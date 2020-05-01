@@ -153,6 +153,7 @@ def edit_book(request, book_id):
     book = get_object_or_404(Book, id=book_id).translate(lang)
     form = EditBookForm(request.POST or None,
                         request.FILES or None, instance=book)
+    genres = Genres.objects.all()
     if request.method == 'POST':
         form = EditBookForm(request.POST, request.FILES, instance=book.book)
         author = request.POST['author']
@@ -165,25 +166,38 @@ def edit_book(request, book_id):
                 instance = form.save(commit=False)
                 instance.save()
                 form.save_m2m()
-                messages.add_message(
-                    request, messages.ERROR, f'{book.title} Saved, ')
+
                 title = request.POST['title']
                 b_type = request.POST['book_or_Novel']
                 pub_date = request.POST['pub_date']
                 bio = request.POST['book_Bio']
+                genres = request.POST.getlist('category')
+
                 book.title = title
                 book.book_Bio = bio
                 main_book = book.book
                 main_book.book_or_Novel = b_type
                 main_book.publish_date = pub_date
                 book.save()
+                main_book.genres.clear()
+
+                for g in genres:
+                    g = get_object_or_404(Genres, genre=g)
+                    main_book.genres.add(g)
+
                 main_book.save()
+
                 return redirect(f'/books/{book_id}')
             else:
                 form = EditBookForm(initial=request.POST)
                 return render(request, 'books/edit_book.html', {'title': f'Edit {book.title} details', 'book': book, 'form': form})
-
-    return render(request, 'books/edit_book.html', {'title': f'Edit {book.title} details', 'book': book, 'form': form})
+    context = {
+        'title': f'Edit {book.title} details',
+        'book': book,
+        'form': form,
+        'genres': genres
+    }
+    return render(request, 'books/edit_book.html', context)
 
 
 @login_required(login_url='log-in')

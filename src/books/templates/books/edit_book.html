@@ -12,9 +12,7 @@
 <form method="POST" enctype="multipart/form-data" class="uk uk-padding uk-padding-remove-vertical">
     {% csrf_token %}
     <legend class="uk-legend uk-margin-bottom">Edit {{book}} </legend>
-
     <div class="uk-grid" uk-grid>
-
         <div class="uk-width-1-1@s">
             {% for message in messages %}
             <div class="uk-margin uk-margin-large-top">
@@ -78,10 +76,21 @@
                     placeholder="Write Some Information About This Book">{{book.book_Bio}}</textarea>
             </div>
         </div>
-        <div class="uk-margin uk-width-auto uk-margin-remove-bottom">
-            <label style="display: block;" class="uk-form-label uk-margin-small-bottom" for="form-stacked-text">Book
-                Genres</label>
-            {{form.genres|add_class:"uk-select"}}
+        <div class="uk-margin uk-width-1-1">
+            <ul uk-accordion>
+                <li>
+                    <a class="uk-accordion-title" href="#">Click to selcect Genres</a>
+                    <div class="uk-accordion-content">
+                        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                            {% for genre in genres %}
+                            <label for="id_archived"><input type="checkbox" value="{{genre.genre}}"
+                                    {% if genre in book.book.genres.all %} checked {% endif %} name="category"
+                                    class="uk-checkbox" id="id_archived"> {{genre.genre}}</label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
         <div class="uk-margin uk-text-center uk-width-auto@s">
             <label style="display: block;" class="uk-form-label uk-margin-small-bottom" for="form-stacked-text">
@@ -100,6 +109,7 @@
                 <input class="uk-input uk-width-auto@s" type="text" placeholder="Select file" disabled>
             </div>
         </div>
+
         <div class="uk-width-1-1">
             <button type="submit" class="uk-button uk-button-primary">Save Book</button>
         </div>

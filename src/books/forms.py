@@ -1,5 +1,5 @@
 from django import forms
-from .models import Author, Book
+from .models import Author, Book, Genres
 
 
 class AddAuthorForm(forms.ModelForm):
@@ -11,4 +11,4 @@ class AddAuthorForm(forms.ModelForm):
 class EditBookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ['book_image', 'genres']
+        fields = ['book_image']

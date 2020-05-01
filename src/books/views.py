@@ -99,6 +99,7 @@ def book_by_ajax(request, book_title_author):
 @login_required(login_url='log-in')
 def add_book(request):
     lang = get_lang(request)
+    genres = Genres.objects.all()
     if request.method == 'POST':
         author = request.POST['author']
         exec(f'from authors.models import {lang.upper()} as Author')
@@ -111,6 +112,7 @@ def add_book(request):
             pub_date = request.POST['pub_date']
             bio = request.POST['book_Bio']
             b_type = request.POST['b_type']
+            genres = request.POST.getlist('category')
             FILES = dict(request.FILES)
             author = aut.author
             english_title = translator.translate(title).text
@@ -122,6 +124,10 @@ def add_book(request):
                 book = Book(title=english_title, author=author,
                             publish_date=pub_date, book_or_Novel=b_type)
             book.save()
+            for g in genres:
+                g = get_object_or_404(Genres, genre=g)
+                book.genres.add(g)
+            book.save()
             save_translate_for_all(lang, title, object=book)
             translate = eval(
                 f"{lang.upper()}.objects.get(id=book.{lang}.id)")
@@ -130,7 +136,7 @@ def add_book(request):
             translate.save()
             return redirect(f'/books/{book.id}')
 
-    return render(request, 'books/add_book.html', {'title': 'Add Book'})
+    return render(request, 'books/add_book.html', {'title': 'Add Book', 'genres': genres})
 
 
 '''

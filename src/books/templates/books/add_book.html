@@ -62,8 +62,7 @@
                     placeholder="Write Some Information About This Book"></textarea>
             </div>
         </div>
-
-        <div class="uk-margin uk-margin-remove-bottom">
+        <div class="uk-margin uk-width-auto@s uk-margin-remove-bottom">
             <label style="display: block;" class="uk-form-label uk-margin-small-bottom" for="form-stacked-text">Book
                 Cover Image</label>
             <div uk-form-custom="target: true">
@@ -71,6 +70,25 @@
                 <input class="uk-input uk-width-auto@s" type="text" placeholder="Select file" disabled>
             </div>
         </div>
+        <div class="uk-margin uk-width-expand@s">
+            <ul uk-accordion>
+                <li>
+                    <a class="uk-accordion-title" href="#">Click to selcect Genres</a>
+
+                    <div class="uk-accordion-content">
+                        <a id="add-new-genre" href="">Click to add new Genres</a>
+                        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                            {% for genre in genres %}
+                            <label for="id_archived"><input type="checkbox" value="{{genre.genre}}"
+                                    {% if genre in book.book.genres.all %} checked {% endif %} name="category"
+                                    class="uk-checkbox" id="id_archived"> {{genre.genre}}</label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
         <div class="uk-width-1-1">
             <button class="uk-button uk-button-primary">Add Book</button>
         </div>

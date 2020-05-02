@@ -21,9 +21,20 @@ book_type = [
 class Genres(models.Model):
 
     genre = models.CharField(max_length=100)
+    genre_ar = models.CharField(
+        max_length=100, default='', null=True, blank=True)
+    genre_en = models.CharField(
+        max_length=100, default='', null=True, blank=True)
+    genre_fr = models.CharField(
+        max_length=100, default='', null=True, blank=True)
 
     def __str__(self):
         return self.genre
+
+    def translate(lang):
+        lang = lang.lower()
+        genre = eval(f'self.genre_{lang}')
+        return genre
 
 
 class Book(models.Model):

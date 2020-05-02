@@ -90,6 +90,29 @@ def genres(request, genre):
     return render(request, 'books/index.html', context)
 
 
+def add_genre(request, genre):
+    mimetype = 'application/json'
+    if request.method == 'POST':
+        value = request.POST['name']
+        genre = Genres(genre=value)
+        native_lang = request.user.profile.lang
+        for lang in settings.SUPPORTED_LANGS:
+            lang = lang.lower()
+            if lang.lower() == native_lang:
+                exec(f"genre.genre_{lang} = '{value}'")
+            translate_value = translator.translate(
+                value, dest=lang, src=native_lang).text
+            exec(f"genre.genre_{lang} = '{translate_value}'")
+        genre.genre = genre.genre_en
+        genre.save()
+        data = {
+            'state': str(type(genre)),
+        }
+        data = json.dumps(data)
+        return HttpResponse(data, mimetype)
+    return JsonResponse({'state': False})
+
+
 def book_by_ajax(request, book_title_author):
     title = book_title_author.split(', ')[0]
     book = get_query(request).get(title__istartswith=title)

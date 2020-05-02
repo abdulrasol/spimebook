@@ -17,4 +17,6 @@ urlpatterns = [
          views.book_by_ajax, name='ajax-book'),
     path('ajax/book/rate/<int:book_id>/<int:rating>',
          views.rating_book, name='rate-book'),
+    path('ajax/genre/<str:genre>',
+         views.add_genre, name='add-genre'),
 ]

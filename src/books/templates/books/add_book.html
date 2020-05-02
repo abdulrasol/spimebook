@@ -76,8 +76,8 @@
                     <a class="uk-accordion-title" href="#">Click to selcect Genres</a>
 
                     <div class="uk-accordion-content">
-                        <a id="add-new-genre" href="">Click to add new Genres</a>
-                        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                        <a id="add-new-genre" href="#modal-add-genre" uk-toggle>Click to add new Genres</a>
+                        <div id="genre-container" class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
                             {% for genre in genres %}
                             <label for="id_archived"><input type="checkbox" value="{{genre.genre}}"
                                     {% if genre in book.book.genres.all %} checked {% endif %} name="category"
@@ -94,5 +94,26 @@
         </div>
     </div>
 </form>
+<div id="modal-add-genre" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="uk-modal-title">Add New Genre</h2>
+        <form action="POST">
+            {% csrf_token %}
+            <div class="uk-width-1-1">
+                <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Genre</label>
+                <input style="text-transform:capitalize;" class="uk-input" type="text" name="genre" id="genre"
+                    placeholder="enter genre">
+            </div>
+        </form>
+        <p class="uk-text-center uk-width-1-1">
+            <div id="spinner" style="width: 100%;margin: auto;text-align: center; display: none;" uk-spinner="ratio: 3">
+            </div>
+        </p>
+        <p class="uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            <button id="add-genre-btn" class="uk-button uk-button-primary" type="button">Save</button>
+        </p>
+    </div>
+</div>
 
 {% endblock content %}

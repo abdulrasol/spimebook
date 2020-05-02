@@ -1,7 +1,8 @@
 /*global $, window */
+/*jshint esversion: 6 */
+'esversion: 6';
 $('document').ready(function () {
     'use strict';
-
     // Mobile Nav-bar
     var DOCUMENT = $('window');
     var mobile_navbar = $('#me-mobile-navbar');
@@ -32,8 +33,7 @@ $('document').ready(function () {
             $('.me-form button').addClass('uk-disabled');
             alertElement.slideDown(400);
             //alert($(this).val().length);
-        }
-        else {
+        } else {
             $('.me-form button').removeClass('uk-disabled');
             alertElement.slideUp(400);
         }
@@ -50,12 +50,49 @@ $('document').ready(function () {
             //console.log(ui);
             //console.log(ui.item);
             console.log(ui.item.value);
-            var book = ui.item.value
+            var book = ui.item.value;
             //var get_url = "lab".replace(/12345/, tmp.toString());
-            var get_url = URL + '/' + ui.item.value
+            var get_url = URL + '/' + ui.item.value;
             console.log(get_url);
             $(location).attr('href', get_url);
         },
+    });
+
+    $('#modal-add-genre #add-genre-btn').click(function () {
+        $('#spinner').fadeIn();
+        let csrftoken = jQuery("#modal-add-genre input[name=csrfmiddlewaretoken]").val();
+        let genre_text = $('#modal-add-genre input[name=genre]').val();
+        let label = document.createElement("LABEL");
+        let ele = document.createElement('INPUT');
+        let label_text = document.createTextNode(' ' + genre_text);
+        label.setAttribute('for', 'id_archived');
+        ele.setAttribute("id", "id_archived");
+        ele.setAttribute("type", "checkbox");
+        ele.setAttribute("value", genre_text);
+        ele.setAttribute("class", "uk-checkbox");
+        ele.setAttribute("name", "category");
+        label.appendChild(ele);
+        label.appendChild(label_text);
+        var URL = '/books/ajax/genre/' + genre_text;
+        $.post(URL, {
+                'name': genre_text,
+                csrfmiddlewaretoken: csrftoken
+            },
+            function (data, textStatus, jqXHR) {
+                console.log(data.state);
+                if (textStatus === 'success') {
+                    var genre_container = document.querySelector('#genre-container');
+                    genre_container.appendChild(label);
+                    UIkit.modal('#modal-add-genre').hide();
+                    $('#spinner').fadeOut();
+                    $('#modal-add-genre input[name=genre]').val('');
+                } else {
+                    console.log(data.state);
+                    console.log('error!');
+                }
+            }
+        );
+
     });
 
 });
@@ -86,27 +123,35 @@ document.addEventListener('click', event => {
 
     // Add to readed Books
     if (event.target.id == 'add-to-readed-book') {
-        let book = event.target, URL = book.dataset.book;
-        let item = document.createElement("a"); item.dataset.book = URL; item.id = 'add-to-readed-book';
-        let sp = document.createElement('span'); sp.classList.add("uk-margin-small-right");
-        $.get(URL, function (data, state, xhr) {
+        let book = event.target,
+            URL = book.dataset.book;
+        let item = document.createElement("a");
+        item.dataset.book = URL;
+        item.id = 'add-to-readed-book';
+        let sp = document.createElement('span');
+        sp.classList.add("uk-margin-small-right");
+        $.get(URL, function (data) {
             UIkit.notification({
                 message: data.msg,
                 status: 'success',
                 pos: 'top-right',
                 timeout: 3000
             });
+            var node = document.createTextNode("Remove from readed Books");
             if (data.readed_book == true) {
-                var node = document.createTextNode("Remove from readed Books");
+                node = document.createTextNode("Remove from readed Books");
                 sp.setAttribute('uk-icon', 'icon: trash');
-                item.appendChild(sp); item.appendChild(node);
-                book.parentNode.appendChild(item); book.remove();
+                item.appendChild(sp);
+                item.appendChild(node);
+                book.parentNode.appendChild(item);
+                book.remove();
             } else {
-                var node = document.createTextNode("Add to readed Books");
+                node = document.createTextNode("Add to readed Books");
                 sp.setAttribute('uk-icon', 'icon: plus');
                 item.appendChild(sp);
                 item.appendChild(node);
-                book.parentNode.appendChild(item); book.remove();
+                book.parentNode.appendChild(item);
+                book.remove();
             }
         });
     }
@@ -120,6 +165,6 @@ document.addEventListener('click', event => {
             console.log(data.rating.rating__avg);
             document.querySelector('.show-rating').innerHTML = data.rating.rating__avg;
             document.querySelector('.ratings-num').innerHTML = data.ratings_num;
-        })
+        });
     }
 });

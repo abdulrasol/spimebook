@@ -1,6 +1,13 @@
 {% extends "posts/base.html" %}
 {% load static %}
+{% load books_extra %}
 {% block content %}
+{% if user.is_authenticated %}
+{% define user.profile.lang as user_lang %}
+{% else %}
+{% define 'en' as user_lang %}
+{% define user.profile.lang as ulang %}
+{% endif %}
 <link rel="stylesheet" href="{%static 'posts/css/jquery-ui.css'%}">
 <script src="{% static 'posts/js/jquery-ui.min.js' %}"></script>
 <form method="POST" enctype="multipart/form-data" class="uk uk-padding uk-padding-remove-vertical">
@@ -81,7 +88,7 @@
                             {% for genre in genres %}
                             <label for="id_archived"><input type="checkbox" value="{{genre.genre}}"
                                     {% if genre in book.book.genres.all %} checked {% endif %} name="category"
-                                    class="uk-checkbox" id="id_archived"> {{genre.genre}}</label>
+                                    class="uk-checkbox" id="id_archived"> {{ genre|translate_genre:user_lang}}</label>
                             {% endfor %}
                         </div>
                     </div>

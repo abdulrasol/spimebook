@@ -56,9 +56,9 @@
 </div>
 <div id="book-category" class="category" hidden>
     <div class="uk-padding-small uk-margin-small-top">
-        <a class="uk-label" href="{% url 'books' %}">All</a>
+        <a class="uk-label" href="{% url 'books' %}">{% trans 'All' %}</a>
         {% for genre in genres %}
-        <a class="uk-label" href="{% url 'fliter-genre' genre.genre %}">{{genre}}</a>
+        <a class="uk-label" href="{% url 'fliter-genre' genre.genre %}">{{genre|translate_genre:user_lang}}</a>
         {% endfor %}
     </div>
 </div>

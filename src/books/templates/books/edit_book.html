@@ -86,7 +86,7 @@
                             {% for genre in genres %}
                             <label for="id_archived"><input type="checkbox" value="{{genre.genre}}"
                                     {% if genre in book.book.genres.all %} checked {% endif %} name="category"
-                                    class="uk-checkbox" id="id_archived"> {{genre.genre}}</label>
+                                    class="uk-checkbox" id="id_archived"> {{genre|translate_genre:user_lang}}</label>
                             {% endfor %}
                         </div>
                     </div>

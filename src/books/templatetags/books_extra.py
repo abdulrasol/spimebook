@@ -11,6 +11,12 @@ def get_translate(value, arg):
     return translate
 
 
+@register.filter(name='translate_genre')
+def translate_genre(value, arg):
+    translate = eval(f"value.genre_{arg}")
+    return translate
+
+
 @register.simple_tag
 def define(val=None):
     # retrun the val

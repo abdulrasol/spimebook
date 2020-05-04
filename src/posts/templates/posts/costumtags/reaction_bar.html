@@ -1,17 +1,17 @@
 {% load books_extra %}
+{% load posts_extra %}
 {# get user lang to show correct translate #}
 {% if user.is_authenticated %}
 {% define user.profile.lang as user_lang %}
 {% else %}
 {% define 'en' as user_lang %}
 {% endif %}
-<div id="post-comment-{{post.id}}" hidden>
+<div class="commnet-container" id="post-comment-{{post.id}}" hidden>
     {% for comment in post.comments.all %}
 
     <article class="uk-comment uk-padding-small uk-padding-remove-horizontal">
         <hr>
         <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
-
             <div class="uk-width-auto uk-text-center">
                 <a href="{% url 'user-profile' comment.user %}">
                     <img class="uk-comment-avatar avatat-img" data-src="{{comment.user.profile.picture.url}}"
@@ -25,7 +25,6 @@
                         {{comment.user}}
                     </h4>
                 </a>
-
                 <span>{{comment.comment_date|date:"d M Y, H:i"}}</span>
             </div>
         </header>
@@ -40,10 +39,9 @@
 <div id="add-reply-{{post.id}}" class="uk-margin-small-top uk-margin-small-bottom" hidden>
     <!-- form -->
     {% if user.is_authenticated %}
-    {% include "posts/comment_form.html" %}
+    {% comment_form post.id %}
     {% endif  %}
     <!--Form-->
-
 </div>
 <!-- End Add Comments -->
 <!-- End Comments  -->

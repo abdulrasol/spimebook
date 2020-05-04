@@ -2,13 +2,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponseForbidden
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponseForbidden, HttpResponse
 from .models import Post, Comment
 from .forms import AddCommentForm, EditPostForm
 from books.models import Author, Book
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count, Avg
 from django.utils.translation import gettext as _
+from django_ajax.decorators import ajax
+
 
 # Create your views here.
 
@@ -72,10 +74,6 @@ def quotes(request):
 def post(request, post_id):
     target_post = Post.objects.get(id=post_id)
     comment_form = AddCommentForm()
-    if request.user.is_authenticated:
-        print('is_authenticated')
-    else:
-        print('not_authenticated')
     context = {
         'title': target_post.title,
         'post': target_post,
@@ -170,6 +168,7 @@ def my_posts(request, user):
     return render(request, 'posts/my_posts.html', context)
 
 
+'''
 def add_comment(request, post_id):
     target_post = Post.objects.get(id=post_id)
     #    comment_form = AddCommentForm()
@@ -197,6 +196,25 @@ def add_comment(request, post_id):
     else:
         return HttpResponseRedirect('/')
     return render(request, 'posts/post.html', context)
+'''
+
+
+@ajax
+@login_required(login_url='log-in')
+def add_commnet(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == 'POST':
+        comment = request.POST['comment']
+        comment = Comment(user=request.user, comment=comment, post=post)
+        comment.save()
+        img = request.user.profile.picture.url
+        context = {
+            'comment': comment.comment,
+            'img': img,
+            'user': request.user,
+            'time': comment.comment_date.strftime("%d %b %Y, %H:%M"),
+        }
+    return context
 
 
 @login_required(login_url='log-in')

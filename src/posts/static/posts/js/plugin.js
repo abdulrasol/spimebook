@@ -6,7 +6,7 @@ $('document').ready(function () {
     // Mobile Nav-bar
     var DOCUMENT = $('window');
     var mobile_navbar = $('#me-mobile-navbar');
-    var main_navbar = $('#me-main-navbar')
+    var main_navbar = $('#me-main-navbar');
     $(window).on('scroll', function (event) {
         var sc = $(window).scrollTop();
         if (sc >= 80) {
@@ -28,7 +28,6 @@ $('document').ready(function () {
     var password = $('.me-form .me-form-password'),
         alertElement = $('.me-form .uk-alert-warning');
     password.on('keyup focus', function () {
-
         if ($(this).val().length < 6) {
             $('.me-form button').addClass('uk-disabled');
             alertElement.slideDown(400);
@@ -42,7 +41,6 @@ $('document').ready(function () {
 
     // search book fast
     var URL = $("#book-search-main").data('url');
-    //console.log(URL);
     $("#book-search,#book-search-main,#book-search-mobile").autocomplete({
         source: URL,
         minLength: 2,
@@ -58,6 +56,7 @@ $('document').ready(function () {
         },
     });
 
+    // add new genres
     $('#modal-add-genre #add-genre-btn').click(function () {
         $('#spinner').fadeIn();
         let csrftoken = jQuery("#modal-add-genre input[name=csrfmiddlewaretoken]").val();
@@ -75,9 +74,9 @@ $('document').ready(function () {
         label.appendChild(label_text);
         var URL = '/books/ajax/genre/' + genre_text;
         $.post(URL, {
-                'name': genre_text,
-                csrfmiddlewaretoken: csrftoken
-            },
+            'name': genre_text,
+            csrfmiddlewaretoken: csrftoken
+        },
             function (data, textStatus, jqXHR) {
                 console.log(data.state);
                 if (textStatus === 'success') {
@@ -87,12 +86,87 @@ $('document').ready(function () {
                     $('#spinner').fadeOut();
                     $('#modal-add-genre input[name=genre]').val('');
                 } else {
-                    console.log(data.state);
-                    console.log('error!');
+                    UIkit.notification({
+                        message: 'Check your connections',
+                        status: 'warning',
+                        pos: 'top-right',
+                        timeout: 3000
+                    });
                 }
             }
         );
 
+    });
+    // add new coomment
+    $('.add-comment').click(function (e) {
+        e.preventDefault();
+        let comment_btn = $(this);
+        let spinner = comment_btn.next();
+        var comment = comment_btn.parents('.uk-card-footer').find('#comment input');
+        URL = comment_btn.parents('form').attr('action');
+        let csrftoken = jQuery("#comment-form input[name=csrfmiddlewaretoken]").val();
+        $.ajax({
+            type: "POST",
+            url: URL,
+            data: {
+                'comment': comment.val(),
+                'csrfmiddlewaretoken': csrftoken,
+                'id': comment_btn.data('post')
+            },
+            success: function (data, textStatus, jqXHR) {
+                var elemet = `
+                            <article class="uk-comment uk-padding-small uk-padding-remove-horizontal">
+                                <hr>
+                                <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
+                                    <div class="uk-width-auto">
+                                        <a class="uk-link-reset" href="/${data.content.user}/">
+                                            <img class="uk-comment-avatar uk-border-circle avatat-img"
+                                                src="${data.content.img}" alt="${data.content.user}"
+                                                width="30" height="30" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="uk-width-expand">
+                                        <h4 class="uk-comment-title uk-margin-remove">
+                                            <a class="uk-link-reset" href="/${data.content.user}/">
+                                            ${data.content.user}
+                                            </a>
+                                        </h4>
+                                        <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                            <li>${data.content.time}</li>
+                                        </ul>
+                                    </div>
+                                </header>
+                                <div class="uk-comment-body">
+                                    <p>${data.content.comment}</p>
+                                </div>
+                            </article>
+                            `;
+                var comment_container = comment_btn.parents('.uk-card-footer').find('.commnet-container');
+                comment_container.append(elemet);
+                UIkit.notification({
+                    message: 'Your Comment added!',
+                    status: 'success',
+                    pos: 'top-right',
+                    timeout: 3000
+                });
+            },
+            error: function (data, textStatus, jqXHR) {
+                UIkit.notification({
+                    message: 'Check your connections',
+                    status: 'warning',
+                    pos: 'top-right',
+                    timeout: 3000
+                });
+
+            },
+            beforeSend: function () {
+                spinner.show();
+            },
+            complete: function () {
+                spinner.hide();
+                comment.val('');
+            }
+        });
     });
 
 });
@@ -167,4 +241,5 @@ document.addEventListener('click', event => {
             document.querySelector('.ratings-num').innerHTML = data.ratings_num;
         });
     }
+
 });

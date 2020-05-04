@@ -2,7 +2,7 @@
 {% load static %}
 {% load posts_extra %}
 {% load books_extra %}
-{% load widget_tweaks %}
+
 {% block content %}
 {# get user lang to show correct translate #}
 {% if user.is_authenticated %}
@@ -50,8 +50,7 @@
                 {% if post.post_type == "Q" %}
                 <span class="uk-icon" uk-icon="quote-right"></span>
                 {% endif %}
-                <a href="{% url 'book' post.for_book.id %}"
-                    class="uk-label uk-margin-left">{{ post.for_book|get_translate:user_lang }}</a>
+                <a href="{% url 'book' post.for_book.id %}" class="uk-label uk-margin-left">{{ post.for_book|get_translate:user_lang }}</a>
             </div>
             <div>
                 <span class="uk-button uk-button-text uk-text-meta">{{post.loves.all|length}} loves</span>
@@ -119,7 +118,7 @@
         </div>
         <!-- End Add Comments -->
         <!-- start commnets -->
-        <div class="commnet-container" id="post-comment-{{post.id}}">
+        <div id="post-comment-{{post.id}}">
             {% for comment in post.comments.all %}
             <article class="uk-comment uk-padding-small uk-padding-remove-horizontal">
                 <hr>
@@ -138,7 +137,7 @@
                             </a>
                         </h4>
                         <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-                            <li>{{comment.comment_date|date:"d M Y, H:i"}}</li>
+                            <li><a href="#">{{comment.comment_date|date:"d M Y, H:i"}}</a></li>
                         </ul>
                     </div>
                 </header>

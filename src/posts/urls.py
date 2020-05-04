@@ -9,9 +9,11 @@ urlpatterns = [
     path('post/<int:post_id>/', views.post, name='post'),
     path('post/<int:post_id>/edit', views.edit_post, name='edit-post'),
     path('post/new', views.new_post, name='new-post'),
-    path('comment/<int:post_id>/', views.add_comment, name='add-comment'),
+    #path('comment/<int:post_id>/', views.add_comment, name=''),
     #path('love/<int:post_id>', views.love, name='love'),
     path('save/<int:post_id>', views.save, name='save'),
     # ajax
     path('ajax/post/love/<int:post_id>', views.love, name='love'),
+    path('ajax/post/comment/<int:post_id>',
+         views.add_commnet, name='add-comment'),
 ]

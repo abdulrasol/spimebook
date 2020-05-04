@@ -6,7 +6,10 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from posts.models import Post
 from .models import Profile
+from django.http import HttpResponse
 from .forms import EditProfileForm, EditAccountForm
+from django.utils.translation import gettext as _, activate, LANGUAGE_SESSION_KEY, get_language_from_request
+from django.conf import settings as conf_settings
 
 # Create your views here.
 # { % if user.is_authenticated % }
@@ -16,17 +19,20 @@ def log_in(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        #print(username, password)
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('/')
+            activate(user.profile.lang)
+            response = redirect('/')
+            response.set_cookie(
+                conf_settings.LANGUAGE_COOKIE_NAME, user.profile.lang)
+            return response
         else:
             messages.add_message(request, messages.WARNING,
                                  f'{username} or password error')
             redirect('log-in')
-
-    return render(request, 'users/login.html', {})
+    response = render(request, 'users/login.html', {})
+    return response
 
 
 @login_required(login_url='log-in')
@@ -185,3 +191,7 @@ def user_profile(request, username):
         'posts': posts,
     }
     return render(request, 'users/user.html', context)
+
+
+def local(request):
+    return HttpResponse(settings.LOCALE_PATHS)

@@ -21,7 +21,6 @@ $('document').ready(function () {
                 top: '0px'
             });
         }
-
     });
 
     // 1 registeration form validation
@@ -95,7 +94,6 @@ $('document').ready(function () {
                 }
             }
         );
-
     });
     // add new coomment
     $('.add-comment').click(function (e) {
@@ -157,7 +155,6 @@ $('document').ready(function () {
                     pos: 'top-right',
                     timeout: 3000
                 });
-
             },
             beforeSend: function () {
                 spinner.show();
@@ -168,7 +165,6 @@ $('document').ready(function () {
             }
         });
     });
-
 });
 
 document.addEventListener('click', event => {

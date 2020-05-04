@@ -136,12 +136,18 @@ def edit_profile(request):
     form = EditProfileForm(request.POST or None,
                            request.FILES or None, instance=profile)
     if request.method == 'POST':
+        firstname = request.POST['firstname']
+        lastname = request.POST['lastname']
+
         form = EditProfileForm(request.POST, request.FILES, instance=profile)
         # print(request.FILES)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.save()
             form.save_m2m()
+            profile.user.first_name = firstname
+            profile.user.last_name = lastname
+            profile.user.save()
             return redirect('/user/profile')
         else:
             form = EditProfileForm(initial=request.POST)

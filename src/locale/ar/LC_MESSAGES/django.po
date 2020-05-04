@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-29 20:43+0000\n"
+"POT-Creation-Date: 2020-05-04 12:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,95 +19,194 @@ msgstr ""
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: aspoha/models.py:10
-msgid "Name"
-msgstr "الاسم"
+#: authors/models.py:13
+msgid "Author"
+msgstr "المؤلف"
 
-#: authors/models.py:48
+#: authors/models.py:14 authors/templates/authors/add.html:15
+#: authors/templates/authors/add.html:16 authors/templates/authors/edit.html:12
+#: authors/templates/authors/edit.html:13
+msgid "Author Name"
+msgstr "أسم المؤلف"
+
+#: authors/models.py:15 authors/templates/authors/add.html:20
+#: authors/templates/authors/add.html:21 authors/templates/authors/edit.html:17
+#: authors/templates/authors/edit.html:18
+msgid "Short"
+msgstr "مختصر"
+
+#: authors/models.py:16 authors/templates/authors/add.html:31
+#: authors/templates/authors/edit.html:28
+msgid "Author Bio"
+msgstr "السيرة الذاتية للمؤلف"
+
+#: authors/models.py:22 authors/templates/authors/add.html:40
+msgid "Author Profile Image"
+msgstr "صورة المؤلف"
+
+#: authors/models.py:24 authors/templates/authors/add.html:24
+#: authors/templates/authors/edit.html:22
+msgid "Birth Date"
+msgstr "تاريخ الولادة"
+
+#: authors/models.py:60
 msgid "English Translation)"
-msgstr "الترجمة الانكليزية"
+msgstr "االترجمة الانكليزية"
 
-#: authors/models.py:49 books/models.py:87 books/models.py:88
+#: authors/models.py:61 books/models.py:104 books/models.py:105
 msgid "English Translation"
 msgstr "الترجمة الانكليزية"
 
-#: authors/views.py:28
-msgid "Authors, Spimebook"
-msgstr "المؤلفون"
-
-#: authors/views.py:78
+#: authors/templates/authors/add.html:7 authors/templates/authors/add.html:48
 #, fuzzy
-#| msgid "Authors, Spimebook"
-msgid "Add Author, Spimebook"
-msgstr "المؤلفون، سبايمبوك"
+#| msgid "Author"
+msgid "Add Author"
+msgstr "اضافة المؤلف"
+
+#: authors/templates/authors/add.html:34 authors/templates/authors/edit.html:31
+msgid "Write Some Information About This Author"
+msgstr "أكتب بعض المعلومات حول هذا المؤلف"
+
+#: authors/templates/authors/add.html:44
+#, fuzzy
+#| msgid "Select New Picture"
+msgid "Select file"
+msgstr "اختار صورة جديدة"
+
+#: authors/templates/authors/author.html:17
+#, fuzzy
+#| msgid "Author Bio"
+msgid "Edit Author Info"
+msgstr "تعديل معلومات المؤلف"
+
+#: authors/templates/authors/author.html:20
+msgid "Report Warning"
+msgstr "ابلاغ عن خطأ"
+
+#: authors/templates/authors/edit.html:7
+msgid "Update"
+msgstr "تحديث"
+
+#: authors/templates/authors/edit.html:7
+msgid "Info"
+msgstr "المعلومات"
+
+#: authors/templates/authors/edit.html:37
+msgid "Old Picture"
+msgstr "الصورة القديمة"
+
+#: authors/templates/authors/edit.html:45
+msgid "Select New Picture"
+msgstr "اختار صورة جديدة"
+
+#: authors/templates/authors/edit.html:54
+#, fuzzy
+#| msgid "Author Bio"
+msgid "Update Author Info"
+msgstr "السيرة الذاتية للمؤلف"
+
+#: authors/templates/authors/index.html:20
+msgid "books"
+msgstr "كتب"
+
+#: authors/views.py:12
+msgid "Spimebook"
+msgstr "سبايمبوك"
+
+#: authors/views.py:29
+#, python-format
+msgid "Authors, %(title)s"
+msgstr "المؤلفون، %(title)s"
+
+#: authors/views.py:42
+#, python-format
+msgid "%(author)s, %(title)s"
+msgstr "%(author)s, %(title)s"
+
+#: authors/views.py:81
+#, python-format
+msgid "Add Author, %(title)s"
+msgstr "أضافة مؤلف، %(title)s"
+
+#: authors/views.py:111
+#, python-format
+msgid "Edit %(t)s details, %(title)s"
+msgstr "تعديل تفاصيل %(t)s، %(title)s"
 
 #: books/models.py:16
 msgid "Book"
-msgstr ""
+msgstr "كتاب"
 
 #: books/models.py:17
 msgid "Novel"
-msgstr ""
+msgstr "رواية"
 
-#: books/models.py:29 books/models.py:58 books/models.py:82 books/models.py:106
+#: books/models.py:41 books/models.py:75 books/models.py:99 books/models.py:123
 msgid "Book Title"
-msgstr ""
+msgstr "عنوان الكتاب"
 
-#: books/models.py:31
+#: books/models.py:43
 msgid "Book Cover Image"
 msgstr ""
 
-#: books/models.py:33
+#: books/models.py:45
 msgid "The Author"
 msgstr ""
 
-#: books/models.py:35
+#: books/models.py:47
 msgid "Publish Date"
 msgstr ""
 
-#: books/models.py:37
+#: books/models.py:49
 msgid "Genres"
 msgstr ""
 
-#: books/models.py:39
+#: books/models.py:51
 msgid "Type"
 msgstr ""
 
-#: books/models.py:56 books/models.py:80 books/models.py:104
+#: books/models.py:73 books/models.py:97 books/models.py:121
 msgid "Orginal Book"
 msgstr ""
 
-#: books/models.py:60 books/models.py:84 books/models.py:108
+#: books/models.py:77 books/models.py:101 books/models.py:125
 msgid "Book Bio"
 msgstr ""
 
-#: books/models.py:63 books/models.py:64
-#, fuzzy
-#| msgid "Translation"
+#: books/models.py:80 books/models.py:81
 msgid "Arabic Translation"
-msgstr "الترجمة"
+msgstr ""
 
-#: books/models.py:111 books/models.py:112
-#, fuzzy
-#| msgid "Translation"
+#: books/models.py:128 books/models.py:129
 msgid "French Translation"
-msgstr "الترجمة"
+msgstr ""
+
+#: books/templates/books/index.html:59
+msgid "All"
+msgstr ""
 
 #: books/views.py:57
-#, fuzzy
-#| msgid "Authors, Spimebook"
 msgid ", Spimebook"
-msgstr "المؤلفون"
+msgstr ""
 
-#: books/views.py:137 books/views.py:188
+#: books/views.py:131 books/views.py:192
 msgid "Author not found, please correct name or add to database."
 msgstr ""
 
-#~ msgid "Translations"
-#~ msgstr "الترجمات"
+#: posts/views.py:94
+msgid "Book not found, please correct title or add to database."
+msgstr ""
 
-#~ msgid "language"
-#~ msgstr "اللغة"
+#: posts/views.py:124
+msgid "Book title incorrect, please correct title or add to database."
+msgstr ""
 
-#~ msgid "{target_author}, Spimebook"
-#~ msgstr "، سبايمبوك"
+#, fuzzy
+#~| msgid "Author Profile Image"
+#~ msgid "Author Profile Picture"
+#~ msgstr "صورة المؤلف"
+
+#, fuzzy
+#~| msgid "Author Bio"
+#~ msgid "Author Short"
+#~ msgstr "مختصر حول المؤلف"

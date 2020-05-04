@@ -9,6 +9,7 @@ from django.conf import settings
 from .models import *
 import json
 
+TITLE = _('Spimebook')
 
 translator = Translator()
 
@@ -25,7 +26,7 @@ def authors(request):
     except EmptyPage:
         authors = paginator.page(paginator.num_pages)
     context = {
-        'title': _('Authors, Spimebook'),
+        'title': _('Authors, %(title)s') % {'title': TITLE},
         'authors': authors,
     }
     response = render(request, 'authors/index.html', context)
@@ -38,8 +39,10 @@ def author(request, author_id, author_name):
     exec(f'from books.models import {lang.upper()} as Book_lang')
     books = eval(
         f"Book_lang.objects.filter(book__author='{target_author.author.id}')")
+    title = _('%(author)s, %(title)s') % {
+        'author': target_author.name, 'title': TITLE}
     context = {
-        'title': f'{target_author}, Spimebook',
+        'title': title,
         'author': target_author,
         'books': books,
     }
@@ -75,7 +78,7 @@ def add_author(request):
         return redirect(f'/authors/{author.id}/{name}')
     else:
         pass
-    title = _('Add Author, Spimebook')
+    title = _('Add Author, %(title)s') % {'title': TITLE}
     return render(request, 'authors/add.html', {'title': title})
 
 
@@ -105,8 +108,10 @@ def edit_author(request, author_id, author_name):
         author.save()
         author.translate(lang).save()
         return redirect(f'/authors/{author.id}/{name}')
+    title = _('Edit %(t)s details, %(title)s') % {
+        't': translate.name, 'title': TITLE}
     context = {
-        'title': f'Edit {translate} details, Spimebook',
+        'title': title,
         'author': translate,
     }
     return render(request, 'authors/edit.html', context)

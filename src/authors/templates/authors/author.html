@@ -1,7 +1,9 @@
 {% extends "posts/base.html" %}
 {% load static %}
 {% load posts_extra %}
+{% load i18n %} 
 {% block content %}
+
 <!-- start post container -->
 <div class="uk-card uk-card-default">
     <div class="uk-card-header me-header">
@@ -12,10 +14,10 @@
         <div uk-dropdown="mode: click">
             <ul class="uk-nav uk-dropdown-nav">
                 <li><a href="{% url 'edit-author' author.id author.name %}"><span class="uk-margin-small-right"
-                            uk-icon="icon: pencil"></span> Edit Author Info</a>
+                            uk-icon="icon: pencil"></span> {% trans "Edit Author Info" %}</a>
                 </li>
                 <li class="uk-nav-divider"></li>
-                <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: warning"></span> Report Warning</a>
+                <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: warning"></span> {% trans "Report Warning" %}</a>
                 </li>
             </ul>
         </div>

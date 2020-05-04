@@ -10,13 +10,18 @@ from django.conf import settings
 # Create your models here.
 
 translator = Translator()
+BASE = _('Author')
+NAME = _('Author Name')
+SHORT = _('Short')
+BIO = _('Author Bio')
 
 
 class Author(models.Model):
     title = models.CharField(max_length=255)
     Author_Image = models.ImageField(
-        upload_to='author/images', default='author.jpg')
-    born_date = models.DateField(default=timezone.now)
+        upload_to='author/images', default='author.jpg', verbose_name=_('Author Profile Image'))
+    born_date = models.DateField(
+        default=timezone.now, verbose_name=_('Birth Date'))
 
     def __str__(self):
         if self.title is None:
@@ -43,13 +48,13 @@ class Author(models.Model):
 class EN(models.Model):
     lang = models.CharField(max_length=2, default='en', auto_created='en')
     author = models.OneToOneField(
-        Author, on_delete=models.CASCADE, verbose_name='Author')
+        Author, on_delete=models.CASCADE, verbose_name=BASE)
     name = models.CharField(max_length=255, null=True,
-                            blank=True, verbose_name='Author Name')
+                            blank=True, verbose_name=NAME)
     short = models.CharField(max_length=255, null=True,
-                             blank=True, verbose_name='Short')
+                             blank=True, verbose_name=SHORT)
     author_Bio = models.TextField(
-        null=True, blank=True, verbose_name='Author Bio')
+        null=True, blank=True, verbose_name=BIO)
 
     class Meta:
         verbose_name = _("English Translation)")
@@ -68,13 +73,13 @@ class EN(models.Model):
 class AR(models.Model):
     lang = models.CharField(max_length=2, default='ar', auto_created='ar')
     author = models.OneToOneField(
-        Author, on_delete=models.CASCADE, verbose_name='Author')
+        Author, on_delete=models.CASCADE, verbose_name=BASE)
     name = models.CharField(max_length=255, null=True,
-                            blank=True, verbose_name='Author Name')
+                            blank=True, verbose_name=NAME)
     short = models.CharField(max_length=255, null=True,
-                             blank=True, verbose_name='Short')
+                             blank=True, verbose_name=SHORT)
     author_Bio = models.TextField(
-        null=True, blank=True, verbose_name='Author Bio')
+        null=True, blank=True, verbose_name=BIO)
 
     class Meta:
         verbose_name = ("Arabic Translateion)")
@@ -93,13 +98,13 @@ class AR(models.Model):
 class FR(models.Model):
     lang = models.CharField(max_length=2, default='fr', auto_created='fr')
     author = models.OneToOneField(
-        Author, on_delete=models.CASCADE, verbose_name='Author')
+        Author, on_delete=models.CASCADE, verbose_name=BASE)
     name = models.CharField(max_length=255, null=True,
-                            blank=True, verbose_name='Author Name')
+                            blank=True, verbose_name=NAME)
     short = models.CharField(max_length=255, null=True,
-                             blank=True, verbose_name='Short')
+                             blank=True, verbose_name=SHORT)
     author_Bio = models.TextField(
-        null=True, blank=True, verbose_name='Author Bio')
+        null=True, blank=True, verbose_name=BIO)
 
     class Meta:
         verbose_name = ("French Translateion)")

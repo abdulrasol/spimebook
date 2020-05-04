@@ -43,8 +43,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'authors.apps.AuthorsConfig',
     'widget_tweaks',
-    # 'multiselectfield',
-
+    'django_ajax',
 ]
 
 MIDDLEWARE = [

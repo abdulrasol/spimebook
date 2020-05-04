@@ -44,3 +44,11 @@ def infinite_scroll_js():
     context = {
     }
     return context
+
+
+@register.simple_tag
+def love(user, post):
+    if user.profile.loves.filter(id=post.id).exists():
+        return True
+    else:
+        return False

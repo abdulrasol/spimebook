@@ -70,10 +70,13 @@
 <div class="reaction">
     {% if user.is_authenticated %}
     <!-- % url 'love' post.id % -->
-    <span>
-        <a class="uk-icon uk-margin-small-right" id="love-post" data-post="{% url 'love' post.id %}"
-            uk-icon="icon: heart"></a>
-    </span>
+    {% love user post as state %}
+    {% if state %}
+    {% include 'posts/costumtags/loved.html' %}
+    {% else %}
+    {% include 'posts/costumtags/love.html' %}
+    {% endif %}
+
     <span>
         <a href="#" class="uk-icon uk-margin-small-right" uk-icon="icon: reply"
             uk-toggle="target: #add-reply-{{post.id}}; animation: uk-animation-slide-top-small" type="button"></a>

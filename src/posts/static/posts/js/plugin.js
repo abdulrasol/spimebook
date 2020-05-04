@@ -177,7 +177,6 @@ document.addEventListener('click', event => {
     if (event.target.parentNode.id == 'love-post') {
         let btn = event.target.parentNode;
         let URL = event.target.parentNode.dataset.post;
-        console.log(URL);
         $.get(URL, function (data, state, xhr) {
             UIkit.notification({
                 message: data.msg,
@@ -186,10 +185,14 @@ document.addEventListener('click', event => {
                 timeout: 3000
             });
             if (data.love == true) {
+                //btn.firstChild.firstChild.style.fill = '#e64f4f';
                 btn.style.color = "#e64f4f";
                 //btn.css('color', '');
+                //console.log(btn.firstChild.style.fill);
             } else {
+                //btn.firstChild.firstChild.style.fill = 'bcdbfb';
                 btn.style.color = "#bcdbfb";
+                //console.log(btn.firstChild.firstChild.style.fill);
                 //btn.css('color', '#e64f4f');
             }
         });

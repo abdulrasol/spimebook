@@ -1,7 +1,7 @@
-Django                          
-django-widget-tweaks            1.4.8
-googletrans                     2.4.0
-Pillow                          7.1.1
-
-
+django                          
+django-widget-tweaks            
+googletrans                     
+Pillow
+djangoajax
+    
 # https://infinite-scroll.com         

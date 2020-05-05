@@ -10,6 +10,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count, Avg
 from django.utils.translation import gettext as _
 from django_ajax.decorators import ajax
+from books.views import get_query
 
 
 # Create your views here.
@@ -85,27 +86,26 @@ def post(request, post_id):
 @login_required(login_url='log-in')
 def new_post(request):
     if request.method == 'POST':
-        book = request.POST['for_book']
-        book = book.split(', ')[0]
+        title = request.POST['for_book'].split(', ')[0]
         lang = request.user.profile.lang.upper()
         exec(f'from books.models import {lang} as book_{lang}')
-        if not eval(f"book_{lang}.objects.filter(title='{book}').exists()"):
+        if not eval(f"book_{lang}.objects.filter(title__istartswith='{title}').exists()"):
             messages.add_message(
                 request, messages.ERROR, _('Book not found, please correct title or add to database.'))
         else:
+            book = eval(
+                f"book_{lang}.objects.get(title__istartswith='{title}')")
             title = request.POST['title']
             content = request.POST['content']
             p_type = request.POST['p_type']
-            # get book for this post
-            book = get_book(request, book)
-            print(book)
-        # print(f'title: {book_title} for {book_author}, {target_book}')
             post = Post(user=request.user, title=title,
                         content=content, post_type=p_type, for_book=book.book)
             post.save()
             return redirect(f'/post/{post.id}')
-
-    return render(request, 'posts/new_post.html', {'title': 'New Post'})
+    context = {
+        'title': 'New Post',
+    }
+    return render(request, 'posts/new_post.html', context)
 
 
 @login_required(login_url='log-in')
@@ -115,27 +115,22 @@ def edit_post(request, post_id):
         return HttpResponseForbidden()
     if request.method == 'POST':
         # get book for this post
-        book = request.POST['for_book']
-        book = book.split(', ')[0]
+        book = request.POST['for_book'].split(', ')[0]
         lang = request.user.profile.lang.upper()
         exec(f'from books.models import {lang} as book_{lang}')
-        if not eval(f"book_{lang}.objects.filter(title='{book}').exists()"):
+        if not eval(f"book_{lang}.objects.filter(title__istartswith='{book}').exists()"):
             messages.add_message(
                 request, messages.ERROR, _('Book title incorrect, please correct title or add to database.'))
         else:
-            book = request.POST['for_book']
-            book = book.split(', ')[0]
-            book = get_book(request, book)
+            book = eval(
+                f"book_{lang}.objects.get(title__istartswith='{book}')")
             title = request.POST['title']
             content = request.POST['content']
             p_type = request.POST['post_type']
-
             post.for_book = book.book
-
             post.title = title
             post.content = content
             post.post_type = p_type
-
             archived = request.POST.getlist('archiving')
             if not (not archived):
                 post.archived = True
@@ -143,7 +138,6 @@ def edit_post(request, post_id):
                 post.archived = False
             post.save()
             return redirect(f'/post/{post.id}')
-
     return render(request, 'posts/edit_post.html', {'title': f'Edit {post.title}', 'post': post})
 
 
@@ -264,6 +258,5 @@ def get_book(requset, title):
     lang = lang.upper()
     exec(f'from books.models import {lang} as book_{lang}')
     if eval(f"book_{lang}.objects.get(title='{title}')"):
-        book = eval(f"get_object_or_404(book_{lang}, title = '{title}')")
-
+        book = eval(f"book_{lang}.objects.get(title__istartswith='{title}')")
     return book

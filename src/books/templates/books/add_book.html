@@ -86,7 +86,7 @@
                         <a id="add-new-genre" href="#modal-add-genre" uk-toggle>Click to add new Genres</a>
                         <div id="genre-container" class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
                             {% for genre in genres %}
-                            <label for="id_archived"><input type="checkbox" value="{{genre.genre}}"
+                            <label for="id_archived"><input type="checkbox" value="{{genre.id}}"
                                     {% if genre in book.book.genres.all %} checked {% endif %} name="category"
                                     class="uk-checkbox" id="id_archived"> {{ genre|translate_genre:user_lang}}</label>
                             {% endfor %}

@@ -60,18 +60,45 @@ $('document').ready(function () {
         $('#spinner').fadeIn();
         let csrftoken = jQuery("#modal-add-genre input[name=csrfmiddlewaretoken]").val();
         let genre_text = $('#modal-add-genre input[name=genre]').val();
-        let label = document.createElement("LABEL");
-        let ele = document.createElement('INPUT');
-        let label_text = document.createTextNode(' ' + genre_text);
-        label.setAttribute('for', 'id_archived');
-        ele.setAttribute("id", "id_archived");
-        ele.setAttribute("type", "checkbox");
-        ele.setAttribute("value", genre_text);
-        ele.setAttribute("class", "uk-checkbox");
-        ele.setAttribute("name", "category");
-        label.appendChild(ele);
-        label.appendChild(label_text);
         var URL = '/books/ajax/genre/' + genre_text;
+        $.ajax({
+            type: "POST",
+            url: URL,
+            data: {
+                'name': genre_text,
+                csrfmiddlewaretoken: csrftoken
+            },
+            success: function (data, textStatus, jqXHR) {
+                console.log(data.content);
+                let label = document.createElement("LABEL");
+                let ele = document.createElement('INPUT');
+                let label_text = document.createTextNode(' ' + genre_text);
+                label.setAttribute('for', 'id_archived');
+                ele.setAttribute("id", "id_archived");
+                ele.setAttribute("type", "checkbox");
+                ele.setAttribute("value", data.content.genre);
+                ele.setAttribute("class", "uk-checkbox");
+                ele.setAttribute("name", "category");
+                ele.setAttribute("checked", "true");
+                label.appendChild(ele);
+                label.appendChild(label_text);
+                var genre_container = document.querySelector('#genre-container');
+                genre_container.appendChild(label);
+                UIkit.modal('#modal-add-genre').hide();
+                $('#spinner').fadeOut();
+                $('#modal-add-genre input[name=genre]').val('');
+            },
+            error: function (data, textStatus, jqXHR) {
+                console.log(data.content);
+                UIkit.notification({
+                    message: 'Check your connections',
+                    status: 'warning',
+                    pos: 'top-right',
+                    timeout: 3000
+                });
+            },
+        });
+        /*
         $.post(URL, {
             'name': genre_text,
             csrfmiddlewaretoken: csrftoken
@@ -94,7 +121,9 @@ $('document').ready(function () {
                 }
             }
         );
+        */
     });
+
     // add new coomment
     $('.add-comment').click(function (e) {
         e.preventDefault();

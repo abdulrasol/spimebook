@@ -10,6 +10,7 @@ import json
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Avg
+from django_ajax.decorators import ajax
 
 
 # Create your views here.
@@ -54,7 +55,7 @@ def book(request, book_id):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
 
-    context = {'title': target_book.title + _(', Spimebook'),
+    context = {'title': target_book.title + ', Spimebook',
                'book': target_book,
                'posts': posts,
                'readed_book': readed_book_state,
@@ -90,8 +91,10 @@ def genres(request, genre):
     return render(request, 'books/index.html', context)
 
 
+@ajax
+@login_required(login_url='log-in')
 def add_genre(request, genre):
-    mimetype = 'application/json'
+    print(genre)
     if request.method == 'POST':
         value = request.POST['name']
         genre = Genres(genre=value)
@@ -105,12 +108,10 @@ def add_genre(request, genre):
             exec(f"genre.genre_{lang} = '{translate_value}'")
         genre.genre = genre.genre_en
         genre.save()
-        data = {
-            'state': str(type(genre)),
-        }
-        data = json.dumps(data)
-        return HttpResponse(data, mimetype)
-    return JsonResponse({'state': False})
+    context = {
+        'genre': genre.genre_en
+    }
+    return context
 
 
 def book_by_ajax(request, book_title_author):
@@ -135,7 +136,7 @@ def add_book(request):
             pub_date = request.POST['pub_date']
             bio = request.POST['book_Bio']
             b_type = request.POST['b_type']
-            genres = request.POST.getlist('category')
+            genres_ids = request.POST.getlist('category')
             FILES = dict(request.FILES)
             author = aut.author
             english_title = translator.translate(title).text
@@ -147,9 +148,10 @@ def add_book(request):
                 book = Book(title=english_title, author=author,
                             publish_date=pub_date, book_or_Novel=b_type)
             book.save()
-            for g in genres:
-                g = get_object_or_404(Genres, genre=g)
-                book.genres.add(g)
+            for id in genres_ids:
+                genre = get_object_or_404(Genres, id=id)
+                book.genres.add(genre)
+
             book.save()
             save_translate_for_all(lang, title, object=book)
             translate = eval(

@@ -1,8 +1,8 @@
 {% extends "posts/base.html" %}
 {% load static %}
 {% block content %}
-<link rel="stylesheet" href="{% static 'posts/css/jquery-ui.css'%}">
-<script src="{% static 'posts/js/jquery-ui.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/jquery-ui.css'%}">
+<script src="{% static 'js/jquery-ui.min.js' %}"></script>
 <form method="POST" enctype="multipart/form-data" class="uk uk-padding uk-padding-remove-vertical">
     {% csrf_token %}
     <legend class="uk-legend uk-margin-bottom">New Post</legend>

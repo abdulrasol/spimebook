@@ -76,7 +76,7 @@ $('document').ready(function () {
                 label.setAttribute('for', 'id_archived');
                 ele.setAttribute("id", "id_archived");
                 ele.setAttribute("type", "checkbox");
-                ele.setAttribute("value", data.content.genre);
+                ele.setAttribute("value", data.content.genre); //
                 ele.setAttribute("class", "uk-checkbox");
                 ele.setAttribute("name", "category");
                 ele.setAttribute("checked", "true");

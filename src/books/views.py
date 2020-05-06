@@ -109,7 +109,7 @@ def add_genre(request, genre):
         genre.genre = genre.genre_en
         genre.save()
     context = {
-        'genre': genre.genre_en
+        'genre': genre.id
     }
     return context
 

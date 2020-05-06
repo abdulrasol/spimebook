@@ -251,12 +251,3 @@ def save(request, post_id):
     # post = Post.objects.get(id=post_id)
     # print(post)
     return render(request, 'posts/post.html', context)
-
-
-def get_book(requset, title):
-    lang = requset.user.profile.lang
-    lang = lang.upper()
-    exec(f'from books.models import {lang} as book_{lang}')
-    if eval(f"book_{lang}.objects.get(title='{title}')"):
-        book = eval(f"book_{lang}.objects.get(title__istartswith='{title}')")
-    return book

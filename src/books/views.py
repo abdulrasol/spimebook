@@ -55,7 +55,7 @@ def book(request, book_id):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
 
-    context = {'title': target_book.title + ', Spimebook',
+    context = {'title': str(target_book.title) + ', Spimebook',
                'book': target_book,
                'posts': posts,
                'readed_book': readed_book_state,

@@ -75,6 +75,8 @@
             <div class="article-feed">
                 {% for post in posts %}
                 {% post post user %}
+                {% empty %}
+                <p>The are no posts for now</p>
                 {% endfor %}
             </div>
             <div class="loading-more-post" style="display: block;">

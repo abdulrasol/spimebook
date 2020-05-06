@@ -1,5 +1,5 @@
 {% extends "posts/base.html" %}
-{% load i18n %} 
+{% load i18n %}
 {% load static %}
 {% block content %}
 <form method="POST" enctype="multipart/form-data" class="uk uk-padding uk-padding-remove-vertical">
@@ -12,23 +12,25 @@
 
         </div>
         <div class="uk-width-1-1@s">
-            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">{% trans "Author Name" %}</label>
-            <input type="text" name="name" maxlength="255" placeholder="{% trans "Author Name" %}" required class="uk-input"
-                id="id_author_Name">
+            <label style="display: block;"
+                class="uk-form-label uk-margin-small-bottom">{% trans "Author Name" %}</label>
+            <input type="text" name="name" maxlength="255" placeholder="{% trans "Author Name" %}" required
+                class="uk-input" id="id_author_Name">
         </div>
         <div class="uk-width-1-1@s">
             <label style="display: block;" class="uk-form-label uk-margin-small-bottom">{% trans "Short" %}</label>
-            <input type="text" name="short" maxlength="255" placeholder="{% trans "Short" %}" class="uk-input" required id="id_short">
+            <input type="text" name="short" maxlength="255" placeholder="{% trans "Short" %}" class="uk-input" required
+                id="id_short">
         </div>
         <div class="uk-width-1-2@s">
             <label style="display: block;" class="uk-form-label uk-margin-small-bottom">{% trans "Birth Date" %}</label>
-            <input type="date" name="born_date"  class="uk-input uk-width-auto" required
-                id="id_born_date"><input type="hidden" name="initial-born_date"
-                class="uk-input uk-width-auto" id="initial-id_born_date">
+            <input type="date" name="born_date" class="uk-input uk-width-auto" required id="id_born_date">
+            <input type="hidden" name="initial-born_date" class="uk-input uk-width-auto" id="initial-id_born_date">
         </div>
 
         <div class="uk-margin uk-width-1-1 uk-margin-small-bottom">
-            <label style="display: block;" class="uk-form-label uk-margin-small-bottom" for="form-stacked-text">{% trans "Author Bio" %}</label>
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom"
+                for="form-stacked-text">{% trans "Author Bio" %}</label>
             <div class="uk-form-controls">
                 <textarea id="author_Bio" name="author_Bio" class="uk-textarea uk-padding-small" rows="5"
                     placeholder="{% trans "Write Some Information About This Author" %}" spellcheck="false"></textarea>

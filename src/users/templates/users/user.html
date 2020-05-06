@@ -26,7 +26,7 @@
         <!-- start user books -->
         <!-- reads -->
         <h5 class="uk-heading-line uk-text-muted"><span>Books reads by {{target_user.username}}</span></h5>
-        <div class="uk-margin-bottom me-books-slider">
+         <div class="uk-margin-bottom me-books-slider">
             <div uk-slider>
                 <div class="uk-position-relative">
                     <div class="uk-slider-container">
@@ -34,7 +34,7 @@
                             {% for book in books %}
                             <li class="uk-text-center">
                                 <div class="me-header uk-padding-small uk-padding-remove-vertical">
-                                    <a href="{% url 'book' book.id %}">
+                                    <a class="uk-link" href="{% url 'book' book.id %}">
                                         <div class="uk-card-media-top">
                                             <img class="uk-border-rounded" data-src="{{ book.book_image.url }}"
                                                 width="125px" height="190px" alt="" uk-img>
@@ -46,16 +46,13 @@
                                 </div>
                             </li>
                             {% endfor %}
-
-
-
                         </ul>
                     </div>
                     <div class="uk-hidden@s uk-light">
-                        <a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous
-                            uk-slider-item="previous"></a>
-                        <a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next
-                            uk-slider-item="next"></a>
+                        <a style="color:#444" class="uk-position-center-left uk-position-small" href="#"
+                            uk-slidenav-previous uk-slider-item="previous"></a>
+                        <a style="color:#444" class="uk-position-center-right uk-position-small" href="#"
+                            uk-slidenav-next uk-slider-item="next"></a>
                     </div>
                     <div class="uk-visible@s">
                         <a class="uk-position-center-left-out uk-position-small" href="#" uk-slidenav-previous

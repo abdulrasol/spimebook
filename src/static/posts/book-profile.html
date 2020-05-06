@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>The Alchemist</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/uikit.min.css" />
+    <link rel="stylesheet" href="css/my_style.css" />
+    <script src="js/uikit.min.js"></script>
+    <script src="js/uikit-icons.min.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/plugin.js"></script>
+</head>
+
+<body>
+    <nav class="uk-navbar-container uk-padding-small uk-padding-remove-vertical" uk-navbar>
+        <!-- Start Logo -->
+        <div class="uk-navbar-left">
+            <a href="" class="uk-navbar-item uk-margin-small-left uk-logo">
+                <span class="uk-h2 uk-logo uk-text-bolder">Spime<span class="uk-padding-remove uk-text-primary uk-text-italic">book</span>
+            </a>
+        </div>
+        <!--End Logo -->
+
+        <div class="uk-navbar-right">
+            <!-- Search icon -->
+            <a class="uk-navbar-toggle uk-visible@s" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+            <ul class="uk-navbar-nav">
+                <!-- User Name and Icon  -->
+
+                <li class="uk-visible@s">
+                    <a href="#">UserFirstName</a>
+                </li>
+                <li>
+                    <a type="button" class="uk-icon uk-animation-slide-right" uk-icon="icon:user; ratio:1.5"></a>
+                    <div class="uk-card uk-card-default uk-card-body uk-padding uk-border-rounded" uk-dropdown="mode: hover; pos: bottom-left">
+                        <ul class="uk-nav uk-nav-default">
+                            <li>
+                                <a href="#modal-sign-in" class="uk-margin-small-top" uk-toggle><span class="uk-icon-link uk-margin-small-right" uk-icon="icon: sign-in; ratio:1.5"></span> Sign in</a>
+                            </li>
+                            <li>
+                                <a href="#modal-sign-up" class="uk-margin-small-top" uk-toggle><span class="uk-icon-link uk-margin-small-right" uk-icon="icon: sign-out; ratio:1.5"></span> Sign out</a>
+                            </li>
+                            <li>
+                                <a href="#" class="uk-margin-small-top"><span class="uk-icon-link uk-margin-small-right" uk-icon="icon: settings; ratio:1.5"></span> Settings</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <!-- End User Name and Icon  -->
+                <li><a href="#mobile-slide-menu" uk-toggle class="uk-icon uk-hidden@l uk-hidden@m uk-animation-slide-right" uk-icon="icon:more-vertical; ratio:1.5"></a></li>
+            </ul>
+            <div id="mobile-slide-menu" uk-offcanvas="flip: true; overlay: true">
+                <div class="uk-offcanvas-bar">
+                    <button class="uk-offcanvas-close" type="button" uk-close></button>
+                    <ul class="uk-nav uk-nav-default">
+                        <li>
+                            <div class="uk-margin">
+                                <form class="uk-search uk-search-default">
+                                    <a href="" uk-search-icon></a>
+                                    <input class="uk-search-input" type="search" placeholder="Search...">
+                                </form>
+                            </div>
+                        </li>
+                        <li class="uk-nav-header">Main</li>
+                        <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: home; ratio: 1.5"></span>Home</a></li>
+                        <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: thumbnails; ratio: 1.5"></span> Articles</a></li>
+                        <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: quote-right; ratio: 1.5"></span> Quotes</a></li>
+                        <li class="uk-nav-divider"></li>
+                        <li class="uk-nav-header">Posts</li>
+                        <li>
+                            <a href="#new-post" uk-toggle><span class="uk-margin-small-right" uk-icon="icon: pencil; ratio: 1.5"></span>New</a>
+                        </li>
+                        <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: thumbnails; ratio: 1.5"></span>My Posts</a></li>
+                        <li class="uk-nav-divider"></li>
+                        <li class="uk-nav-header">Shortcuts</li>
+                        <li uk-tooltip="Log In First"><a class="uk-disabled" href="#"><span class="uk-margin-small-right" uk-icon="icon: star; ratio: 1.5"></span> Favoerte</a></li>
+                        <li uk-tooltip="Log In First"><a class="uk-disabled" href="#"><span class="uk-margin-small-right" uk-icon="icon: bookmark; ratio: 1.5"></span> Bookmark</a></li>
+                        <li uk-tooltip="Log In First"><a class="uk-disabled" href="#"><span class="uk-margin-small-right" uk-icon="icon: cog; ratio: 1.5"></span> Settings</a></li>
+                        <li class="uk-nav-divider"></li>
+                        <li class="uk-nav-header">More</li>
+                        <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: mail"></span> Contact us</a></li>
+                        <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: info"></span> How Are We</a></li>
+                        <li>
+                            <ul class="uk-iconnav uk-child-width-1-3 uk-padding-small uk-margin-medium-top">
+
+                                <li><a class="uk-icon" href="#" uk-icon="icon: twitter; ratio:1.3"></a></li>
+                                <li><a href="#" uk-icon="icon: instagram; ratio:1.3"></a></li>
+                                <li><a href="#" uk-icon="icon: github; ratio:1.3"></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+            <div class="uk-navbar-item uk-width-expand">
+                <form class="uk-search uk-search-navbar uk-width-1-1">
+                    <input class="uk-search-input" type="search" placeholder="Search..." autofocus>
+                </form>
+            </div>
+            <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+        </div>
+    </nav>
+
+    <div class="uk-container">
+        <div class="uk-flex uk-flex-wrap">
+            <!-- Start Side -->
+            <div class="uk-width-auto uk-visible@s uk-visible@m">
+                <div class="side-bar uk-padding-small">
+                    <div class="uk-card uk-card-primary uk-card-body">
+                        <ul class="uk-nav-default uk-nav-parent-icon uk-padding-small" uk-nav>
+                            <li class="uk-nav-header">Main</li>
+                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: home; ratio: 1.5"></span>Home</a></li>
+                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: thumbnails; ratio: 1.5"></span> Articles</a></li>
+                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: quote-right; ratio: 1.5"></span> Quote</a></li>
+                            </li>
+                            <li class="uk-nav-divider"></li>
+                            <li class="uk-nav-header">Posts</li>
+                            <li>
+                                <a href="#new-post" uk-toggle><span class="uk-margin-small-right" uk-icon="icon: pencil; ratio: 1.5"></span>New</a>
+
+                            </li>
+                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: thumbnails; ratio: 1.5"></span>My Posts</a></li>
+                            <li class="uk-nav-divider"></li>
+                            <li class="uk-nav-header">Shortcuts</li>
+                            <li uk-tooltip="Log In First"><a class="uk-disabled" href="#"><span class="uk-margin-small-right" uk-icon="icon: star; ratio: 1.5"></span> Favoerte</a></li>
+                            <li uk-tooltip="Log In First"><a class="uk-disabled" href="#"><span class="uk-margin-small-right" uk-icon="icon: bookmark; ratio: 1.5"></span> Bookmark</a></li>
+                            <li uk-tooltip="Log In First"><a class="uk-disabled" href="#"><span class="uk-margin-small-right" uk-icon="icon: cog; ratio: 1.5"></span> Settings</a></li>
+                            <li class="uk-nav-divider"></li>
+                            <li class="uk-nav-header">More</li>
+                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: mail"></span> Contact us</a></li>
+                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: info"></span> How Are We</a></li>
+                            <li>
+                                <ul class="uk-iconnav uk-child-width-1-3 uk-padding-small uk-margin-medium-top">
+                                    <li><a class="uk-icon" href="#" uk-icon="icon: twitter; ratio:1.3"></a></li>
+                                    <li><a href="#" uk-icon="icon: instagram; ratio:1.3"></a></li>
+                                    <li><a href="#" uk-icon="icon: github; ratio:1.3"></a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- End Side -->
+
+            <!-- Start Main -->
+            <div class="uk-width-expand">
+                <div class="uk-container uk-padding-small">
+                    <!-- start Book profile container -->
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-header">
+                            <div class="uk-grid-small uk-flex" uk-grid>
+                                <div class="uk-width-auto book-img">
+                                    <img data-src="img/alchemist.jpg" alt="The Alchemist" uk-img />
+                                </div>
+                                <div class="uk-width-expand uk-margin-small-left">
+                                    <h1 class="uk-margin-remove">The Alchemist</h1>
+                                    <h2 class="uk-margin-remove-left uk-margin-small"><a href="#" class="uk-link-muted">Paulo Coelho</a></h2>
+                                    <h4 class="uk-margin-remove-left uk-margin-small">Originally published: 1988</h4>
+                                </div>
+                            </div>
+                            <div class=" uk-margin-small-top book-genres">
+                                Genres:
+                                <a class="uk-label" href="#">Novel</a>
+                                <a class="uk-label" href="#">Drama</a>
+                                <a class="uk-label" href="#">Fantasy</a>
+                                <a class="uk-label" href="#">Quest</a>
+                                <a class="uk-label" href="#">Fantasy</a>
+                                <a class="uk-label" href="#">Fiction</a>
+                                <a class="uk-label" href="#">Adventure</a>
+                                <a class="uk-label" href="#">fiction</a>
+                            </div>
+                        </div>
+                        <div class="uk-card-body">
+                            <p>
+                                legam legam elit aliqua quis dolor legam eram summis amet quem sint tempor
+                                summis magna quis quem magna nisi minim aute eram tempor quis cillum nisi nisi
+                                multos malis elit quae velit dolor tempor summis velit quae irure dolore sint
+                                sint dolore duis velit aliqua labore sunt veniam quorum noster tempor amet
+                                aliqua legam tempor fugiat illum irure magna culpa noster duis labore veniam
+                                tamen velit quis dolor anim export velit illum sint esse tempor velit quorum
+                                malis eram veniam quis magna amet velit duis summis fore aute anim fore aliqua
+                                labore minim tamen quid sint multos minim irure nulla minim irure quae quorum
+                                summis fugiat dolore dolor irure magna tempor sunt dolor fugiat magna noster
+                                quis noster fugiat anim veniam amet fugiat summis nisi culpa sint tamen elit
+                                duis summis tamen quid duis summis aute minim quorum nulla multos labore illum
+                                sint fugiat summis veniam amet aute tempor esse dolor quem export aliqua quis
+                                malis export legam velit export eram fugiat veniam quis magna velit dolore
+                                fugiat export export illum dolor irure anim duis dolore fugiat nulla minim
+                                multos ipsum noster magna fore anim noster dolor amet veniam dolor minim legam
+                                sunt nulla labore aliqua irure quae dolore illum quis aute quae enim culpa dolor
+                                quid labore duis minim veniam quorum nulla elit veniam esse irure aliqua elit
+                                aute duis duis quorum labore quorum cillum minim eram irure quorum veniam multos
+                                irure dolor dolore aliqua ipsum export amet nulla sunt fugiat veniam eram multos
+                                elit anim irure irure summis.
+                            </p>
+                        </div>
+                        <div class="uk-card-footer">
+                            <div>
+                                <ul class="uk-tab-bottom" uk-tab>
+                                    <li class="uk-active"><a href="">All</a></li>
+                                    <li><a href="">Reviews</a></li>
+                                    <li><a href="">Quotes</a></li>
+                                </ul>
+                            </div>
+                            <div class="uk-width-expand">
+                                <!-- Start Users Posts -->
+                                <div class="me-card uk-card uk-card-primary uk-margin">
+                                    <div class="uk-card-header">
+                                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                            <div class="uk-width-auto">
+                                                <img class="uk-border-circle" width="40" height="40" src="img/icon.png">
+                                            </div>
+                                            <div class="uk-width-expand">
+                                                <h3 class="uk-card-title uk-margin-remove-bottom">Title</h3>
+                                                <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">April 01, 2016</time></p>
+                                            </div>
+                                        </div>
+                                    </div><!-- End header -->
+                                    <div class="uk-card-body uk-padding">
+                                        <q class="">
+                                            fore magna nulla fore summis legam quid magna sunt fore malis sint nulla labore
+                                            quid quid nulla quem labore multos nulla minim velit irure sunt nulla eram sint
+                                            magna summis
+                                        </q>
+                                    </div><!-- End body -->
+                                    <div class="uk-card-footer">
+                                        <!-- start commnets -->
+                                        <div id="post-comment" hidden>
+                                            <article class="uk-comment  uk-padding-small uk-padding-remove-horizontal">
+                                                <hr>
+                                                <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
+                                                    <div class="uk-width-auto">
+                                                        <img class="uk-comment-avatar" src="img/img.png" width="30" height="30" alt="">
+                                                    </div>
+                                                    <div class="uk-width-expand">
+                                                        <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">Jone Snow</a></h4>
+                                                        <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                                            <li><a href="#">12 days ago</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </header>
+                                                <div class="uk-comment-body">
+                                                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</p>
+                                                </div>
+                                            </article>
+                                            <article class="uk-comment uk-padding-small uk-padding-remove-horizontal">
+                                                <hr>
+                                                <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
+                                                    <div class="uk-width-auto">
+                                                        <img class="uk-comment-avatar" src="img/img.png" width="30" height="30" alt="">
+                                                    </div>
+                                                    <div class="uk-width-expand">
+                                                        <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">Jone Snow</a></h4>
+                                                        <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                                            <li><a href="#">12 days ago</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </header>
+                                                <div class="uk-comment-body">
+                                                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</p>
+                                                </div>
+                                            </article>
+                                        </div>
+                                        <!-- End View Comments -->
+                                        <!-- Start Add Comments -->
+                                        <div id="add-reply" class="uk-margin-small-top uk-margin-small-bottom" hidden>
+                                            <form>
+                                                <div class="uk-flex uk-grid-small uk-flex-middle" uk-grid>
+                                                    <div class="uk-width-expand">
+                                                        <input class="uk-input" type="text" placeholder="Some text...">
+                                                    </div>
+                                                    <div class="uk-width-auto">
+                                                        <a href="#" class="uk-link uk-link-muted">Reply</a>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- End Add Comments -->
+                                        <!-- End Comments  -->
+                                        <div class="uk-flex uk-grid-small" uk-grid>
+                                            <div>
+                                                <a class="uk-button uk-button-text uk-text-meta" uk-toggle="target: #post-comment; animation: uk-animation-slide-top-small" href="#">2 Comments</a>
+                                            </div>
+                                            <div class="tags uk-margin-bottom">
+                                                <span class="uk-icon" uk-icon="quote-right"></span>
+                                            </div>
+                                        </div>
+                                        <div class="reaction">
+                                            <span uk-tooltip="Log In First"><a href="#" class="uk-icon uk-margin-small-right uk-disabled" uk-icon="icon: heart"></a></span>
+                                            <span uk-tooltip="Log In First"><a href="#" class="uk-icon uk-margin-small-right" uk-icon="icon: reply" uk-toggle="target: #add-reply; animation: uk-animation-slide-top-small" type="button"></a></span>
+                                            <a href="#share-modal" class="uk-icon uk-margin-small-right" uk-icon="icon: social" uk-toggle></a>
+
+                                            <a type="button" href="#" class="uk-icon uk-float-right" uk-icon="icon: more"></a>
+                                            <!-- dropdown more options -->
+                                            <div class="uk-padding-remove" uk-dropdown="pos: top-justify">
+                                                <ul class="uk-nav uk-dropdown-nav uk-card uk-card-default uk-card-body">
+                                                    <li uk-tooltip="Log In First"><a class="uk-disabled" style="color:#999" href="#"><span class="uk-icon uk-padding-small" uk-icon="icon: bookmark"></span>Save</a></li>
+                                                    <li><a style="color:#999" href="#"><span class="uk-icon uk-padding-small" uk-icon="icon: warning"></span>Report</a></li>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div><!-- End footer -->
+                                </div>
+                                <div class="uk-card uk-card-primary uk-margin">
+                                    <div class="uk-card-header">
+                                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                            <div class="uk-width-auto">
+                                                <img class="uk-border-circle" width="40" height="40" src="img/icon.png">
+                                            </div>
+                                            <div class="uk-width-expand">
+                                                <h3 class="uk-card-title uk-margin-remove-bottom">Title</h3>
+                                                <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">April 01, 2016</time></p>
+                                            </div>
+                                        </div>
+                                    </div><!-- End header -->
+                                    <div class="uk-card-body uk-padding">
+                                        <p class="">
+                                            duis amet quorum export nisi velit minim culpa quae quae veniam veniam quis
+                                            veniam sunt dolore malis nulla labore minim ipsum minim aliqua quis duis tempor
+                                            elit esse quae anim export cillum ipsum fugiat illum fore quis dolor tamen aute
+                                            legam enim fore elit multos aliqua labore multos multos tempor.
+                                        </p>
+                                    </div><!-- End body -->
+                                    <div class="uk-card-footer">
+                                        <!-- start commnets -->
+                                        <div id="post-comment" hidden>
+                                            <article class="uk-comment  uk-padding-small uk-padding-remove-horizontal">
+                                                <hr>
+                                                <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
+                                                    <div class="uk-width-auto">
+                                                        <img class="uk-comment-avatar" src="img/img.png" width="30" height="30" alt="">
+                                                    </div>
+                                                    <div class="uk-width-expand">
+                                                        <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">Jone Snow</a></h4>
+                                                        <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                                            <li><a href="#">12 days ago</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </header>
+                                                <div class="uk-comment-body">
+                                                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</p>
+                                                </div>
+                                            </article>
+                                            <article class="uk-comment uk-padding-small uk-padding-remove-horizontal">
+                                                <hr>
+                                                <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
+                                                    <div class="uk-width-auto">
+                                                        <img class="uk-comment-avatar" src="img/img.png" width="30" height="30" alt="">
+                                                    </div>
+                                                    <div class="uk-width-expand">
+                                                        <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">Jone Snow</a></h4>
+                                                        <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                                            <li><a href="#">12 days ago</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </header>
+                                                <div class="uk-comment-body">
+                                                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</p>
+                                                </div>
+                                            </article>
+                                        </div>
+                                        <!-- End View Comments -->
+                                        <!-- Start Add Comments -->
+                                        <div id="add-reply" class="uk-margin-small-top uk-margin-small-bottom" hidden>
+                                            <form>
+                                                <div class="uk-flex uk-grid-small uk-flex-middle" uk-grid>
+                                                    <div class="uk-width-expand">
+                                                        <input class="uk-input" type="text" placeholder="Some text...">
+                                                    </div>
+                                                    <div class="uk-width-auto">
+                                                        <a href="#" class="uk-link uk-link-muted">Reply</a>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- End Add Comments -->
+                                        <!-- End Comments  -->
+                                        <div class="uk-flex uk-grid-small" uk-grid>
+                                            <div>
+                                                <a class="uk-button uk-button-text uk-text-meta" uk-toggle="target: #post-comment; animation: uk-animation-slide-top-small" href="#">2 Comments</a>
+                                            </div>
+                                            <div class="tags uk-margin-bottom">
+                                                <span class="uk-icon" uk-icon="comment"></span>
+                                            </div>
+                                        </div>
+                                        <div class="reaction">
+                                            <span uk-tooltip="Log In First"><a href="#" class="uk-icon uk-margin-small-right uk-disabled" uk-icon="icon: heart"></a></span>
+                                            <span uk-tooltip="Log In First"><a href="#" class="uk-icon uk-margin-small-right" uk-icon="icon: reply" uk-toggle="target: #add-reply; animation: uk-animation-slide-top-small" type="button"></a></span>
+                                            <a href="#share-modal" class="uk-icon uk-margin-small-right" uk-icon="icon: social" uk-toggle></a>
+
+                                            <a type="button" href="#" class="uk-icon uk-float-right" uk-icon="icon: more"></a>
+                                            <!-- dropdown more options -->
+                                            <div class="uk-padding-remove" uk-dropdown="pos: top-justify">
+                                                <ul class="uk-nav uk-dropdown-nav uk-card uk-card-default uk-card-body">
+                                                    <li uk-tooltip="Log In First"><a class="uk-disabled" style="color:#999" href="#"><span class="uk-icon uk-padding-small" uk-icon="icon: bookmark"></span>Save</a></li>
+                                                    <li><a style="color:#999" href="#"><span class="uk-icon uk-padding-small" uk-icon="icon: warning"></span>Report</a></li>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div><!-- End footer -->
+                                </div><!-- End Users Posts -->
+                                <!-- End Post -->
+                                <!--End Post -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End book Profile container -->
+                </div>
+            </div>
+            <!-- end Main -->
+        </div>
+    </div>
+    <!-- All Modal -->
+    <div>
+        <!-- Share Model -->
+        <div id="share-modal" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body uk-text-center">
+                <h2 class="uk-modal-title">Share</h2>
+                <button class="uk-modal-close-default" type="button" uk-close></button>
+                <div class="uk-child-width-1-2 ">
+                    <a href="#" class=" uk-button uk-button-default uk-margin-small"><span class="uk-icon uk-padding-small" uk-icon="icon: facebook; ratio:1.5"></span>facebook</a>
+                    <a href="#" class=" uk-button uk-button-default uk-margin-small"><span class="uk-icon uk-padding-small" uk-icon="icon: twitter; ratio:1.5"></span>twitter</a>
+                    <a href="#" class=" uk-button uk-button-default uk-margin-small"><span class="uk-icon uk-padding-small" uk-icon="icon: instagram; ratio:1.5"></span>instagram</a>
+                    <a href="#" class=" uk-button uk-button-default uk-margin-small"><span class="uk-icon uk-padding-small" uk-icon="icon: facebook; ratio:1.5"></span>others</a>
+                </div>
+            </div>
+        </div>
+        <!-- End Share Model -->
+        <!-- New Post Modal -->
+        <div id="new-post" class="uk-disabled" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+
+                <form>
+                    <fieldset class="uk-fieldset">
+                        <legend class="uk-legend">Add New Post</legend>
+                        <div class="uk-margin">
+                            <textarea class="uk-textarea" rows="5" placeholder="Post"></textarea>
+                        </div>
+                        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                            <label><input class="uk-radio" type="radio" name="is-quote" checked> Normal Post</label>
+                            <label><input class="uk-radio" type="radio" name="is-quote"> Quote</label>
+                        </div>
+
+                        <div class="uk-margin">
+                            <input class="uk-input uk-form-width-medium uk-disabled" type="text" placeholder="Book Name">
+                        </div>
+
+                        <div class="uk-margin uk-grid-small uk-child-width-1-2 uk-grid">
+                            <button class="uk-button uk-button-secondary uk-modal-close">Cancel</button>
+                            <button class="uk-button uk-button-primary">Post</button>
+                        </div>
+
+                    </fieldset>
+                </form>
+
+            </div>
+        </div>
+        <!-- End New Post Modal -->
+        <!-- Sign in & up -->
+        <div id="modal-sign-in" uk-modal>
+            <div class="uk-modal-dialog">
+                <button class="uk-modal-close-default" type="button" uk-close></button>
+                <div class="uk-container uk-margin-large-top uk-padding-large uk-margin-auto">
+                    <form>
+                        <fieldset class="uk-fieldset">
+                            <legend class="uk-legend">Sign In</legend>
+                            <div class="uk-margin">
+                                <input class="uk-input" type="text" placeholder="Username">
+                            </div>
+                            <div class="uk-margin">
+                                <input class="uk-input" type="password" placeholder="Username">
+                            </div>
+                            <div class="uk-margin">
+                                <button class="uk-button uk-width-1-1 uk-button-primary">Sign In</button>
+                            </div>
+                            <div class="uk-margin uk-grid-small uk-child-width-1-2 uk-grid">
+                                <button class="uk-button uk-button-secondary uk-modal-close">Cancel</button>
+                                <a href="#modal-sign-up" class="uk-button uk-button-primary" uk-toggle>Sign Up</a>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-sign-up" uk-modal>
+            <div class="uk-modal-dialog">
+                <button class="uk-modal-close-default" type="button" uk-close></button>
+                <div class="uk-container uk-margin-large-top uk-padding-large uk-margin-auto">
+                    <form>
+                        <fieldset class="uk-fieldset">
+                            <legend class="uk-legend">Sign In</legend>
+                            <div class="uk-margin ">
+                                <input class="uk-input uk-form-width-medium" type="text" placeholder="Username">
+                            </div>
+                            <div>
+                                <label class="uk-text-muted">Username Should be un-taken and never used agian.</label>
+                            </div>
+                            <div class="uk-margin">
+                                <input class="uk-input uk-form-width-medium" type="email" placeholder="Your mail">
+                            </div>
+                            <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                                <label><input class="uk-checkbox" type="checkbox" name="is-quote"> Are You Authoer?</label>
+                            </div>
+                            <div class="uk-margin">
+                                <input class="uk-input uk-form-width-medium" type="password" placeholder="Password">
+                            </div>
+                            <div class="uk-margin">
+                                <input class="uk-input uk-form-width-medium" type="password" placeholder="Password Agian">
+                            </div>
+                            <div class="uk-margin">
+                                <button class="uk-button uk-width-1-1 uk-button-primary">Sign Up</button>
+                            </div>
+                            <div class="uk-margin uk-grid-small uk-child-width-1-2 uk-grid">
+                                <button class="uk-button uk-button-secondary uk-modal-close">Cancel</button>
+                                <a href="#modal-sign-in" class="uk-button uk-button-primary" uk-toggle>Sign In</a>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Sign in & up -->
+    <!-- End Model -->
+</body>
+
+</html>

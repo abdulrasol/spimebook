@@ -9,7 +9,7 @@ $('document').ready(function () {
     $(window).on('scroll', function (event) {
         var sc = $(window).scrollTop();
         if (sc >= 80) {
-            mobile_navbar.parent().css('padding-top', '85px');
+            $('#main-container').css('padding-top', '100px');
             mobile_navbar.css({
                 position: 'fixed',
                 top: 0,
@@ -17,10 +17,10 @@ $('document').ready(function () {
             });
 
         } else {
-            mobile_navbar.parent().css('padding-top', '0');
+            $('#main-container').css('padding-top', '0');
             mobile_navbar.css({
                 position: 'relative',
-                top: '0px'
+                top: 0
             });
         }
     });

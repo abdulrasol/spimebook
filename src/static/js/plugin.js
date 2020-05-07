@@ -9,19 +9,9 @@ $('document').ready(function () {
     $(window).on('scroll', function (event) {
         var sc = $(window).scrollTop();
         if (sc >= 80) {
-            $('#main-container').css('padding-top', '100px');
-            mobile_navbar.css({
-                position: 'fixed',
-                top: 0,
-                width: '100%',
-            });
-
+            mobile_navbar.addClass('fixed-mobile-bar');
         } else {
-            $('#main-container').css('padding-top', '0');
-            mobile_navbar.css({
-                position: 'relative',
-                top: 0
-            });
+            mobile_navbar.removeClass('fixed-mobile-bar');
         }
     });
     // 1 registeration form validation

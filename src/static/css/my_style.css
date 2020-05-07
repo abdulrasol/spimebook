@@ -3,7 +3,7 @@
 * {
     font-family: 'Roboto', sans-serif;
     box-sizing: border-box
-    /*
+        /*
   font-family: 'Open Sans', sans-serif;
   font-family: 'Roboto', sans-serif;
   */
@@ -14,7 +14,7 @@ body {
 }
 
 /* avatar img */
-.avatat-img{
+.avatat-img {
     border: 2px solid #607d8b;
     width: 65px;
     height: 65px;
@@ -22,14 +22,15 @@ body {
     object-position: center;
 }
 
-.profile-img{
+.profile-img {
     width: 150px;
     height: 150px;
     object-fit: cover;
     object-position: center;
     border: 2px solid #607d8b;
 }
-.profile-book-img{
+
+.profile-book-img {
     width: 90px;
     height: 190px;
     object-fit: cover;
@@ -54,6 +55,7 @@ body {
 .uk-card .uk-card-footer .tags span {
     opacity: 0.5
 }
+
 .uk-card .uk-comment-avatar {
     border-radius: 50%;
     width: 65px;
@@ -119,6 +121,16 @@ nav .uk-logo {
     z-index: 5;
 }
 
+.fixed-mobile-bar {
+    position: fixed;
+    top: 0;
+    width: 100%
+}
+
+#main-container+.fixed-mobile-bar {
+    padding-top: 85px;
+}
+
 
 /* start loading */
 
@@ -163,10 +175,12 @@ nav .uk-logo {
 }
 
 @keyframes loadinganimate {
+
     0%,
     100% {
         opacity: 1
     }
+
     50% {
         opacity: 0.3
     }
@@ -184,7 +198,8 @@ nav .uk-logo {
     margin-left: auto;
     margin-right: auto;
 }
-.me-books-slider a:hover{
+
+.me-books-slider a:hover {
     text-decoration: none;
 }
 
@@ -214,83 +229,103 @@ nav .uk-logo {
 /* End Header */
 
 @media (max-width:500px) {
+
     /* this not found in bootstrap */
     /*  mobile */
     .container {
         width: auto;
     }
+
     .visible-xxs {
         display: block !important
     }
+
     .hidden-xxs {
         display: none !important
     }
+
     .responsive-p {
-        font-size: 20px!important;
-        line-height: 1.6!important;
+        font-size: 20px !important;
+        line-height: 1.6 !important;
     }
+
     .me-text-center-m {
         text-align: center;
     }
 }
 
 @media (min-width:501px) and (max-width:767px) {
+
     /*  Mobile display */
     .container {
         width: auto;
     }
+
     .visible-xs {
         display: block !important
     }
+
     .hidden-xs {
         display: none !important
     }
+
     .responsive-p {
-        font-size: 20px!important;
-        line-height: 1.6!important;
+        font-size: 20px !important;
+        line-height: 1.6 !important;
     }
+
     .me-text-center-m {
         text-align: center;
     }
 }
 
 @media (min-width:768px) and (max-width:991px) {
+
     /* Small display */
     .container {
         width: 750px;
     }
+
     .visible-sm {
         display: block !important
     }
+
     .hidden-sm {
         display: none !important
     }
+
     .me-text-center-m {
         text-align: center;
     }
 }
 
 @media (min-width:992px) and (max-width:1199px) {
+
     /* Meduim display */
     .container {
         width: 970px;
     }
+
     .visible-md {
         display: block !important
     }
+
     .hidden-md {
         display: none !important
     }
 }
 
 @media (min-width:1200px) {
+
     /* Large display */
     .container {
         width: 1170px;
     }
+
     .visible-lg {
         display: block !important
     }
+
     .hidden-lg {
         display: none !important
     }

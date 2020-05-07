@@ -2,8 +2,6 @@
 {% load static %}
 {% load posts_extra %}
 {% load books_extra %}
-
-
 {% block content %}
 {% if user.is_authenticated %}
 {% define user.profile.lang as user_lang %}
@@ -139,10 +137,12 @@
                 </div>
             </div>
             <!-- pagination has path -->
+            {% if indicator %}
             {% if posts.has_next %}
             <p class="pagination">
                 <a class="pagination__next" href="?page={{ posts.next_page_number }}"></a>
             </p>
+            {% endif %}
             {% endif %}
             <!-- End Users Posts -->
         </div>
@@ -151,6 +151,8 @@
 <!-- End book Profile container -->
 
 {% endblock content %}
+{% if indicator %}
 {% block javascript %}
 {% infinite_scroll_js %}
 {% endblock javascript %}
+{% endif %}

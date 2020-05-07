@@ -46,6 +46,7 @@ def book(request, book_id):
             readed_book_state = False
     all_posts = Post.objects.filter(
         for_book=target_book.book).filter(archived=False)
+
     page = request.GET.get('page', 1)
     paginator = Paginator(all_posts, 5)
     try:

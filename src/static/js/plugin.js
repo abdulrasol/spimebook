@@ -1,28 +1,29 @@
-/*global $, window */
-/*jshint esversion: 6 */
-'esversion: 6';
+/* global $, window */
+/* jshint esversion: 6 */
 $('document').ready(function () {
     'use strict';
     // Mobile Nav-bar
+
     var DOCUMENT = $('window');
     var mobile_navbar = $('#me-mobile-navbar');
-    var main_navbar = $('#me-main-navbar');
     $(window).on('scroll', function (event) {
         var sc = $(window).scrollTop();
         if (sc >= 80) {
+            mobile_navbar.parent().css('padding-top', '85px');
             mobile_navbar.css({
                 position: 'fixed',
-                top: '0px',
-                left: '0px'
+                top: 0,
+                width: '100%',
             });
+
         } else {
+            mobile_navbar.parent().css('padding-top', '0');
             mobile_navbar.css({
                 position: 'relative',
                 top: '0px'
             });
         }
     });
-
     // 1 registeration form validation
     var password = $('.me-form .me-form-password'),
         alertElement = $('.me-form .uk-alert-warning');
@@ -195,7 +196,6 @@ $('document').ready(function () {
         });
     });
 });
-
 document.addEventListener('click', event => {
 
     // love post
@@ -269,5 +269,4 @@ document.addEventListener('click', event => {
             document.querySelector('.ratings-num').innerHTML = data.ratings_num;
         });
     }
-
 });

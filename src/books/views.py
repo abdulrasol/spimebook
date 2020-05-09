@@ -212,9 +212,8 @@ def edit_book(request, book_id):
                 main_book.publish_date = pub_date
                 book.save()
                 main_book.genres.clear()
-
                 for g in genres:
-                    g = get_object_or_404(Genres, genre=g)
+                    g = get_object_or_404(Genres, id=g)
                     main_book.genres.add(g)
 
                 main_book.save()

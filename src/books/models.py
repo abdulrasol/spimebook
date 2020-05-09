@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from googletrans import Translator
 from django.conf import settings
+from star_ratings.models import Rating
+from django.contrib.contenttypes.fields import GenericRelation
 
 # Create your models here.
 
@@ -19,7 +21,6 @@ book_type = [
 
 
 class Genres(models.Model):
-
     genre = models.CharField(max_length=100)
     genre_ar = models.CharField(
         max_length=100, default='', null=True, blank=True)
@@ -46,9 +47,10 @@ class Book(models.Model):
     publish_date = models.DateField(
         default=timezone.now, verbose_name=_('Publish Date'))
     genres = models.ManyToManyField(
-        Genres, related_name='genres', verbose_name=_('Genres'))
+        Genres, related_name='genres', verbose_name=_('Genres'), blank=True)
     book_or_Novel = models.CharField(
         max_length=5, choices=book_type, default='Book', verbose_name=_('Type'))
+    ratings = GenericRelation(Rating, related_query_name='foos')
 
     def __str__(self):
         return self.title

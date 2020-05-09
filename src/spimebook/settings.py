@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'authors.apps.AuthorsConfig',
-    'widget_tweaks',
+    'star_ratings',
     'django_ajax',
 ]
 
@@ -62,7 +62,7 @@ ROOT_URLCONF = 'spimebook.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

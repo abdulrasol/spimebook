@@ -1,0 +1,20 @@
+{% extends "star_ratings/widget_base.html" %}
+{% load i18n %}
+
+<div class=" me-text-center-m uk-flex uk-flex-left" uk-grid>
+    <div class="uk-width-auto">
+        {% block rating_detail %}
+    </div>
+    <div class="uk-grid-small uk-flex uk-flex-center uk-flex-left@m uk-width-auto uk-griduk-grid-small uk-flex uk-flex-center uk-flex-left@m uk-width-auto"
+        uk-grid>
+        <div class="uk-width-auto">
+            {% trans "Rating" %}: {{ rating.average|floatformat:"-2" }}
+        </div>
+        <div class="uk-width-auto">
+            {% trans "Rated by" %}: {{ rating.count }}
+        </div>
+    </div>
+
+    {% endblock %}
+
+</div>

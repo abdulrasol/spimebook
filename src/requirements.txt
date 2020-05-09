@@ -3,5 +3,6 @@ django-widget-tweaks
 googletrans                     
 Pillow
 djangoajax
+django-star-ratings
     
 # https://infinite-scroll.com         

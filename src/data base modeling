@@ -1,0 +1,52 @@
+authors
+    Author  - name
+            - birth date
+            - bio
+            - auhtor image
+            - lang (supported langs => ar, en, fr) only name auto translate
+books
+    Book    - title
+            - author [relation]
+            - publish date
+            - bio
+            - cover image
+            - ratings [relation= => user]
+            - genres [relation: manyTomany => Genre]
+            - lang (supported langs => ar, en, fr) only title auto translate
+
+    Genre   - genre
+            - lang ar
+            - lang en
+            - lang fr
+
+    Review  - user [relation]
+            - book [relation]
+            - content
+            - publish date
+            - lang {form supported lang}
+    
+    Quote   - user [relation]
+            - book [relation]
+            - content
+            - publish date
+            - lang {form supported lang}
+Posts
+    Post    - user [relation]
+            - title
+            - book [relation][null=True, blank=True,default=null]
+            - content
+            - publish date
+Comments
+    Comment - user
+            - for [relation] {posts.post | books.review | books.quote}
+            - content
+            - publish date
+Users       
+    Profile - user [relation] 
+            - user porfile image
+            - bio
+            - readed book [relation:manyTomany => Book]
+            - loves [relation:manyTomany => {post | review | quote} ]
+            - lang {form supported lang}
+            
+        

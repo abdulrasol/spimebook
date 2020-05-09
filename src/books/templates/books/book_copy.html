@@ -1,6 +1,5 @@
 {% extends "posts/base.html" %}
 {% load static %}
-{% load ratings %}
 {% load posts_extra %}
 {% load books_extra %}
 {% block content %}
@@ -10,7 +9,7 @@
 {% define 'en' as user_lang %}
 {% define user.profile.lang as ulang %}
 {% endif %}
-
+<link rel="stylesheet" href="{% static 'css/rating.css' %}">
 
 <div class="uk-card uk-card-default">
     <div class="uk-card-header me-header">
@@ -54,9 +53,44 @@
                         class="uk-link-muted">{{book.book.author|get_translate:user_lang}}</a>
                 </h2>
                 <h4 class="uk-margin-remove-left uk-margin-small">Originally published: {{book.book.publish_date}}</h4>
-                <div>
-                {% ratings book.book %}
-                
+                <div class="uk-margin-small uk-margin-remove-top">
+                    <div class="uk-margin uk-gird-small uk-flex uk-flex-middle uk-flex-left" uk-grid>
+
+                        {% if user.is_authenticated %}
+                        <div>
+                            <fieldset data-book="{{book.book.id}}" class="rating uk-width-auto">
+                                <input class="book-rating" type="radio" id="star5" name="rating" value="10" /><label
+                                    class="full" for="star5" title="Awesome - 10 stars"></label>
+                                <input class="book-rating" type="radio" id="star4half" name="rating" value="9" /><label
+                                    class="half" for="star4half" title="Pretty good - 9 stars"></label>
+                                <input class="book-rating" type="radio" id="star4" name="rating" value="8" /><label
+                                    class="full" for="star4" title="Pretty good - 8 stars"></label>
+                                <input class="book-rating" type="radio" id="star3half" name="rating" value="7" /><label
+                                    class="half" for="star3half" title="Meh - 7 stars"></label>
+                                <input class="book-rating" type="radio" id="star3" name="rating" value="6" /><label
+                                    class="full" for="star3" title="Meh - 6 stars"></label>
+                                <input class="book-rating" type="radio" id="star2half" name="rating" value="5" /><label
+                                    class="half" for="star2half" title="Kinda bad - 5 stars"></label>
+                                <input class="book-rating" type="radio" id="star2" name="rating" value="4" /><label
+                                    class="full" for="star2" title="Kinda bad - 4 stars"></label>
+                                <input class="book-rating" type="radio" id="star1half" name="rating" value="3" /><label
+                                    class="half" for="star1half" title="Meh - 3"></label>
+                                <input class="book-rating" type="radio" id="star1" name="rating" value="2" /><label
+                                    class="full" for="star1" title="Sucks big time - 2 stars"></label>
+                                <input class="book-rating" type="radio" id="starhalf" name="rating" value="1" /><label
+                                    class="half" for="starhalf" title="Sucks big time - 1 star"></label>
+                            </fieldset>
+                        </div>
+                        {% endif %}
+                        <div>
+                            <span>
+                                <span class="show-rating">{{rating.rating__avg|truncatechars:4 }}</span>,
+                                <span class="ratings-num">{{book.book.rating_set.all|length}}</span> ratings
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 

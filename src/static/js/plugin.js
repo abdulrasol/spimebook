@@ -185,6 +185,12 @@ $('document').ready(function () {
             }
         });
     });
+
+    //
+    let post_on_book = $('#new-post-on-book');
+    post_on_book.click(function () {
+        $(this).siblings().slideToggle();
+    });
 });
 document.addEventListener('click', event => {
 

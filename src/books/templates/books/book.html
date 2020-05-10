@@ -55,70 +55,144 @@
                 </h2>
                 <h4 class="uk-margin-remove-left uk-margin-small">Originally published: {{book.book.publish_date}}</h4>
                 <div>
-                {% ratings book.book %}
-                
+                    {% ratings book.book %}
+                </div>
             </div>
-        </div>
 
-        <div class=" uk-margin-small-top book-genres">
-            Genres:
-            {% for genre in book.book.genres.all %}
-            <a class="uk-label" href="{% url 'fliter-genre' genre.genre %}">{{genre|translate_genre:user_lang}}</a>
-            {% endfor %}
-        </div>
-
-    </div>
-    <div class="uk-card-body">
-        <p>
-            {{book.book_Bio}}
-        </p>
-    </div>
-    <div class="uk-card-footer">
-        <div>
-            <ul class="uk-tab-bottom" uk-tab>
-                <li class="uk-active"><a href="">All</a></li>
-                <li><a href="">Reviews</a></li>
-                <li><a href="">Quotes</a></li>
-            </ul>
-        </div>
-        <div class="uk-width-expand">
-            <!-- Start Users Posts -->
-            <div class="article-feed">
-                {% for post in posts %}
-                {% post post user %}
+            <div class=" uk-margin-small-top book-genres">
+                Genres:
+                {% for genre in book.book.genres.all %}
+                <a class="uk-label" href="{% url 'fliter-genre' genre.genre %}">{{genre|translate_genre:user_lang}}</a>
                 {% endfor %}
             </div>
-            <!-- status elements -->
-            <div class="page-load-status">
-                <div class="loader-ellips infinite-scroll-request">
-                    <div style="display: none;" class="loading-more-post">
-                        <div class="loading-more-post">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
+
+        </div>
+        <div class="uk-card-body">
+            <p>
+                {{book.book_Bio}}
+            </p>
+        </div>
+        <div class="uk-card-footer">
+            <div>
+                <ul class="uk-tab-bottom" uk-tab>
+                    <li class="uk-active"><a href="">All</a></li>
+                    <li><a href="">Reviews</a></li>
+                    <li><a href="">Quotes</a></li>
+                </ul>
+            </div>
+            <div class="uk-width-expand">
+                <!-- Start Users Posts -->
+                <div class="article-feed">
+                    {% for post in posts %}
+                    {% post post user %}
+                    {% endfor %}
+                </div>
+                <!-- status elements -->
+                <div class="page-load-status">
+                    <div class="loader-ellips infinite-scroll-request">
+                        <div style="display: none;" class="loading-more-post">
+                            <div class="loading-more-post">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- pagination has path -->
+                {% if indicator %}
+                {% if posts.has_next %}
+                <p class="pagination">
+                    <a class="pagination__next" href="?page={{ posts.next_page_number }}"></a>
+                </p>
+                {% endif %}
+                {% endif %}
+                <!-- End Users Posts -->
             </div>
-            <!-- pagination has path -->
-            {% if indicator %}
-            {% if posts.has_next %}
-            <p class="pagination">
-                <a class="pagination__next" href="?page={{ posts.next_page_number }}"></a>
-            </p>
-            {% endif %}
-            {% endif %}
-            <!-- End Users Posts -->
         </div>
     </div>
-</div>
-<!-- End book Profile container -->
+    <div>
+        <!--
+        <style>
+            .add-post-btn {
+                position: fixed;
+                bottom: 40px;
+                right: 40px;
+                width: 50px;
+                transition: all .5s ease-in-out;
+            }
 
-{% endblock content %}
-{% if indicator %}
-{% block javascript %}
-{% infinite_scroll_js %}
-{% endblock javascript %}
-{% endif %}
+            .add-post-btn .btn-container {
+                padding: 10px;
+                box-sizing: border-box;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                background-color: #1e87f0;
+                color: #FFF;
+                box-shadow: 2px 5px 8px rgba(41, 39, 39, 0.46);
+                margin-bottom: 5px;
+                cursor: pointer;
+                transition: all .5s ease-in-out;
+            }
+
+            .add-post-btn div {
+                position: relative;
+            }
+
+            .add-post-btn #R span::before {
+                content: 'Review';
+                position: relative;
+                display: block;
+                right: 70px;
+                top: 16px;
+                color: #1e87f0;
+                font-size: 16px;
+            }
+
+            .add-post-btn #Q span::before {
+                content: 'Quote';
+                position: relative;
+                display: block;
+                right: 70px;
+                top: 16px;
+                color: #1e87f0;
+                font-size: 16px;
+            }
+
+            @media (max-width: 640px) {
+                .add-post-btn {
+                    bottom: 20px;
+                    right: 20px;
+                }
+            }
+        </style>
+        -->
+        <div class="add-post-btn">
+            <span id="new-post-on-book" class="btn-container" uk-icon="icon:pencil; ratio:1.5"></span>
+            <div style="display: none;">
+                <a id="R" href="#">
+                    <span class="btn-container" uk-icon="icon:file-edit; ratio:1.5"></span>
+                </a>
+                <a id="Q" href="#">
+                    <span class="btn-container" uk-icon="icon:quote-right; ratio:1.5"></span>
+                </a>
+            </div>
+        </div>
+        <!--<script>
+            $(function () {
+                $('#new-btn').click(function () {
+                    $(this).siblings().slideToggle();
+                });
+            });
+        </script>-->
+    </div>
+    <!-- End book Profile container -->
+    {% endblock content %}
+    {% if indicator %}
+    {% block javascript %}
+    {% infinite_scroll_js %}
+    {% endblock javascript %}
+    {% endif %}

@@ -185,6 +185,60 @@ nav .uk-logo {
     }
 }
 
+/* add post for book */
+.add-post-btn {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 50px;
+    transition: all .5s ease-in-out;
+}
+
+.add-post-btn .btn-container {
+    padding: 10px;
+    box-sizing: border-box;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #1e87f0;
+    color: #FFF;
+    box-shadow: 2px 5px 8px rgba(41, 39, 39, 0.46);
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: all .5s ease-in-out;
+}
+
+.add-post-btn div {
+    position: relative;
+}
+
+.add-post-btn #R span::before {
+    content: 'Review';
+    position: relative;
+    display: block;
+    right: 70px;
+    top: 16px;
+    color: #1e87f0;
+    font-size: 16px;
+}
+
+.add-post-btn #Q span::before {
+    content: 'Quote';
+    position: relative;
+    display: block;
+    right: 70px;
+    top: 16px;
+    color: #1e87f0;
+    font-size: 16px;
+}
+
+@media (max-width: 640px) {
+    .add-post-btn {
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
 
 /* end loading */
 

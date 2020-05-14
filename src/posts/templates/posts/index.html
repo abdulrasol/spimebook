@@ -35,6 +35,7 @@
 </p>
 {% endif %}
 <div>
+    {% if user.is_authenticated %}
     <div class="add-post-btn">
         <span class="btn-container" uk-icon="icon:pencil; ratio:1.5" uk-toggle="target: #new-book-post"></span>
         <!-- This is the new post modal -->
@@ -71,6 +72,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
 </div>
 <script src="{% static 'js/jquery-ui.min.js' %}"></script>
 {% endblock content %}

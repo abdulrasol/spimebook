@@ -1,0 +1,53 @@
+{% load reactions %}
+<div class="reaction-container">
+    <div class="uk-flex uk-grid-small" uk-grid>
+        <div class="uk-flex uk-grid-small" uk-grid>
+            <div>
+                <span class="uk-button uk-button-text uk-text-meta"><span class="love-count">{{post.loves.count}}</span>
+                    loves</span>
+            </div>
+        </div>
+        <div class="tags uk-margin-bottom ">
+            <span class="uk-icon uk-margin-small-right" uk-icon="quote-right"></span>
+        </div>
+    </div>
+    <div class="reaction">
+        {% if user.is_authenticated %}
+        <!-- % url 'love' post.id % -->
+        <span>
+            <a style="color:#bcdbfb" class="uk-icon uk-margin-small-right" id="love-post"
+                data-post="{% url 'reactions:love' post.id %}" data-type="book" uk-icon="icon: heart"></a>
+        </span>
+        {% else %}
+
+        <span uk-tooltip="Log In First">
+            <a class="uk-icon uk-margin-small-right" uk-icon="icon: heart"></a>
+        </span>
+        {% endif %}
+        <span>
+            <a href="#share-modal" class="uk-icon uk-margin-small-right" uk-icon="icon: social" uk-toggle></a>
+        </span>
+        {% if user.is_authenticated %}
+        <a type="button" href="#" class="uk-icon uk-float-right" uk-icon="icon: more"></a>
+        <!-- dropdown more options -->
+
+        <div class="uk-padding-remove" uk-dropdown="pos: top-justify">
+            <ul class="uk-nav uk-dropdown-nav uk-card uk-card-default uk-card-body">
+                {% if user == post.user %}
+                <li>
+                    <a style="color:#999" href="{% url 'edit-post' post.id %}">
+                        <span class="uk-icon uk-padding-small" uk-icon="icon:  file-edit"></span>Edit
+                    </a>
+                </li>
+                {% endif %}
+                <li>
+                    <a style="color:#999" href="#">
+                        <span class="uk-icon uk-padding-small" uk-icon="icon: warning"></span>Report
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+        {% endif %}
+    </div>
+</div>

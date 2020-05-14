@@ -98,10 +98,6 @@
                         </li>
                         {% if user.is_authenticated %}
                         <li class="uk-nav-header">Posts</li>
-                        <li>
-                            <a href="{% url 'new-post' %}"><span class="uk-margin-small-right"
-                                    uk-icon="icon: pencil; ratio: 1.5"></span>New</a>
-                        </li>
                         <li><a href="{% url 'my-posts' user %}"><span class="uk-margin-small-right"
                                     uk-icon="icon: thumbnails; ratio: 1.5"></span>My Posts</a></li>
                         {% endif %}
@@ -157,39 +153,41 @@
         </div>
     </nav>
     <!-- Start Mobile Navbar -->
-    <div id="me-mobile-navbar" class="uk-width-1-1 uk-navbar-container uk-hidden@m">
-        <div class="uk-container uk-container-small">
-            <ul class="uk-iconnav uk-padding-small uk-flex uk-flex-center uk-text-center">
-                <div class="uk-width-1-4">
-                    <a href="{% url 'home' %}" class="uk-icon" uk-icon="icon:home; ratio:2"></a>
-                </div>
-                <div class="uk-width-1-4">
-                    <a href="{% url 'books' %}" class="uk-icon" uk-icon="icon:thumbnails; ratio:2"></a>
-                </div>
-                <div class="uk-width-1-4">
-                    <a href="#search-mobile" class="uk-icon" uk-icon="icon:search; ratio:2"
-                        uk-toggle=" animation: uk-animation-slide-top-medium"></a> </div>
-                <div class="uk-width-1-4">
-                    <a href="#mobile-slide-menu" uk-toggle class="uk-icon" uk-icon="icon:menu; ratio:2"></a>
-                </div>
-
-            </ul>
-        </div>
-        <div id="search-mobile" class="uk-container uk-container-small uk-padding-small" hidden>
-
-            <div class="uk-padding uk-padding-remove-vertical uk-margin uk-margin-remove-vertical">
-                <form class="uk-search uk-width-expand uk-search-default">
-                    <div class="uk-grid-small uk-flex uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <a href="" class="uk-icon-link" uk-icon="icon:cog;ratio:1.5"></a>
-                        </div>
-                        <div class="uk-width-expand">
-                            <span class="uk-search-icon-flip" uk-search-icon></span>
-                            <input id="book-search-mobile" data-url="{% url 'search-book' %}" class="uk-search-input"
-                                type="search" placeholder="Search...">
-                        </div>
+    <div class="fix-mobile-nav uk-hidden@m">
+        <div id="me-mobile-navbar" class="uk-width-1-1 uk-navbar-container">
+            <div class="uk-container uk-container-small">
+                <ul class="uk-iconnav uk-padding-small uk-flex uk-flex-center uk-text-center">
+                    <div class="uk-width-1-4">
+                        <a href="{% url 'home' %}" class="uk-icon" uk-icon="icon:home; ratio:2"></a>
                     </div>
-                </form>
+                    <div class="uk-width-1-4">
+                        <a href="{% url 'books' %}" class="uk-icon" uk-icon="icon:thumbnails; ratio:2"></a>
+                    </div>
+                    <div class="uk-width-1-4">
+                        <a href="#search-mobile" class="uk-icon" uk-icon="icon:search; ratio:2"
+                            uk-toggle=" animation: uk-animation-slide-top-medium"></a> </div>
+                    <div class="uk-width-1-4">
+                        <a href="#mobile-slide-menu" uk-toggle class="uk-icon" uk-icon="icon:menu; ratio:2"></a>
+                    </div>
+
+                </ul>
+            </div>
+            <div id="search-mobile" class="uk-container uk-container-small uk-padding-small" hidden>
+
+                <div class="uk-padding uk-padding-remove-vertical uk-margin uk-margin-remove-vertical">
+                    <form class="uk-search uk-width-expand uk-search-default">
+                        <div class="uk-grid-small uk-flex uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <a href="" class="uk-icon-link" uk-icon="icon:cog;ratio:1.5"></a>
+                            </div>
+                            <div class="uk-width-expand">
+                                <span class="uk-search-icon-flip" uk-search-icon></span>
+                                <input id="book-search-mobile" data-url="{% url 'search-book' %}"
+                                    class="uk-search-input" type="search" placeholder="Search...">
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -206,17 +204,14 @@
                                         uk-icon="icon: home; ratio: 1.5"></span>Home</a></li>
                             <li><a href="{% url 'books' %}"><span class="uk-margin-small-right"
                                         uk-icon="icon: thumbnails; ratio: 1.5"></span> Books</a></li>
+                            <li><a href="{% url 'authors' %}"><span class="uk-margin-small-right"
+                                        uk-icon="icon: users; ratio: 1.5"></span> Authors</a></li>
                             <li><a href="{% url 'quotes' %}"><span class="uk-margin-small-right"
                                         uk-icon="icon: quote-right; ratio: 1.5"></span> Quote</a></li>
                             </li>
                             {% if user.is_authenticated %}
                             <li class="uk-nav-divider"></li>
                             <li class="uk-nav-header">Posts</li>
-                            <li>
-                                <a href="{% url 'new-post' %}" uk-toggle><span class="uk-margin-small-right"
-                                        uk-icon="icon: pencil; ratio: 1.5"></span>New</a>
-
-                            </li>
                             <li><a href="{% url 'my-posts' user %}"><span class="uk-margin-small-right"
                                         uk-icon="icon: thumbnails; ratio: 1.5"></span>My Posts</a></li>
 

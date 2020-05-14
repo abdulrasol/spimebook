@@ -3,7 +3,6 @@
 $('document').ready(function () {
     'use strict';
     // Mobile Nav-bar
-
     var DOCUMENT = $('window');
     var mobile_navbar = $('#me-mobile-navbar');
     $(window).on('scroll', function (event) {
@@ -21,12 +20,10 @@ $('document').ready(function () {
         if ($(this).val().length < 6) {
             $('.me-form button').addClass('uk-disabled');
             alertElement.slideDown(400);
-            //alert($(this).val().length);
         } else {
             $('.me-form button').removeClass('uk-disabled');
             alertElement.slideUp(400);
         }
-        //$('.me-form button').addClass('uk-disabled')
     });
 
     // search book fast
@@ -35,11 +32,8 @@ $('document').ready(function () {
         source: URL,
         minLength: 2,
         select: function (event, ui) {
-            //console.log(ui);
-            //console.log(ui.item);
             console.log(ui.item.value);
             var book = ui.item.value;
-            //var get_url = "lab".replace(/12345/, tmp.toString());
             var get_url = URL + '/' + ui.item.value;
             console.log(get_url);
             $(location).attr('href', get_url);
@@ -89,30 +83,6 @@ $('document').ready(function () {
                 });
             },
         });
-        /*
-        $.post(URL, {
-            'name': genre_text,
-            csrfmiddlewaretoken: csrftoken
-        },
-            function (data, textStatus, jqXHR) {
-                console.log(data.state);
-                if (textStatus === 'success') {
-                    var genre_container = document.querySelector('#genre-container');
-                    genre_container.appendChild(label);
-                    UIkit.modal('#modal-add-genre').hide();
-                    $('#spinner').fadeOut();
-                    $('#modal-add-genre input[name=genre]').val('');
-                } else {
-                    UIkit.notification({
-                        message: 'Check your connections',
-                        status: 'warning',
-                        pos: 'top-right',
-                        timeout: 3000
-                    });
-                }
-            }
-        );
-        */
     });
 
     // add new coomment
@@ -122,11 +92,13 @@ $('document').ready(function () {
         let spinner = comment_btn.next();
         var comment = comment_btn.parents('.uk-card-footer').find('#comment input');
         URL = comment_btn.parents('form').attr('action');
+        var post_type = comment_btn.data('type');
         let csrftoken = jQuery("#comment-form input[name=csrfmiddlewaretoken]").val();
         $.ajax({
             type: "POST",
             url: URL,
             data: {
+                'post_type': post_type,
                 'comment': comment.val(),
                 'csrfmiddlewaretoken': csrftoken,
                 'id': comment_btn.data('post')
@@ -186,11 +158,70 @@ $('document').ready(function () {
         });
     });
 
-    //
+    // add new post for books
     let post_on_book = $('#new-post-on-book');
     post_on_book.click(function () {
-        $(this).siblings().slideToggle();
+        var spinner = $('#spinner-post');
+        var csrftoken = jQuery("#post-form input[name=csrfmiddlewaretoken]").val();
+        var content = jQuery("#post-form textarea[name=content]").val();
+        var type = $("#post-form input[name='type']:checked").val();
+        let URL = $(this).data('url');
+        let post_type = $(this).data('type');
+        let data = {};
+        console.log(post_type);
+        if (post_type === 'bookpost') {
+            data = {
+                'csrfmiddlewaretoken': csrftoken,
+                'content': content,
+                'p_type': type,
+                'type': post_type
+            };
+        } else {
+            data = {
+                'csrfmiddlewaretoken': csrftoken,
+                'content': content,
+                'p_type': 'P',
+                //'book': $('#post-form input[name=for_book]').val(),
+                'title': $('#post-form input[name=title]').val(),
+                'type': post_type
+            };
+        }
+        $.ajax({
+            type: "POST",
+            url: URL,
+            data: data,
+            success: function (data) {
+                if (data.content.type === 'post') {
+                    window.location.replace(`/post/${data.content.id}/`);
+                } else {
+                    window.location.replace(`/books/${spinner.data('book')}/`);
+                }
+
+            },
+            error: function (data, textStatus, jqXHR) {
+                UIkit.notification({
+                    message: 'Check your connections',
+                    status: 'warning',
+                    pos: 'top-right',
+                    timeout: 3000
+                });
+            },
+            beforeSend: function () {
+                spinner.show();
+            },
+            complete: function () {
+                spinner.hide();
+            }
+        });
     });
+
+    // love post
+    $('#love-post').click(function (e) {
+        e.preventDefault();
+        let counter = $(this).parents('.reaction-container').find('.love-count');
+
+    });
+
 });
 document.addEventListener('click', event => {
 
@@ -198,23 +229,26 @@ document.addEventListener('click', event => {
     if (event.target.parentNode.id == 'love-post') {
         let btn = event.target.parentNode;
         let URL = event.target.parentNode.dataset.post;
-        $.get(URL, function (data, state, xhr) {
-            UIkit.notification({
-                message: data.msg,
-                status: 'success',
-                pos: 'top-right',
-                timeout: 3000
-            });
-            if (data.love == true) {
-                //btn.firstChild.firstChild.style.fill = '#e64f4f';
-                btn.style.color = "#e64f4f";
-                //btn.css('color', '');
-                //console.log(btn.firstChild.style.fill);
-            } else {
-                //btn.firstChild.firstChild.style.fill = 'bcdbfb';
-                btn.style.color = "#bcdbfb";
-                //console.log(btn.firstChild.firstChild.style.fill);
-                //btn.css('color', '#e64f4f');
+        let post_type = event.target.parentNode.dataset.type;
+        $.ajax({
+            type: "GET",
+            url: URL,
+            data: {
+                'type': post_type,
+            },
+            success: function (data) {
+                UIkit.notification({
+                    message: data.content.msg,
+                    status: 'success',
+                    pos: 'top-right',
+                    timeout: 3000
+                });
+                if (data.love == true) {
+                    btn.style.color = "#e64f4f";
+
+                } else {
+                    btn.style.color = "#bcdbfb";
+                }
             }
         });
     }
@@ -258,7 +292,6 @@ document.addEventListener('click', event => {
     if (event.target.classList.contains('book-rating')) {
         rate = event.target;
         URL = '/books/ajax/book/rate/' + rate.parentNode.dataset.book + '/' + rate.value;
-        //console.log(URL);
         $.get(URL, function (data, state, xhr) {
             console.log(data.rating.rating__avg);
             document.querySelector('.show-rating').innerHTML = data.rating.rating__avg;

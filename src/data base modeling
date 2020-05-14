@@ -18,15 +18,9 @@ books
             - lang ar
             - lang en
             - lang fr
-
-    Review  - user [relation]
-            - book [relation]
-            - content
-            - publish date
-            - lang {form supported lang}
     
     Quote   - user [relation]
-            - book [relation]
+    Review  - book [relation]
             - content
             - publish date
             - lang {form supported lang}

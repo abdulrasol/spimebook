@@ -2,7 +2,6 @@
 {% load static %}
 {% load posts_extra %}
 {% load books_extra %}
-{% load widget_tweaks %}
 {% block content %}
 {# get user lang to show correct translate #}
 {% if user.is_authenticated %}
@@ -50,8 +49,10 @@
                 {% if post.post_type == "Q" %}
                 <span class="uk-icon" uk-icon="quote-right"></span>
                 {% endif %}
+                {% if post.for_book %}
                 <a href="{% url 'book' post.for_book.id %}"
-                    class="uk-label uk-margin-left">{{ post.for_book|get_translate:user_lang }}</a>
+                    class="uk-label">{{ post.for_book|get_translate:user_lang }}</a>
+                {% endif %}
             </div>
             <div>
                 <span class="uk-button uk-button-text uk-text-meta">{{post.loves.all|length}} loves</span>
@@ -65,8 +66,8 @@
             {% if user.is_authenticated %}
             <!-- % url 'love' post.id % -->
             <span>
-                <a class="uk-icon uk-margin-small-right" id="love-post" data-post="{% url 'love' post.id %}"
-                    uk-icon="icon: heart"></a>
+                <a class="uk-icon uk-margin-small-right" id="love-post" data-post="{% url 'reactions:love' post.id %}"
+                    data-type="post" uk-icon="icon: heart"></a>
             </span>
             <span>
                 <a href="#" class="uk-icon uk-margin-small-right" uk-icon="icon: reply"

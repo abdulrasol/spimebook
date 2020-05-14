@@ -1,6 +1,5 @@
 from django import template
-from posts.models import Post, Comment
-from posts.forms import AddCommentForm
+
 
 register = template.Library()
 
@@ -21,3 +20,12 @@ def translate_genre(value, arg):
 def define(val=None):
     # retrun the val
     return val
+
+
+@register.inclusion_tag('books/costumtags/post_container.html')
+def book_post(post, user):
+    context = {
+        'user': user,
+        'post': post
+    }
+    return context

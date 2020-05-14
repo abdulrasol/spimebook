@@ -1,0 +1,99 @@
+{% load reactions %}
+<div class="reaction-container">
+    <div class="uk-flex uk-grid-small" uk-grid>
+        <div class="uk-flex uk-grid-small" uk-grid>
+            <div>
+                <span class="uk-button uk-button-text uk-text-meta"><span class="love-count">{{post.loves.count}}</span>
+                    loves</span>
+            </div>
+            <div class="uk-margin-small-bottom">
+                <a href="#post-comment-{{post.id}}" class="comment-count uk-button uk-button-text uk-text-meta"
+                    uk-toggle>{{post.comments.count}} Comments</a>
+            </div>
+        </div>
+    </div>
+    <div class="commnet-container" id="post-comment-{{post.id}}" hidden>
+        {% for comment in post.comments.all %}
+        <article class="uk-comment uk-padding-small uk-padding-remove-horizontal">
+            <hr>
+            <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
+                <div class="uk-width-auto uk-text-center">
+                    <a href="{% url 'user-profile' comment.user %}">
+                        <img class="uk-comment-avatar avatat-img" data-src="{{comment.user.profile.picture.url}}"
+                            alt="{{comment.user.profile.picture.url}}" width="50px" height="50px" alt="{{comment.user}}"
+                            uk-img>
+                    </a>
+                </div>
+                <div class="uk-width-expand">
+                    <a class="uk-link-reset" href="{% url 'user-profile' comment.user %}">
+                        <h4 class="uk-comment-title uk-margin-remove">
+                            {{comment.user}}
+                        </h4>
+                    </a>
+                    <span>{{comment.comment_date|date:"d M Y, H:i"}}</span>
+                </div>
+            </header>
+            <div class="uk-comment-body">
+                <p>{{comment.comment}}</p>
+            </div>
+        </article>
+        {% empty %}
+        <p>Threre is no comment for now!</p>
+        {% endfor %}
+    </div>
+    <div id="add-reply-{{post.id}}" class="uk-margin-small-top uk-margin-small-bottom" hidden>
+        <!-- form -->
+        {% if user.is_authenticated %}
+        {% comment_form post.id %}
+        {% endif  %}
+        <!--Form-->
+    </div>
+    <div class="reaction">
+        {% if user.is_authenticated %}
+        <!-- % url 'love' post.id % -->
+        <span>
+            <a style="color:#bcdbfb" class="uk-icon uk-margin-small-right" id="love-post"
+                data-post="{% url 'reactions:love' post.id %}" data-type="book" uk-icon="icon: heart"></a>
+        </span>
+
+        <span>
+            <a href="#" class="uk-icon uk-margin-small-right" uk-icon="icon: reply"
+                uk-toggle="target: #add-reply-{{post.id}}; animation: uk-animation-slide-top-small" type="button"></a>
+        </span>
+        {% else %}
+
+        <span uk-tooltip="Log In First">
+            <a class="uk-icon uk-margin-small-right" uk-icon="icon: heart"></a>
+        </span>
+        <span uk-tooltip="Log In First">
+            <a class="uk-icon uk-margin-small-right" uk-icon="icon: reply" type="button"></a>
+        </span>
+
+        {% endif %}
+        <span>
+            <a href="#share-modal" class="uk-icon uk-margin-small-right" uk-icon="icon: social" uk-toggle></a>
+        </span>
+        {% if user.is_authenticated %}
+        <a type="button" href="#" class="uk-icon uk-float-right" uk-icon="icon: more"></a>
+        <!-- dropdown more options -->
+
+        <div class="uk-padding-remove" uk-dropdown="pos: top-justify">
+            <ul class="uk-nav uk-dropdown-nav uk-card uk-card-default uk-card-body">
+                {% if user == post.user %}
+                <li>
+                    <a style="color:#999" href="{% url 'edit-post' post.id %}">
+                        <span class="uk-icon uk-padding-small" uk-icon="icon:  file-edit"></span>Edit
+                    </a>
+                </li>
+                {% endif %}
+                <li>
+                    <a style="color:#999" href="#">
+                        <span class="uk-icon uk-padding-small" uk-icon="icon: warning"></span>Report
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+        {% endif %}
+    </div>
+</div>

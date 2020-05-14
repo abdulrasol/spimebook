@@ -1,4 +1,4 @@
-<form id="comment-form" action="{% url 'add-comment' post.id %}" method="post">
+<form id="comment-form" action="{% url 'reactions:add-comment' post.id %}" method="post">
     {% csrf_token %}
     <br>
     <div class="uk-flex uk-grid-small uk-flex-middle" uk-grid>

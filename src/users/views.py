@@ -10,6 +10,7 @@ from django.http import HttpResponse
 from .forms import EditProfileForm, EditAccountForm
 from django.utils.translation import gettext as _, activate, LANGUAGE_SESSION_KEY, get_language_from_request
 from django.conf import settings as conf_settings
+from django.http import JsonResponse
 
 # Create your views here.
 # { % if user.is_authenticated % }

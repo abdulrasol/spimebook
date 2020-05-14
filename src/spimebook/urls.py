@@ -26,6 +26,7 @@ urlpatterns = [
     path('books/', include('books.urls')),
     path('', include('users.urls')),
     path('ratings/', include('star_ratings.urls', namespace='ratings')),
+    path('ajax/', include('reactions.urls', namespace='reactions')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += i18n_patterns(

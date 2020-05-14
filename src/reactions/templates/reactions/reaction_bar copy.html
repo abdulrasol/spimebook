@@ -64,9 +64,7 @@
         {% if post.post_type == "Q" %}
         <span class="uk-icon uk-margin-small-right" uk-icon="quote-right"></span>
         {% endif %}
-       {% if post.for_book %}
-         <a href="{% url 'book' post.for_book.id %}" class="uk-label">{{ post.for_book|get_translate:user_lang }}</a>
-       {% endif %}
+        <a href="{% url 'book' post.for_book.id %}" class="uk-label">{{ post.for_book|get_translate:user_lang }}</a>
     </div>
 </div>
 <div class="reaction">
@@ -74,7 +72,7 @@
     <!-- % url 'love' post.id % -->
     <span>
         <a style="color:#bcdbfb" class="uk-icon uk-margin-small-right" id="love-post"
-            data-post="{% url 'reactions:love' post.id %}" data-type="post" uk-icon="icon: heart"></a>
+            data-post="{% url 'reactions:love' post.id %}" uk-icon="icon: heart"></a>
     </span>
 
     <span>

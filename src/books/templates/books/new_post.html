@@ -1,0 +1,30 @@
+{% extends "posts/base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/jquery-ui.css'%}">
+<script src="{% static 'js/jquery-ui.min.js' %}"></script>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="uk-grid" uk-grid>
+        <div class="uk-margin uk-width-1-1">
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom" for="form-stacked-text">Book
+                Post</label>
+            <div class="uk-form-controls">
+                <textarea id="content" name="content" class="uk-textarea uk-padding-small" rows="5"
+                    placeholder="Content.." required></textarea>
+            </div>
+        </div>
+        <div class="uk-width-1-2@s">
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Type</label>
+            <select id="p_type" name="p_type" class="uk-select" required>
+                <option value="Q">Quote</option>
+                <option value="R">Review</option>
+            </select>
+        </div>
+    </div>
+    <div class="uk-width-1-1 uk-margin">
+        <button type="submit" class="uk-button uk-button-primary">Add Post</button>
+    </div>
+</form>
+
+{% endblock content %}

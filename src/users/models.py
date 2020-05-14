@@ -5,6 +5,9 @@ from PIL import Image
 from posts.models import Post
 from books.models import Book
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from django.utils.translation import gettext as _
 # Create your models here.
 
 
@@ -14,8 +17,6 @@ class Profile(models.Model):
     picture = models.ImageField(
         upload_to='users/Profiles/', blank=True, null=True, default='user.png')
     bio = models.CharField(max_length=221, blank=True, null=True)
-    loves = models.ManyToManyField(
-        Post, related_name='loves', blank=True)
     books = models.ManyToManyField(
         Book, related_name='books', blank=True)
     lang = models.CharField(

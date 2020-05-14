@@ -3,8 +3,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponseForbidden, HttpResponse
-from .models import Post, Comment
-from .forms import AddCommentForm, EditPostForm
+from .models import Post
+from reactions.models import Comment
 from books.models import Author, Book
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count, Avg
@@ -34,8 +34,7 @@ def test(request):
 
 
 def home(request):
-    comment_form = AddCommentForm()
-    all_posts = Post.objects.filter(archived=False)
+    all_posts = Post.objects.filter(archived=False).filter(post_type='P')
     page = request.GET.get('page', 1)
     paginator = Paginator(all_posts, 7)
     try:
@@ -48,14 +47,12 @@ def home(request):
     context = {
         'title': 'Spimebook, a site for readers',
         'posts': posts,
-        'comment_form': comment_form,
     }
     return render(request, 'posts/index.html', context)
 
 
 def quotes(request):
     all_posts = Post.objects.filter(post_type='Q').filter(archived=False)
-    comment_form = AddCommentForm()
     page = request.GET.get('page', 1)
     paginator = Paginator(all_posts, 7)
     try:
@@ -67,18 +64,15 @@ def quotes(request):
     context = {
         'title': 'Spimebook, a site for readers',
         'posts': posts,
-        'comment_form': comment_form,
     }
     return render(request, 'posts/index.html', context)
 
 
 def post(request, post_id):
     target_post = Post.objects.get(id=post_id)
-    comment_form = AddCommentForm()
     context = {
         'title': target_post.title,
         'post': target_post,
-        'comment_form': comment_form,
     }
     return render(request, 'posts/post.html', context)
 
@@ -106,6 +100,33 @@ def new_post(request):
         'title': 'New Post',
     }
     return render(request, 'posts/new_post.html', context)
+
+
+@ajax
+@login_required(login_url='log-in')
+def new_post2(request):
+    user = request.user
+    title = request.POST['title']
+    content = request.POST['content']
+    p_type = request.POST['p_type']
+    lang = user.profile.lang
+    post = Post(user=user, title=title, lang=lang,
+                content=content, post_type=p_type)
+    book = request.POST['for_book'].split(', ')[0]
+    lang = lang.upper()
+    exec(f'from books.models import {lang} as book_{lang}')
+    if not eval(f"book_{lang}.objects.filter(title__istartswith='{book}').exists()"):
+        post.save()
+    else:
+        book = eval(
+            f"book_{lang}.objects.get(title__istartswith='{title}')")
+        post.for_book = book.book
+        post.save()
+    context = {
+        'post': post.id,
+        'type': 'post'
+    }
+    return (context)
 
 
 @login_required(login_url='log-in')
@@ -144,7 +165,6 @@ def edit_post(request, post_id):
 @login_required(login_url='log-in')
 def my_posts(request, user):
     all_posts = Post.objects.filter(user=request.user)
-    comment_form = AddCommentForm()
     page = request.GET.get('page', 1)
     paginator = Paginator(all_posts, 7)
     try:
@@ -157,75 +177,8 @@ def my_posts(request, user):
     context = {
         'title': 'My posts, Spimebook',
         'posts': posts,
-        'comment_form': comment_form,
     }
     return render(request, 'posts/my_posts.html', context)
-
-
-'''
-def add_comment(request, post_id):
-    target_post = Post.objects.get(id=post_id)
-    #    comment_form = AddCommentForm()
-    context = {
-        'post': target_post,
-        'comment': target_post,
-    }
-    # if this is a POST request we need to process the form data
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = AddCommentForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-
-            get_comment = form.cleaned_data['comment']
-            save_comment = Comment(
-                user=request.user, comment=get_comment, post=target_post)
-            save_comment.save()
-            # target_comment = save_comment
-            # redirect to a new URL:
-            return render(request, 'posts/post.html', context)
-
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        return HttpResponseRedirect('/')
-    return render(request, 'posts/post.html', context)
-'''
-
-
-@ajax
-@login_required(login_url='log-in')
-def add_commnet(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-    if request.method == 'POST':
-        comment = request.POST['comment']
-        comment = Comment(user=request.user, comment=comment, post=post)
-        comment.save()
-        img = request.user.profile.picture.url
-        context = {
-            'comment': comment.comment,
-            'img': img,
-            'user': request.user,
-            'time': comment.comment_date.strftime("%d %b %Y, %H:%M"),
-        }
-    return context
-
-
-@login_required(login_url='log-in')
-def love(request, post_id):
-    post = Post.objects.get(id=post_id)
-    user = request.user.profile
-    print(user)
-    #  u1.saves.filter(id = 2).exists()
-    if user.loves.filter(id=post.id).exists():  # cheek:
-        post.loves.remove(user)
-        msg = f'unlove {post.title}'
-        love = False
-    else:
-        post.loves.add(user)  # love
-        msg = f'love {post.title}'
-        love = True
-    return JsonResponse({'msg': msg, 'love': love})
 
 
 @login_required(login_url='log-in')

@@ -117,8 +117,16 @@ nav .uk-logo {
     }
 }
 
+.me-mobile-navbar-fixing {
+    height: 70px;
+}
+
 #me-mobile-navbar {
     z-index: 5;
+}
+
+.fix-mobile-nav {
+    height: 75px;
 }
 
 .fixed-mobile-bar {
@@ -127,10 +135,45 @@ nav .uk-logo {
     width: 100%
 }
 
-#main-container+.fixed-mobile-bar {
-    padding-top: 100px;
+
+/* start book tab */
+.tab-ul {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 10px;
+    display: block;
+    border-bottom: 1px solid #e5e5e5;
 }
 
+.tab-ul li {
+    display: inline-block;
+    list-style: none;
+    color: #999;
+    padding: 12px 0;
+    border-radius: 5px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+
+}
+
+.tab-ul li:hover {
+    color: #444;
+    background-color: #44444436;
+}
+
+.tab-ul li a {
+    color: inherit;
+    text-decoration: none;
+    padding: 12px;
+}
+
+.tab-ul li.active {
+    color: #222;
+    background-color: #44444413;
+    border-bottom: 2px solid #1e87f0;
+}
+
+/* end book tab */
 /* start loading */
 
 .loading-more-post {
@@ -208,29 +251,6 @@ nav .uk-logo {
     transition: all .5s ease-in-out;
 }
 
-.add-post-btn div {
-    position: relative;
-}
-
-.add-post-btn #R span::before {
-    content: 'Review';
-    position: relative;
-    display: block;
-    right: 70px;
-    top: 16px;
-    color: #1e87f0;
-    font-size: 16px;
-}
-
-.add-post-btn #Q span::before {
-    content: 'Quote';
-    position: relative;
-    display: block;
-    right: 70px;
-    top: 16px;
-    color: #1e87f0;
-    font-size: 16px;
-}
 
 @media (max-width: 640px) {
     .add-post-btn {

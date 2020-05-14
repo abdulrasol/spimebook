@@ -1,10 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Comment, Post
-
-
-class AddCommentForm(forms.Form):
-    comment = forms.CharField(max_length=255)
+from .models import Post
 
 
 class EditPostForm(ModelForm):
@@ -12,4 +8,4 @@ class EditPostForm(ModelForm):
 
     class Meta:
         model = Post
-        fields = ['title', 'content', 'for_book', 'post_type', 'archived']
+        fields = ['title', 'content', 'for_book', 'archived']

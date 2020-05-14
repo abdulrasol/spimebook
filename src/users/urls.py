@@ -11,5 +11,8 @@ urlpatterns = [
     path('user/profile/edit', views.edit_profile, name='edit-profile'),
     path('user/profile/settings', views.settings, name='settings'),
     path('<str:username>/', views.user_profile, name='user-profile'),
-    path('local', views.local)
+    path('local', views.local),
+
+    # ajax
+    #path('ajax/post/love/<int:post_id>', views.love, name='love'),
 ]

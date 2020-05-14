@@ -6,7 +6,6 @@ from django.http import JsonResponse, HttpResponse
 from django.contrib import messages
 from .forms import AddAuthorForm, EditBookForm
 from posts.models import Post
-import json
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Avg
@@ -33,20 +32,30 @@ def books(request):
     return render(request, 'books/index.html', context)
 
 
-def book(request, book_id):
+def book(request, book_id, posts='all'):
     lang = get_lang(request)
     target_book = get_object_or_404(Book, id=book_id).translate(lang)
+
+    # check readed book or no ?
     readed_book_state = False
-    rating = target_book.book.rating_set.all().aggregate(Avg('rating'))
     if request.user.is_authenticated:
         user = request.user.profile
         if user.books.filter(id=target_book.book.id).exists():  # cheek:
             readed_book_state = True
         else:
             readed_book_state = False
-    all_posts = Post.objects.filter(
-        for_book=target_book.book).filter(archived=False)
 
+    # Return posts [and Filterd]
+    if posts == 'all':
+        all_posts = Post.objects.filter(
+            for_book=target_book.book).filter(archived=False)
+        post_type = 'all'
+    else:
+        post_type = posts
+        posts = posts[0].upper()
+        all_posts = Post.objects.filter(
+            for_book=target_book.book).filter(post_type=posts).filter(archived=False)
+    # setup Paginators
     page = request.GET.get('page', 1)
     paginator = Paginator(all_posts, 5)
     try:
@@ -60,7 +69,7 @@ def book(request, book_id):
                'book': target_book,
                'posts': posts,
                'readed_book': readed_book_state,
-               'rating': rating
+               'post_type': post_type
                }
     return render(request, 'books/book.html', context)
 
@@ -95,7 +104,6 @@ def genres(request, genre):
 @ajax
 @login_required(login_url='log-in')
 def add_genre(request, genre):
-    print(genre)
     if request.method == 'POST':
         value = request.POST['name']
         genre = Genres(genre=value)

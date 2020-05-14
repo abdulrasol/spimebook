@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'authors.apps.AuthorsConfig',
+    'reactions.apps.ReactionsConfig',
     'star_ratings',
+    'widget_tweaks',
     'django_ajax',
 ]
 

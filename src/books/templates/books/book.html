@@ -74,17 +74,32 @@
         </div>
         <div class="uk-card-footer">
             <div>
-                <ul class="uk-tab-bottom" uk-tab>
-                    <li class="uk-active"><a href="">All</a></li>
-                    <li><a href="">Reviews</a></li>
-                    <li><a href="">Quotes</a></li>
+                <ul class="tab-ul uk-width-auto">
+                    <li id="all" data-type="{{post_type}}" class="active">
+                        <a href="{% url 'filter-book-post' book.id 'all' %}">All</a>
+                    </li>
+                    <li id="reviews" data-type="{{post_type}}">
+                        <a href="{% url 'filter-book-post' book.id 'reviews' %}">Reviews</a>
+                    </li>
+                    <li id="quotes" data-type="{{post_type}}">
+                        <a href="{% url 'filter-book-post' book.id 'quotes' %}">Quotes</a>
+                    </li>
+                    <li id="posts" data-type="{{post_type}}">
+                        <a href="{% url 'filter-book-post' book.id 'posts' %}">Posts</a>
+                    </li>
                 </ul>
             </div>
-            <div class="uk-width-expand">
+            <div class=" uk-width-expand">
                 <!-- Start Users Posts -->
                 <div class="article-feed">
                     {% for post in posts %}
-                    {% post post user %}
+                    {% book_post post user %}
+                    {% empty %}
+                    {% if post_type == 'all' %}
+                    <p class="uk-padding">There is no posts, reviews or quotes for Now!</p>
+                    {% else %}
+                    <p class="uk-padding">There is no {{post_type}} for Now!</p>
+                    {% endif %}
                     {% endfor %}
                 </div>
                 <!-- status elements -->
@@ -102,93 +117,61 @@
                     </div>
                 </div>
                 <!-- pagination has path -->
-                {% if indicator %}
                 {% if posts.has_next %}
                 <p class="pagination">
                     <a class="pagination__next" href="?page={{ posts.next_page_number }}"></a>
                 </p>
-                {% endif %}
                 {% endif %}
                 <!-- End Users Posts -->
             </div>
         </div>
     </div>
     <div>
-        <!--
-        <style>
-            .add-post-btn {
-                position: fixed;
-                bottom: 40px;
-                right: 40px;
-                width: 50px;
-                transition: all .5s ease-in-out;
-            }
-
-            .add-post-btn .btn-container {
-                padding: 10px;
-                box-sizing: border-box;
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                background-color: #1e87f0;
-                color: #FFF;
-                box-shadow: 2px 5px 8px rgba(41, 39, 39, 0.46);
-                margin-bottom: 5px;
-                cursor: pointer;
-                transition: all .5s ease-in-out;
-            }
-
-            .add-post-btn div {
-                position: relative;
-            }
-
-            .add-post-btn #R span::before {
-                content: 'Review';
-                position: relative;
-                display: block;
-                right: 70px;
-                top: 16px;
-                color: #1e87f0;
-                font-size: 16px;
-            }
-
-            .add-post-btn #Q span::before {
-                content: 'Quote';
-                position: relative;
-                display: block;
-                right: 70px;
-                top: 16px;
-                color: #1e87f0;
-                font-size: 16px;
-            }
-
-            @media (max-width: 640px) {
-                .add-post-btn {
-                    bottom: 20px;
-                    right: 20px;
-                }
-            }
-        </style>
-        -->
         <div class="add-post-btn">
-            <span id="new-post-on-book" class="btn-container" uk-icon="icon:pencil; ratio:1.5"></span>
-            <div style="display: none;">
-                <a id="R" href="#">
-                    <span class="btn-container" uk-icon="icon:file-edit; ratio:1.5"></span>
-                </a>
-                <a id="Q" href="#">
-                    <span class="btn-container" uk-icon="icon:quote-right; ratio:1.5"></span>
-                </a>
+            <span class="btn-container" uk-icon="icon:pencil; ratio:1.5" uk-toggle="target: #new-book-post"></span>
+            <!-- This is the new post modal -->
+            <div id="new-book-post" uk-modal="bg-close: false">
+                <div class="uk-modal-dialog uk-modal-body">
+                    <h2 class="uk-modal-title">Write for {{book}}</h2>
+                    <form id="post-form" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="uk-width-1-1 uk-margin-small">
+                            <div class="uk-form-controls">
+                                <textarea id="content" name="content" class="uk-textarea uk-padding-small" rows="5"
+                                    placeholder="Content.." required></textarea>
+                            </div>
+                        </div>
+                        <div class="uk-width-1-1 uk-margin-small">
+                            <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                                <label><input class="uk-radio" value="Q" type="radio" name="type" checked>
+                                    Quote</label>
+                                <label><input class="uk-radio" value="R" type="radio" name="type"> Review</label>
+                            </div>
+                            <div class="uk-width-1-1 uk-text-center">
+                                <div data-book="{{book.id}}" style="display: none;" id="spinner-post"
+                                    uk-spinner="ratio: 2.5"></div>
+                            </div>
+                        </div>
+                    </form>
+                    <p class="uk-text-right">
+                        <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                        <button data-type="bookpost" data-url="{% url 'reactions:add-post' book.id %}"
+                            id="new-post-on-book" class="uk-button uk-button-primary" type="button">Save</button>
+                    </p>
+                </div>
             </div>
         </div>
-        <!--<script>
-            $(function () {
-                $('#new-btn').click(function () {
-                    $(this).siblings().slideToggle();
-                });
-            });
-        </script>-->
     </div>
+    <script>
+        $(function () {
+            var active = $(".tab-ul #{{post_type}}");
+            var id_text = active.attr('id');
+            var data_text = active.data('type');
+            if (id_text === data_text) {
+                active.addClass('active').siblings().removeClass('active');
+            }
+        });
+    </script>
     <!-- End book Profile container -->
     {% endblock content %}
     {% if indicator %}

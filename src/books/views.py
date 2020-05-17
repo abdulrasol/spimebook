@@ -10,6 +10,7 @@ from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Avg
 from django_ajax.decorators import ajax
+import json
 
 
 # Create your views here.

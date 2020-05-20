@@ -78,60 +78,9 @@ def post(request, post_id):
 
 
 @login_required(login_url='log-in')
-def new_post(request):
-    if request.method == 'POST':
-        title = request.POST['for_book'].split(', ')[0]
-        lang = request.user.profile.lang.upper()
-        exec(f'from books.models import {lang} as book_{lang}')
-        if not eval(f"book_{lang}.objects.filter(title__istartswith='{title}').exists()"):
-            messages.add_message(
-                request, messages.ERROR, _('Book not found, please correct title or add to database.'))
-        else:
-            book = eval(
-                f"book_{lang}.objects.get(title__istartswith='{title}')")
-            title = request.POST['title']
-            content = request.POST['content']
-            p_type = request.POST['p_type']
-            post = Post(user=request.user, title=title,
-                        content=content, post_type=p_type, for_book=book.book)
-            post.save()
-            return redirect(f'/post/{post.id}')
-    context = {
-        'title': 'New Post',
-    }
-    return render(request, 'posts/new_post.html', context)
-
-
-@ajax
-@login_required(login_url='log-in')
-def new_post2(request):
-    user = request.user
-    title = request.POST['title']
-    content = request.POST['content']
-    p_type = request.POST['p_type']
-    lang = user.profile.lang
-    post = Post(user=user, title=title, lang=lang,
-                content=content, post_type=p_type)
-    book = request.POST['for_book'].split(', ')[0]
-    lang = lang.upper()
-    exec(f'from books.models import {lang} as book_{lang}')
-    if not eval(f"book_{lang}.objects.filter(title__istartswith='{book}').exists()"):
-        post.save()
-    else:
-        book = eval(
-            f"book_{lang}.objects.get(title__istartswith='{title}')")
-        post.for_book = book.book
-        post.save()
-    context = {
-        'post': post.id,
-        'type': 'post'
-    }
-    return (context)
-
-
-@login_required(login_url='log-in')
 def edit_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
+    print(post)
     if not request.user == post.user:
         return HttpResponseForbidden()
     if request.method == 'POST':

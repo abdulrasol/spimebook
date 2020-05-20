@@ -38,6 +38,7 @@
     {% if user.is_authenticated %}
     <div class="add-post-btn">
         <span class="btn-container" uk-icon="icon:pencil; ratio:1.5" uk-toggle="target: #new-book-post"></span>
+
         <!-- This is the new post modal -->
         <div id="new-book-post" uk-modal="bg-close: false">
             <div class="uk-modal-dialog uk-modal-body">
@@ -56,8 +57,18 @@
                                 placeholder="Post.." required></textarea>
                         </div>
                     </div>
-                    <div class="uk-width-1-2@s">
-                        <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Book</label>
+                    <div class="uk-width-1-1 book-list-container">
+                        <ul uk-accordion>
+                            <li>
+                                <a class="uk-accordion-title" href="#">Select Book</a>
+                                <div class="uk-accordion-content">
+                                    <input type="search" class="uk-input book-filter" id="filter"
+                                        placeholder="Book Title">
+                                    <div id="books-list" class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                         <span style="display: block;" class="uk-margin-small-top uk-text-muted author-autocomplete">
                             If Book Doesn't Appear
                             <a href="{% url 'add-book' %}">click here to
@@ -78,4 +89,39 @@
 {% endblock content %}
 {% block javascript %}
 {% infinite_scroll_js %}
+<script>
+    $(function () {
+        var books_list = $('#books-list');
+        $('.add-post-btn span.btn-container').click(e => {
+            var URL_P = '{% url "reactions:all-books" %}';
+            $.ajax({
+                type: "GET",
+                url: URL_P,
+                success: function (response) {
+                    response.content.forEach(book => {
+                        var elemet = `<div filter='${book.title}' style='margin:2px;disply:inline-block'><label><input class="uk-radio" value="${book.id}" type="radio" name="book"> ${book.title}</label></div>`
+                        books_list.append(elemet);
+                    });
+                }
+            });
+        });
+        let filter = $('.book-list-container input[type=search]')
+        filter.on({
+            "keydown": function (e) {
+                value = $(this).val()
+                books_list.find(`div:not([filter=${value}])`).hide();
+                if ($(this).value === '') {
+                    books_list.find(`div`).show();
+                }
+            },
+            "keyup": function () {
+                value = $(this).val()
+                books_list.find(`:contains(${value})`).show();
+                if ($(this).value === '') {
+                    books_list.find(`div`).show();
+                }
+            }
+        });
+    });
+</script>
 {% endblock javascript %}

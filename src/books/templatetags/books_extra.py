@@ -6,6 +6,8 @@ register = template.Library()
 
 @register.filter(name='get_translate')
 def get_translate(value, arg):
+    if value == None:
+        return None
     translate = eval(f"value.{arg}")
     return translate
 

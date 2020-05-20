@@ -8,8 +8,6 @@ urlpatterns = [
     path('posts/<str:user>', views.my_posts, name='my-posts'),
     path('post/<int:post_id>/', views.post, name='post'),
     path('post/<int:post_id>/edit', views.edit_post, name='edit-post'),
-    path('post/new', views.new_post, name='new-post'),
     path('save/<int:post_id>', views.save, name='save'),
-    # AJAX
-    path('posts/ajax/post/new', views.new_post2, name='new-post2'),
+
 ]

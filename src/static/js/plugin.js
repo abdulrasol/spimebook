@@ -168,7 +168,6 @@ $('document').ready(function () {
         let URL = $(this).data('url');
         let post_type = $(this).data('type');
         let data = {};
-        console.log(post_type);
         if (post_type === 'bookpost') {
             data = {
                 'csrfmiddlewaretoken': csrftoken,
@@ -181,7 +180,7 @@ $('document').ready(function () {
                 'csrfmiddlewaretoken': csrftoken,
                 'content': content,
                 'p_type': 'P',
-                //'book': $('#post-form input[name=for_book]').val(),
+                'book': $('#post-form input[name="book"]:checked').val(),
                 'title': $('#post-form input[name=title]').val(),
                 'type': post_type
             };
@@ -196,7 +195,6 @@ $('document').ready(function () {
                 } else {
                     window.location.replace(`/books/${spinner.data('book')}/`);
                 }
-
             },
             error: function (data, textStatus, jqXHR) {
                 UIkit.notification({

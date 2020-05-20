@@ -2,11 +2,30 @@ from django.shortcuts import render
 from posts.models import Post
 from django.shortcuts import get_object_or_404
 from .models import Love, Comment
-from books.models import Book
+from books.models import Book, AR, FR, EN
 from django.contrib.auth.decorators import login_required
 from django_ajax.decorators import ajax
+import json
+from django.http import JsonResponse
+from django.core import serializers
+
 
 # Create your views here.
+
+@ajax
+@login_required(login_url='log-in')
+def get_all_books(request):
+    lang = request.user.profile.lang.upper()
+    books = eval(f'{lang}.objects.all()')
+    data = []
+    for book in books:
+        book_info = {
+            'book': book.book,
+            'id': book.id,
+            'title': book.title
+        }
+        data.append(book_info)
+    return data
 
 
 @ajax
@@ -33,6 +52,10 @@ def new_post(request, book_id):
         title = request.POST['title']
         post = Post(user=user, title=title, lang=lang,
                     content=content, post_type=p_type)
+        if 'book' in request.POST:
+            print(request.POST['book'])
+            book = get_object_or_404(Book, id=request.POST['book'])
+            post.for_book = book
         post.save()
         context = {
             'id': post.id,

@@ -1,0 +1,13 @@
+env/*
+bin/*
+include/*
+lib/*
+*.pyc
+src/db.sqlite3
+src/books/__pycache__/*
+src/blog/migrations/*
+src/books/migrations/*
+src/posts/migrations/*
+src/users/migrations/*
+src/authors/migrations/*
+src/db.sqlite3

@@ -34,7 +34,7 @@
                             {% for book in books %}
                             <li class="uk-text-center">
                                 <div class="me-header uk-padding-small uk-padding-remove-vertical">
-                                    <a class="uk-link" href="{% url 'book' book.id %}">
+                                    <a class="uk-link" href="{% url 'books:book' book.id %}">
                                         <div class="uk-card-media-top">
                                             <img class="uk-border-rounded" data-src="{{ book.book_image.url }}"
                                                 width="125px" height="190px" alt="" uk-img>

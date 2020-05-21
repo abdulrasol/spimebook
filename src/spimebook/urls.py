@@ -16,14 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from . import settings
+from posts.views import home
 from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 
 
 urlpatterns = [
-    path('authors/', include('authors.urls')),
-    path('', include('posts.urls')),
-    path('books/', include('books.urls')),
+    path('', home, name='home'),
+    path('authors/', include('authors.urls', namespace='authors')),
+    path('books/', include('books.urls', namespace='books')),
+    path('posts/', include('posts.urls', namespace='posts')),
     path('', include('users.urls')),
     path('ratings/', include('star_ratings.urls', namespace='ratings')),
     path('ajax/', include('reactions.urls', namespace='reactions')),

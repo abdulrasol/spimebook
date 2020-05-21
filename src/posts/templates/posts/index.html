@@ -64,14 +64,15 @@
                                 <div class="uk-accordion-content">
                                     <input type="search" class="uk-input book-filter" id="filter"
                                         placeholder="Book Title">
-                                    <div id="books-list" class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                                    <div style="max-height: 250px; overflow-y: auto;" id="books-list"
+                                        class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
                                     </div>
                                 </div>
                             </li>
                         </ul>
                         <span style="display: block;" class="uk-margin-small-top uk-text-muted author-autocomplete">
                             If Book Doesn't Appear
-                            <a href="{% url 'add-book' %}">click here to
+                            <a href="{% url 'books:add-book' %}">click here to
                                 add</a>
                         </span>
                     </div>

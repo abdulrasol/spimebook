@@ -20,7 +20,7 @@
             <div class="uk-margin uk-margin-large-top">
                 <div class="uk-alert-warning existed" uk-alert>
                     <p>
-                        {{message}} <a href="{% url 'add-author' %}">from here</a>
+                        {{message}} <a href="{% url 'authors:add-author' %}">from here</a>
                     </p>
                 </div>
             </div>
@@ -44,10 +44,10 @@
         <div id="author-autocomplete" class="uk-margin uk-width-1-1">
             <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Author</label>
             <input class="uk-input" id="author" name="author" type="text" placeholder="Book Author"
-                data-author="{% url 'author-autocomplete' %}" required>
+                data-author="{% url 'authors:author-autocomplete' %}" required>
             <span style="display: block;" class="uk-margin-small-top uk-text-muted author-autocomplete">If Author
                 Doesn't Appear
-                <a href="{% url 'add-author' %}">click here to
+                <a href="{% url 'authors:add-author' %}">click here to
                     add</a>
             </span>
             <script>

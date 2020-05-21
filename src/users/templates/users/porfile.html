@@ -54,14 +54,14 @@
                                     <div class="uk-padding-small" uk-dropdown="mode: click">
                                         <ul class="uk-nav uk-dropdown-nav">
                                             <li id="add-to-readed-book-profile">
-                                                <a id="add-to-readed-book" data-book="{% url 'readed-book' book.id %}">
+                                                <a id="add-to-readed-book" data-book="{% url 'books:readed-book' book.id %}">
                                                     <span class="uk-margin-small-right" uk-icon="icon: trash">
                                                     </span> remove from this list
                                                 </a>
                                             </li>
                                         </ul>
                                     </div>
-                                    <a class="uk-link" href="{% url 'book' book.id %}">
+                                    <a class="uk-link" href="{% url 'books:book' book.id %}">
                                         <div class="uk-card-media-top">
                                             <img class="uk-border-rounded" data-src="{{ book.book_image.url }}"
                                                 width="125px" height="190px" alt="" uk-img>

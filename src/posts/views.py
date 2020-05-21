@@ -80,34 +80,25 @@ def post(request, post_id):
 @login_required(login_url='log-in')
 def edit_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    print(post)
     if not request.user == post.user:
         return HttpResponseForbidden()
     if request.method == 'POST':
-        # get book for this post
-        book = request.POST['for_book'].split(', ')[0]
-        lang = request.user.profile.lang.upper()
-        exec(f'from books.models import {lang} as book_{lang}')
-        if not eval(f"book_{lang}.objects.filter(title__istartswith='{book}').exists()"):
-            messages.add_message(
-                request, messages.ERROR, _('Book title incorrect, please correct title or add to database.'))
-        else:
-            book = eval(
-                f"book_{lang}.objects.get(title__istartswith='{book}')")
-            title = request.POST['title']
-            content = request.POST['content']
-            p_type = request.POST['post_type']
+        title = request.POST['title']
+        content = request.POST['content']
+        p_type = request.POST['post_type']
+        archived = request.POST.getlist('archiving')
+        if 'for_book' in request.POST:
+            book = get_object_or_404(Book, id=request.POST['for_book'])
             post.for_book = book.book
-            post.title = title
-            post.content = content
-            post.post_type = p_type
-            archived = request.POST.getlist('archiving')
-            if not (not archived):
-                post.archived = True
-            else:
-                post.archived = False
-            post.save()
-            return redirect(f'/post/{post.id}')
+        post.title = title
+        post.content = content
+        post.post_type = p_type
+        if not (not archived):
+            post.archived = True
+        else:
+            post.archived = False
+        post.save()
+        return redirect(f'/posts/{post.id}/')
     return render(request, 'posts/edit_post.html', {'title': f'Edit {post.title}', 'post': post})
 
 

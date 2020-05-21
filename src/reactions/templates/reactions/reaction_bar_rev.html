@@ -81,7 +81,7 @@
             <ul class="uk-nav uk-dropdown-nav uk-card uk-card-default uk-card-body">
                 {% if user == post.user %}
                 <li>
-                    <a style="color:#999" href="{% url 'edit-post' post.id %}">
+                    <a style="color:#999" href="{% url 'posts:edit-post' post.id %}">
                         <span class="uk-icon uk-padding-small" uk-icon="icon:  file-edit"></span>Edit
                     </a>
                 </li>

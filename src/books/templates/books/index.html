@@ -19,13 +19,13 @@
             uk-toggle="target:#book-category; animation: uk-animation-fade">Categoty</button>
     </div>
     <div class="uk-width-expand@s">
-        <a href="{% url 'add-book' %}" class="uk-width-1-expand uk-button uk-button-default">Add Book</a>
+        <a href="{% url 'books:add-book' %}" class="uk-width-1-expand uk-button uk-button-default">Add Book</a>
     </div>
     <!-- search book -->
     <div class="uk-width-expand@s">
         <form class="uk-search uk-search-default uk-width-expand">
             <a href="" class="uk-search-icon-flip" uk-search-icon></a>
-            <input id="book-search" data-url="{% url 'search-book' %}" class="uk-search-input uk-width-expand"
+            <input id="book-search" data-url="{% url 'books:search-book' %}" class="uk-search-input uk-width-expand"
                 type="search" placeholder="">
         </form>
 
@@ -33,7 +33,7 @@
             $(function () {
                 // search book fast
                 /*
-                var URL = "{% url 'search-book' %}";
+                var URL = "{% url 'books:search-book' %}";
                 //console.log(URL);
                 $("#book-search").autocomplete({
                     source: URL,
@@ -44,7 +44,7 @@
                         console.log(ui.item.value);
                         var book = ui.item.value
                         //var get_url = "lab".replace(/12345/, tmp.toString());
-                        var get_url = "{% url 'ajax-book' '12345' %}".replace(/12345/, book);
+                        var get_url = "{% url 'books:ajax-book' '12345' %}".replace(/12345/, book);
                         console.log(get_url);
                         $(location).attr('href', get_url);
                     },
@@ -56,9 +56,9 @@
 </div>
 <div id="book-category" class="category" hidden>
     <div class="uk-padding-small uk-margin-small-top">
-        <a class="uk-label" href="{% url 'books' %}">{% trans 'All' %}</a>
+        <a class="uk-label" href="{% url 'books:books' %}">{% trans 'All' %}</a>
         {% for genre in genres %}
-        <a class="uk-label" href="{% url 'fliter-genre' genre.genre %}">{{genre|translate_genre:user_lang}}</a>
+        <a class="uk-label" href="{% url 'books:fliter-genre' genre.genre %}">{{genre|translate_genre:user_lang}}</a>
         {% endfor %}
     </div>
 </div>
@@ -72,9 +72,9 @@
                     <img class="uk-border-rounded" data-src="{{book.book.book_image.url}}" alt="{{book}}" uk-img>
                 </div>
                 <div class="uk-width-expand uk-text-left">
-                    <h3 class="uk-margin-small"><a href="{% url 'book' book.id %}">{{book}}</a></h3>
+                    <h3 class="uk-margin-small"><a href="{% url 'books:book' book.id %}">{{book}}</a></h3>
                     <h4 class="uk-margin-small uk-text-meta"><a class="uk-h4"
-                            href="{% url 'author' book.book.author.id book.book.author  %}">{{book.book.author|get_translate:user_lang}}</a>
+                            href="{% url 'authors:author' book.book.author.id book.book.author  %}">{{book.book.author|get_translate:user_lang}}</a>
                     </h4>
                     <h5 class="uk-margin-small uk-text-meta"><a href="#"></a></h5>
                     <a class="uk-label" href="#">{{book.book.book_or_Novel}}</a>

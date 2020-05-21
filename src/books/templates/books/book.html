@@ -20,19 +20,19 @@
         </div>
         <div uk-dropdown="mode: click">
             <ul class="uk-nav uk-dropdown-nav">
-                <li><a href="{% url 'edit-book' book.id %}"><span class="uk-margin-small-right"
+                <li><a href="{% url 'books:edit-book' book.id %}"><span class="uk-margin-small-right"
                             uk-icon="icon: pencil"></span> Edit book Info</a>
                 </li>
                 {% if readed_book %}
                 <li id="add-to-readed-book-parent">
-                    <a id="add-to-readed-book" data-book="{% url 'readed-book' book.book.id %}">
+                    <a id="add-to-readed-book" data-book="{% url 'books:readed-book' book.book.id %}">
                         <span class="uk-margin-small-right" uk-icon="icon: trash"></span>
                         Remove from readed Books
                     </a>
                 </li>
                 {% else %}
                 <li id="add-to-readed-book-parent"><a id="add-to-readed-book"
-                        data-book="{% url 'readed-book' book.book.id %}"><span class="uk-margin-small-right"
+                        data-book="{% url 'books:readed-book' book.book.id %}"><span class="uk-margin-small-right"
                             uk-icon="icon: plus"></span> Add to
                         readed Books</a>
                 </li>
@@ -50,7 +50,7 @@
             <div class="uk-width-expand uk-margin-small-left">
                 <h1 class="uk-margin-remove">{{book}}</h1>
                 <h2 class="uk-margin-remove-left uk-margin-small"><a
-                        href="{% url 'author' book.book.author.id book.book.author  %}"
+                        href="{% url 'authors:author' book.book.author.id book.book.author  %}"
                         class="uk-link-muted">{{book.book.author|get_translate:user_lang}}</a>
                 </h2>
                 <h4 class="uk-margin-remove-left uk-margin-small">Originally published: {{book.book.publish_date}}</h4>
@@ -62,7 +62,7 @@
             <div class=" uk-margin-small-top book-genres">
                 Genres:
                 {% for genre in book.book.genres.all %}
-                <a class="uk-label" href="{% url 'fliter-genre' genre.genre %}">{{genre|translate_genre:user_lang}}</a>
+                <a class="uk-label" href="{% url 'books:fliter-genre' genre.genre %}">{{genre|translate_genre:user_lang}}</a>
                 {% endfor %}
             </div>
 
@@ -76,16 +76,16 @@
             <div>
                 <ul class="tab-ul uk-width-auto">
                     <li id="all" data-type="{{post_type}}" class="active">
-                        <a href="{% url 'filter-book-post' book.id 'all' %}">All</a>
+                        <a href="{% url 'books:filter-book-post' book.id 'all' %}">All</a>
                     </li>
                     <li id="reviews" data-type="{{post_type}}">
-                        <a href="{% url 'filter-book-post' book.id 'reviews' %}">Reviews</a>
+                        <a href="{% url 'books:filter-book-post' book.id 'reviews' %}">Reviews</a>
                     </li>
                     <li id="quotes" data-type="{{post_type}}">
-                        <a href="{% url 'filter-book-post' book.id 'quotes' %}">Quotes</a>
+                        <a href="{% url 'books:filter-book-post' book.id 'quotes' %}">Quotes</a>
                     </li>
                     <li id="posts" data-type="{{post_type}}">
-                        <a href="{% url 'filter-book-post' book.id 'posts' %}">Posts</a>
+                        <a href="{% url 'books:filter-book-post' book.id 'posts' %}">Posts</a>
                     </li>
                 </ul>
             </div>

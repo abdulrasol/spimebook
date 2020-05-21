@@ -98,7 +98,7 @@
                         </li>
                         {% if user.is_authenticated %}
                         <li class="uk-nav-header">Posts</li>
-                        <li><a href="{% url 'my-posts' user %}"><span class="uk-margin-small-right"
+                        <li><a href="{% url 'posts:my-posts' user %}"><span class="uk-margin-small-right"
                                     uk-icon="icon: thumbnails; ratio: 1.5"></span>My Posts</a></li>
                         {% endif %}
                         <li class="uk-nav-divider"></li>
@@ -144,7 +144,7 @@
         <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
             <div class="uk-navbar-item uk-width-expand">
                 <form class="uk-search uk-search-navbar uk-width-1-1">
-                    <input id="book-search-main" data-url="{% url 'search-book' %}" class="uk-search-input"
+                    <input id="book-search-main" data-url="{% url 'books:search-book' %}" class="uk-search-input"
                         type="search" placeholder="Search..." autofocus>
                 </form>
             </div>
@@ -161,7 +161,7 @@
                         <a href="{% url 'home' %}" class="uk-icon" uk-icon="icon:home; ratio:2"></a>
                     </div>
                     <div class="uk-width-1-4">
-                        <a href="{% url 'books' %}" class="uk-icon" uk-icon="icon:thumbnails; ratio:2"></a>
+                        <a href="{% url 'books:books' %}" class="uk-icon" uk-icon="icon:thumbnails; ratio:2"></a>
                     </div>
                     <div class="uk-width-1-4">
                         <a href="#search-mobile" class="uk-icon" uk-icon="icon:search; ratio:2"
@@ -182,7 +182,7 @@
                             </div>
                             <div class="uk-width-expand">
                                 <span class="uk-search-icon-flip" uk-search-icon></span>
-                                <input id="book-search-mobile" data-url="{% url 'search-book' %}"
+                                <input id="book-search-mobile" data-url="{% url 'books:search-book' %}"
                                     class="uk-search-input" type="search" placeholder="Search...">
                             </div>
                         </div>
@@ -202,17 +202,17 @@
                             <li class="uk-nav-header">Main</li>
                             <li><a href="{% url 'home' %}"><span class="uk-margin-small-right"
                                         uk-icon="icon: home; ratio: 1.5"></span>Home</a></li>
-                            <li><a href="{% url 'books' %}"><span class="uk-margin-small-right"
+                            <li><a href="{% url 'books:books' %}"><span class="uk-margin-small-right"
                                         uk-icon="icon: thumbnails; ratio: 1.5"></span> Books</a></li>
-                            <li><a href="{% url 'authors' %}"><span class="uk-margin-small-right"
+                            <li><a href="{% url 'authors:authors' %}"><span class="uk-margin-small-right"
                                         uk-icon="icon: users; ratio: 1.5"></span> Authors</a></li>
-                            <li><a href="{% url 'quotes' %}"><span class="uk-margin-small-right"
+                            <li><a href="{% url 'posts:quotes' %}"><span class="uk-margin-small-right"
                                         uk-icon="icon: quote-right; ratio: 1.5"></span> Quote</a></li>
                             </li>
                             {% if user.is_authenticated %}
                             <li class="uk-nav-divider"></li>
                             <li class="uk-nav-header">Posts</li>
-                            <li><a href="{% url 'my-posts' user %}"><span class="uk-margin-small-right"
+                            <li><a href="{% url 'posts:my-posts' user %}"><span class="uk-margin-small-right"
                                         uk-icon="icon: thumbnails; ratio: 1.5"></span>My Posts</a></li>
 
                             <li class="uk-nav-divider"></li>

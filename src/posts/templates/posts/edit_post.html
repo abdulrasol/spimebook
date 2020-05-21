@@ -38,36 +38,26 @@
                     id="id_content">{{post.content}}</textarea>
             </div>
         </div>
-        <div class="uk-width-auto@s">
+        <div class="uk-width-1-1 book-list-container">
             <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Book</label>
-            <input class="uk-input" value="{{post.for_book|get_translate:user_lang}}" id="for_book" name="for_book"
-                type="input" placeholder="Book Title" required>
-            <script>
-                $(function () {
-                    var URL = "{% url 'search-book' %}";
-                    $("#for_book").autocomplete({
-                        source: URL,
-                        minLength: 2,
-                        select: function (event, ui) {
-                            console.log(ui.item.value);
-                            var book = ui.item.value
-                            var get_url = "{% url 'ajax-book' '12345' %}".replace(/12345/, book);
-                            console.log(get_url);
-                        }
-                    });
-                    var a = function () {
-                        var BOOK_URL = "ajax/book/search/" + $("#book-search").val();
-                        return BOOK_URL;
-                    }
-                });
-            </script>
+            <ul uk-accordion>
+                <li>
+                    <a id="select-book" class="uk-accordion-title" href="#">Select Book</a>
+                    <div class="uk-accordion-content">
+                        <input type="search" class="uk-input book-filter" id="filter" placeholder="Book Title">
+                        <div style="max-height: 250px; overflow-y: auto;" id="books-list"
+                            class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                        </div>
+                    </div>
+                </li>
+            </ul>
             <span style="display: block;" class="uk-margin-small-top uk-text-muted author-autocomplete">
                 If Book Doesn't Appear
-                <a href="{% url 'add-book' %}">click here to
+                <a href="{% url 'books:add-book' %}">click here to
                     add</a>
             </span>
         </div>
-        <div class="uk-width-auto@s">
+        <div class="uk-width-1-2@s">
             <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Type</label>
             <select name="post_type" class="uk-select" id="id_post_type">
                 {% if post.post_type == 'Q'  %}
@@ -102,3 +92,38 @@
 </form>
 
 {% endblock content %}
+{% block javascript %}
+<script>
+    $(function () {
+        var books_list = $('#books-list');
+        var URL_P = '{% url "reactions:all-books" %}';
+        $.ajax({
+            type: "GET",
+            url: URL_P,
+            success: function (response) {
+                response.content.forEach(book => {
+                    var elemet = `<div filter='${book.title}' style='margin:2px;disply:inline-block'><label><input class="uk-radio" value="${book.id}" type="radio" name="for_book"> ${book.title}</label></div>`
+                    books_list.append(elemet);
+                });
+            }
+        });
+        let filter = $('.book-list-container input[type=search]')
+        filter.on({
+            "keydown": function (e) {
+                value = $(this).val()
+                books_list.find(`div:not([filter=${value}])`).hide();
+                if ($(this).value === '') {
+                    books_list.find(`div`).show();
+                }
+            },
+            "keyup": function () {
+                value = $(this).val()
+                books_list.find(`:contains(${value})`).show();
+                if ($(this).value === '') {
+                    books_list.find(`div`).show();
+                }
+            }
+        });
+    });
+</script>
+{% endblock javascript %}

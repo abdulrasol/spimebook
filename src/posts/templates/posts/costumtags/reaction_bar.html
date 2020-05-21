@@ -65,13 +65,12 @@
         <span class="uk-icon uk-margin-small-right" uk-icon="quote-right"></span>
         {% endif %}
        {% if post.for_book %}
-         <a href="{% url 'book' post.for_book.id %}" class="uk-label">{{ post.for_book|get_translate:user_lang }}</a>
+         <a href="{% url 'books:book' post.for_book.id %}" class="uk-label">{{ post.for_book|get_translate:user_lang }}</a>
        {% endif %}
     </div>
 </div>
 <div class="reaction">
     {% if user.is_authenticated %}
-    <!-- % url 'love' post.id % -->
     <span>
         <a style="color:#bcdbfb" class="uk-icon uk-margin-small-right" id="love-post"
             data-post="{% url 'reactions:love' post.id %}" data-type="post" uk-icon="icon: heart"></a>
@@ -102,7 +101,7 @@
         <ul class="uk-nav uk-dropdown-nav uk-card uk-card-default uk-card-body">
             {% if user == post.user %}
             <li>
-                <a style="color:#999" href="{% url 'edit-post' post.id %}">
+                <a style="color:#999" href="{% url 'posts:edit-post' post.id %}">
                     <span class="uk-icon uk-padding-small" uk-icon="icon:  file-edit"></span>Edit
                 </a>
             </li>

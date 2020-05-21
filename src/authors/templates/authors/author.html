@@ -13,7 +13,7 @@
         </div>
         <div uk-dropdown="mode: click">
             <ul class="uk-nav uk-dropdown-nav">
-                <li><a href="{% url 'edit-author' author.id author.name %}"><span class="uk-margin-small-right"
+                <li><a href="{% url 'authors:edit-author' author.id author.name %}"><span class="uk-margin-small-right"
                             uk-icon="icon: pencil"></span> {% trans "Edit Author Info" %}</a>
                 </li>
                 <li class="uk-nav-divider"></li>
@@ -44,7 +44,7 @@
             uk-grid>
             {% for book in books  %}
             <div>
-                <a href="{% url 'book' book.id %}">
+                <a href="{% url 'books:book' book.id %}">
                     <div class="article">
                         <img class="uk-border-rounded" data-src="{{book.book.book_image.url}}" width="190" height="" alt=""
                             uk-img>

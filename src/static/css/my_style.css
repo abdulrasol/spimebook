@@ -126,7 +126,7 @@ nav .uk-logo {
 }
 
 .fix-mobile-nav {
-    height: 75px;
+    height: auto;
 }
 
 .fixed-mobile-bar {

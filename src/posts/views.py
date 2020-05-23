@@ -14,6 +14,7 @@ from books.views import get_query
 
 
 # Create your views here.
+TITLE = _('Spimebook')
 
 
 def test(request):
@@ -43,9 +44,8 @@ def home(request):
         posts = paginator.page(1)
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
-
     context = {
-        'title': 'Spimebook, a site for readers',
+        'title': _('Spimebook, a site for readers'),
         'posts': posts,
     }
     return render(request, 'posts/index.html', context)
@@ -62,7 +62,7 @@ def quotes(request):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
     context = {
-        'title': 'Spimebook, a site for readers',
+        'title': _('Spimebook, a site for readers'),
         'posts': posts,
     }
     return render(request, 'posts/index.html', context)
@@ -71,7 +71,7 @@ def quotes(request):
 def post(request, post_id):
     target_post = Post.objects.get(id=post_id)
     context = {
-        'title': target_post.title,
+        'title': _('%(post)s, %(title)s') % {'post': target_post.title, 'title': TITLE},
         'post': target_post,
     }
     return render(request, 'posts/post.html', context)
@@ -89,7 +89,7 @@ def edit_post(request, post_id):
         archived = request.POST.getlist('archiving')
         if 'for_book' in request.POST:
             book = get_object_or_404(Book, id=request.POST['for_book'])
-            post.for_book = book.book
+            post.for_book = book
         post.title = title
         post.content = content
         post.post_type = p_type
@@ -98,8 +98,13 @@ def edit_post(request, post_id):
         else:
             post.archived = False
         post.save()
-        return redirect(f'/posts/{post.id}/')
-    return render(request, 'posts/edit_post.html', {'title': f'Edit {post.title}', 'post': post})
+        return redirect(f'/posts/post/{post.id}/')
+    context = {
+        'title': _('Edit %(title)s' % {'title': post.title}),
+        'post': post,
+        'books': Book.objects.all()
+    }
+    return render(request, 'posts/edit_post.html', context=context)
 
 
 @login_required(login_url='log-in')
@@ -115,7 +120,7 @@ def my_posts(request, user):
         posts = paginator.page(paginator.num_pages)
 
     context = {
-        'title': 'My posts, Spimebook',
+        'title': _('My Posts, Spimebook'),
         'posts': posts,
     }
     return render(request, 'posts/my_posts.html', context)
@@ -139,8 +144,4 @@ def save(request, post_id):
     context = {
         'post': post,
     }
-    # print(user)
-    # print(post)
-    # post = Post.objects.get(id=post_id)
-    # print(post)
     return render(request, 'posts/post.html', context)

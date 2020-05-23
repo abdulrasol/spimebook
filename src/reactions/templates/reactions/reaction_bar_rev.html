@@ -1,14 +1,15 @@
+{% load i18n %}
 {% load reactions %}
 <div class="reaction-container">
     <div class="uk-flex uk-grid-small" uk-grid>
         <div class="uk-flex uk-grid-small" uk-grid>
             <div>
                 <span class="uk-button uk-button-text uk-text-meta"><span class="love-count">{{post.loves.count}}</span>
-                    loves</span>
+                    {%trans 'loves'%}</span>
             </div>
             <div class="uk-margin-small-bottom">
                 <a href="#post-comment-{{post.id}}" class="comment-count uk-button uk-button-text uk-text-meta"
-                    uk-toggle>{{post.comments.count}} Comments</a>
+                    uk-toggle>{{post.comments.count}} {% trans "Comments" %}</a>
             </div>
         </div>
     </div>
@@ -38,7 +39,7 @@
             </div>
         </article>
         {% empty %}
-        <p>Threre is no comment for now!</p>
+        <p>{% trans "Threre is no comment for now!" %}</p>
         {% endfor %}
     </div>
     <div id="add-reply-{{post.id}}" class="uk-margin-small-top uk-margin-small-bottom" hidden>
@@ -50,7 +51,6 @@
     </div>
     <div class="reaction">
         {% if user.is_authenticated %}
-        <!-- % url 'love' post.id % -->
         <span>
             <a style="color:#bcdbfb" class="uk-icon uk-margin-small-right" id="love-post"
                 data-post="{% url 'reactions:love' post.id %}" data-type="book" uk-icon="icon: heart"></a>
@@ -62,10 +62,10 @@
         </span>
         {% else %}
 
-        <span uk-tooltip="Log In First">
+        <span uk-tooltip="{% trans "Log In First" %}">
             <a class="uk-icon uk-margin-small-right" uk-icon="icon: heart"></a>
         </span>
-        <span uk-tooltip="Log In First">
+        <span uk-tooltip="{% trans "Log In First" %}">
             <a class="uk-icon uk-margin-small-right" uk-icon="icon: reply" type="button"></a>
         </span>
 
@@ -82,13 +82,13 @@
                 {% if user == post.user %}
                 <li>
                     <a style="color:#999" href="{% url 'posts:edit-post' post.id %}">
-                        <span class="uk-icon uk-padding-small" uk-icon="icon:  file-edit"></span>Edit
+                        <span class="uk-icon uk-padding-small" uk-icon="icon:  file-edit"></span>{% trans "Edit" %}
                     </a>
                 </li>
                 {% endif %}
                 <li>
                     <a style="color:#999" href="#">
-                        <span class="uk-icon uk-padding-small" uk-icon="icon: warning"></span>Report
+                        <span class="uk-icon uk-padding-small" uk-icon="icon: warning"></span>{% trans "Report Warning" %}
                     </a>
                 </li>
             </ul>

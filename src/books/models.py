@@ -5,7 +5,7 @@ from django.shortcuts import reverse
 from django.db.models.signals import post_save
 from authors.models import Author
 from django.contrib.auth.models import User
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext as _
 from googletrans import Translator
 from django.conf import settings
 from star_ratings.models import Rating
@@ -164,38 +164,6 @@ class Rating(models.Model):
 
     def __str__(self):
         return f'{self.user} rate {self.book} by {self.rating} from 5'
-
-
-'''
-class BookPost(models.Model):
-    POST_TYPE = [
-        ('Q', 'Quote'),
-        ('R', 'Review'),
-    ]
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    lang = models.CharField(max_length=2, default='en')
-
-    post_date = models.DateTimeField(default=timezone.now)
-    content = models.TextField()
-    post_type = models.CharField(
-        max_length=1,
-        choices=POST_TYPE,
-        default='Q')
-    for_book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    archived = models.BooleanField(default=False)
-    loves = GenericRelation('reactions.Love')
-    comments = GenericRelation('reactions.Comment')
-
-    class Meta:
-        verbose_name = _("Post")
-        verbose_name_plural = _("Posts Of Books")
-
-    def __str__(self):
-        return str(f'{self.user} post on {self.for_book}')
-
-    def get_absolute_url(self):
-        return reverse("BookPost_detail", kwargs={"pk": self.pk})
-'''
 
 
 class BookManager(models.Manager):

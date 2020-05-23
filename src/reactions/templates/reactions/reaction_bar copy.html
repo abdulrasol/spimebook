@@ -4,7 +4,7 @@
 {% if user.is_authenticated %}
 {% define user.profile.lang as user_lang %}
 {% else %}
-{% define 'en' as user_lang %}
+{% get_current_language as user_lang %}
 {% endif %}
 <div class="commnet-container" id="post-comment-{{post.id}}" hidden>
     {% for comment in post.comments.all %}
@@ -49,15 +49,15 @@
     <div class="uk-flex uk-grid-small" uk-grid>
         {% if post.archived %}
         <div>
-            <span class="uk-button uk-button-text uk-text-meta">archived</span>
+            <span class="uk-button uk-button-text uk-text-meta">{% trans "archived" %}</span>
         </div>
         {% endif %}
         <div>
-            <span class="uk-button uk-button-text uk-text-meta">{{post.loves.count}} loves</span>
+            <span class="uk-button uk-button-text uk-text-meta">{{post.loves.count}} {% trans "loves" %}</span>
         </div>
         <div class="uk-margin-small-bottom">
             <a href="#post-comment-{{post.id}}" class="uk-button uk-button-text uk-text-meta"
-                uk-toggle>{{post.comments.all|length}} Comments</a>
+                uk-toggle>{{post.comments.all|length}} {% trans "Comments" %}</a>
         </div>
     </div>
     <div class="tags uk-margin-bottom ">
@@ -81,10 +81,10 @@
     </span>
     {% else %}
 
-    <span uk-tooltip="Log In First">
+    <span uk-tooltip="{% trans "Log In First" %}">
         <a class="uk-icon uk-margin-small-right" uk-icon="icon: heart"></a>
     </span>
-    <span uk-tooltip="Log In First">
+    <span uk-tooltip="{% trans "Log In First" %}">
         <a class="uk-icon uk-margin-small-right" uk-icon="icon: reply" type="button"></a>
     </span>
 
@@ -101,13 +101,13 @@
             {% if user == post.user %}
             <li>
                 <a style="color:#999" href="{% url 'edit-post' post.id %}">
-                    <span class="uk-icon uk-padding-small" uk-icon="icon:  file-edit"></span>Edit
+                    <span class="uk-icon uk-padding-small" uk-icon="icon:  file-edit"></span>{% trans "Edit" %}
                 </a>
             </li>
             {% endif %}
             <li>
                 <a style="color:#999" href="#">
-                    <span class="uk-icon uk-padding-small" uk-icon="icon: warning"></span>Report
+                    <span class="uk-icon uk-padding-small" uk-icon="icon: warning"></span>{% trans "Report Warning" %}
                 </a>
             </li>
         </ul>

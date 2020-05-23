@@ -7,7 +7,8 @@ urlpatterns = [
     path('<int:book_id>/edit/', views.edit_book, name='edit-book'),
     path('<int:book_id>/', views.book, name='book'),
     path('<int:book_id>/<str:posts>', views.book, name='filter-book-post'),
-    path('<str:genre>/', views.genres, name='fliter-genre'),
+    path('filter/<str:genre>/', views.genres, name='fliter-genre'),
+    path('type/<str:book_type>/', views.book_or_novel, name='fliter-type'),
 
     # ajax
     path('ajax/book/readed/<int:book_id>',

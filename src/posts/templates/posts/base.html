@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html>
 
@@ -60,23 +61,23 @@
                             <li>
                                 <a href="{% url 'settings' %}" class="uk-margin-small-top"><span
                                         class="uk-icon-link uk-margin-small-right"
-                                        uk-icon="icon: cog; ratio:1.5"></span> Settings</a>
+                                        uk-icon="icon: cog; ratio:1.5"></span> {% trans "Settings" %}</a>
                             </li>
                             <li>
                                 <a href="{% url 'log-out' %}" class="uk-margin-small-top"><span
                                         class="uk-icon-link uk-margin-small-right"
-                                        uk-icon="icon: sign-out; ratio:1.5"></span> Sign out</a>
+                                        uk-icon="icon: sign-out; ratio:1.5"></span> {% trans "Sign out" %}</a>
                             </li>
                             {% else %}
                             <li>
                                 <a href="{% url 'log-in' %}" class="uk-margin-small-top"><span
                                         class="uk-icon-link uk-margin-small-right"
-                                        uk-icon="icon: sign-in; ratio:1.5"></span> Sign in</a>
+                                        uk-icon="icon: sign-in; ratio:1.5"></span> {% trans "Sign in" %}</a>
                             </li>
                             <li>
                                 <a href="{% url 'register' %}" class="uk-margin-small-top"><span
                                         class="uk-icon-link uk-margin-small-right"
-                                        uk-icon="icon: sign-out; ratio:1.5"></span> Register</a>
+                                        uk-icon="icon: sign-out; ratio:1.5"></span> {% trans "Register" %}</a>
                             </li>
                             {% endif %}
 
@@ -99,28 +100,28 @@
                         {% if user.is_authenticated %}
                         <li class="uk-nav-header">Posts</li>
                         <li><a href="{% url 'posts:my-posts' user %}"><span class="uk-margin-small-right"
-                                    uk-icon="icon: thumbnails; ratio: 1.5"></span>My Posts</a></li>
+                                    uk-icon="icon: thumbnails; ratio: 1.5"></span>{% trans "My Posts" %}</a></li>
                         {% endif %}
                         <li class="uk-nav-divider"></li>
-                        <li class="uk-nav-header">Shortcuts</li>
+                        <li class="uk-nav-header">{% trans "Shortcuts" %}</li>
                         <li>
                             <a href="{% url 'profile' %}">
-                                <span class="uk-margin-small-right" uk-icon="icon: user; ratio: 1.5"></span> My Profile
+                                <span class="uk-margin-small-right" uk-icon="icon: user; ratio: 1.5"></span> {% trans "My Profile" %}
                             </a>
                         </li>
                         <li>
                             <a href="#">
-                                <span class="uk-margin-small-right" uk-icon="icon: list; ratio: 1.5"></span> My Lists
+                                <span class="uk-margin-small-right" uk-icon="icon: list; ratio: 1.5"></span> {% trans "My Lists" %}
                             </a>
                         </li>
                         <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: bookmark; ratio: 1.5"></span>
-                                Bookmark</a></li>
+                                {% trans "Bookmark" %}</a></li>
 
                         <li class="uk-nav-divider"></li>
-                        <li class="uk-nav-header">More</li>
-                        <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: mail"></span> Contact us</a>
+                        <li class="uk-nav-header">{% trans "More" %}</li>
+                        <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: mail"></span> {% trans "Contact us" %}</a>
                         </li>
-                        <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: info"></span> How Are We</a>
+                        <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: info"></span> {% trans "How Are We" %}</a>
                         </li>
                         <li>
                             <ul class="uk-iconnav uk-child-width-1-3 uk-padding-small uk-margin-medium-top">
@@ -145,7 +146,7 @@
             <div class="uk-navbar-item uk-width-expand">
                 <form class="uk-search uk-search-navbar uk-width-1-1">
                     <input id="book-search-main" data-url="{% url 'books:search-book' %}" class="uk-search-input"
-                        type="search" placeholder="Search..." autofocus>
+                        type="search" placeholder="{% trans "Search..." %}" autofocus>
                 </form>
             </div>
             <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade"
@@ -183,7 +184,7 @@
                             <div class="uk-width-expand">
                                 <span class="uk-search-icon-flip" uk-search-icon></span>
                                 <input id="book-search-mobile" data-url="{% url 'books:search-book' %}"
-                                    class="uk-search-input" type="search" placeholder="Search...">
+                                    class="uk-search-input" type="search" placeholder="{% trans "Search..." %}">
                             </div>
                         </div>
                     </form>
@@ -199,39 +200,37 @@
                 <div class="side-bar uk-padding-small">
                     <div class="uk-card uk-card-primary uk-card-body">
                         <ul class="uk-nav-default uk-nav-parent-icon uk-padding-small" uk-nav>
-                            <li class="uk-nav-header">Main</li>
+                            <li class="uk-nav-header">{% trans "Main" %}</li>
                             <li><a href="{% url 'home' %}"><span class="uk-margin-small-right"
-                                        uk-icon="icon: home; ratio: 1.5"></span>Home</a></li>
+                                        uk-icon="icon: home; ratio: 1.5"></span>{% trans "Home" %}</a></li>
                             <li><a href="{% url 'books:books' %}"><span class="uk-margin-small-right"
-                                        uk-icon="icon: thumbnails; ratio: 1.5"></span> Books</a></li>
+                                        uk-icon="icon: thumbnails; ratio: 1.5"></span> {% trans "Books" %}</a></li>
                             <li><a href="{% url 'authors:authors' %}"><span class="uk-margin-small-right"
-                                        uk-icon="icon: users; ratio: 1.5"></span> Authors</a></li>
+                                        uk-icon="icon: users; ratio: 1.5"></span> {% trans "Authors" %}</a></li>
                             <li><a href="{% url 'posts:quotes' %}"><span class="uk-margin-small-right"
-                                        uk-icon="icon: quote-right; ratio: 1.5"></span> Quote</a></li>
+                                        uk-icon="icon: quote-right; ratio: 1.5"></span> {% trans "Quotes" %}</a></li>
                             </li>
                             {% if user.is_authenticated %}
                             <li class="uk-nav-divider"></li>
-                            <li class="uk-nav-header">Posts</li>
+                            <li class="uk-nav-header">{% trans "Posts" %}</li>
                             <li><a href="{% url 'posts:my-posts' user %}"><span class="uk-margin-small-right"
-                                        uk-icon="icon: thumbnails; ratio: 1.5"></span>My Posts</a></li>
+                                        uk-icon="icon: thumbnails; ratio: 1.5"></span>{% trans "My Posts" %}</a></li>
 
                             <li class="uk-nav-divider"></li>
-                            <li class="uk-nav-header">Shortcuts</li>
+                            <li class="uk-nav-header">{% trans "Shortcuts" %}</li>
                             <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: list; ratio: 1.5"></span>
-                                    My Lists</a>
+                                    {% trans "My Lists" %}</a>
                             </li>
                             <li><a href="#"><span class="uk-margin-small-right"
                                         uk-icon="icon: bookmark; ratio: 1.5"></span>
-                                    Bookmark</a>
+                                    {% trans "Bookmark" %}</a>
                             </li>
                             {% endif %}
                             <li class="uk-nav-divider"></li>
-                            <li class="uk-nav-header">More</li>
-                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: mail"></span> Contact
-                                    us</a>
+                            <li class="uk-nav-header">{% trans "More" %}</li>
+                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: mail"></span> {% trans "Contact us" %}</a>
                             </li>
-                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: info"></span> How Are
-                                    We</a>
+                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: info"></span> {% trans "How Are We" %}</a>
                             </li>
                             <li>
                                 <ul class="uk-iconnav uk-child-width-1-3 uk-padding-small uk-margin-medium-top">
@@ -272,7 +271,7 @@
     <!-- Share Model -->
     <div id="share-modal" uk-modal>
         <div class="uk-modal-dialog uk-modal-body uk-text-center">
-            <h2 class="uk-modal-title">Share</h2>
+            <h2 class="uk-modal-title">{% trans "Share" %}</h2>
             <button class="uk-modal-close-default" type="button" uk-close></button>
             <div class="uk-child-width-1-2 ">
                 <a href="#" class=" uk-button uk-button-default uk-margin-small"><span class="uk-icon uk-padding-small"
@@ -282,7 +281,7 @@
                 <a href="#" class=" uk-button uk-button-default uk-margin-small"><span class="uk-icon uk-padding-small"
                         uk-icon="icon: instagram; ratio:1.5"></span>instagram</a>
                 <a href="#" class=" uk-button uk-button-default uk-margin-small"><span class="uk-icon uk-padding-small"
-                        uk-icon="icon: facebook; ratio:1.5"></span>others</a>
+                        uk-icon="icon: facebook; ratio:1.5"></span>{% trans "others" %}</a>
             </div>
         </div>
     </div>

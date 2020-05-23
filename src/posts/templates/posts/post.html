@@ -1,5 +1,6 @@
 {% extends "posts/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load posts_extra %}
 {% load books_extra %}
 {% block content %}
@@ -7,7 +8,7 @@
 {% if user.is_authenticated %}
 {% define user.profile.lang as user_lang %}
 {% else %}
-{% define 'en' as user_lang %}
+{% get_current_language as user_lang %}
 {% endif %}
 <div class="uk-card uk-card-primary uk-margin uk-width-1-1">
     <div class="uk-card-header">
@@ -50,7 +51,7 @@
                 <span class="uk-icon" uk-icon="quote-right"></span>
                 {% endif %}
                 {% if post.for_book %}
-                <a href="{% url 'book' post.for_book.id %}"
+                <a href="{% url 'books:book' post.for_book.id %}"
                     class="uk-label">{{ post.for_book|get_translate:user_lang }}</a>
                 {% endif %}
             </div>
@@ -93,7 +94,7 @@
                 <ul class="uk-nav uk-dropdown-nav uk-card uk-card-default uk-card-body">
                     {% if user == post.user %}
                     <li>
-                        <a style="color:#999" href="{% url 'edit-post' post.id %}">
+                        <a style="color:#999" href="{% url 'posts:edit-post' post.id %}">
                             <span class="uk-icon uk-padding-small" uk-icon="icon:  file-edit"></span>Edit
                         </a>
                     </li>

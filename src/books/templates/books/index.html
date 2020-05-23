@@ -3,30 +3,28 @@
 {% load i18n %}
 {% load posts_extra %}
 {% load books_extra %}
-
 {% block content %}
-
 {# get user lang to show correct translate #}
 {% if user.is_authenticated %}
 {% define user.profile.lang as user_lang %}
 {% else %}
-{% define 'en' as user_lang %}
+{% get_current_language as user_lang %}
 {% endif %}
 <!-- Start Books Categoty -->
 <div class="uk-grid-small uk-width-1-1@s" uk-grid>
     <div class="uk-width-expand@s">
         <button class="uk-button uk-button-primary uk-width-expand"
-            uk-toggle="target:#book-category; animation: uk-animation-fade">Categoty</button>
+            uk-toggle="target:#book-category; animation: uk-animation-fade">{% trans "Genres" %}</button>
     </div>
     <div class="uk-width-expand@s">
-        <a href="{% url 'books:add-book' %}" class="uk-width-1-expand uk-button uk-button-default">Add Book</a>
+        <a href="{% url 'books:add-book' %}" class="uk-width-1-expand uk-button uk-button-default">{% trans "Add Book" %}</a>
     </div>
     <!-- search book -->
     <div class="uk-width-expand@s">
         <form class="uk-search uk-search-default uk-width-expand">
             <a href="" class="uk-search-icon-flip" uk-search-icon></a>
             <input id="book-search" data-url="{% url 'books:search-book' %}" class="uk-search-input uk-width-expand"
-                type="search" placeholder="">
+                type="search" placeholder="{% trans "Title" %}">
         </form>
 
         <script>
@@ -77,7 +75,11 @@
                             href="{% url 'authors:author' book.book.author.id book.book.author  %}">{{book.book.author|get_translate:user_lang}}</a>
                     </h4>
                     <h5 class="uk-margin-small uk-text-meta"><a href="#"></a></h5>
-                    <a class="uk-label" href="#">{{book.book.book_or_Novel}}</a>
+                    {% if book.book.book_or_Novel == 'Book' %}
+                    <a class="uk-label" href="{% url 'books:fliter-type' 'Book' %}">{% trans 'Book' %}</a>
+                    {% else %}
+                    <a class="uk-label" href="{% url 'books:fliter-type' 'Novel' %}">{% trans 'Novel' %}</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

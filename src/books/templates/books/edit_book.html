@@ -1,60 +1,46 @@
 {% extends "posts/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load books_extra %}
 {% block content %}
 {% if user.is_authenticated %}
 {% define user.profile.lang as user_lang %}
 {% else %}
-{% define 'en' as user_lang %}
+{% get_current_language as user_lang %}
 {% define user.profile.lang as ulang %}
 {% endif %}
 <form method="POST" enctype="multipart/form-data" class="uk uk-padding uk-padding-remove-vertical">
     {% csrf_token %}
-    <legend class="uk-legend uk-margin-bottom">Edit {{book}} </legend>
+    <legend class="uk-legend uk-margin-bottom">{% trans "Edit" %} {{book}} </legend>
     <div class="uk-grid" uk-grid>
         <div class="uk-width-1-1@s">
-            {% for message in messages %}
-            <div class="uk-margin uk-margin-large-top">
-                <div class="uk-alert-success existed" uk-alert>
-                    <p>
-                        {{message}}<a href="{% url 'books:add-book' %}">click here</a> to add book or <a
-                            href="{% url 'books:books' %}">here</a> books browser.
-                    </p>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="uk-width-1-1@s">
-            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Book Title</label>
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">{% trans "Title" %}</label>
             <input type="text" name="title" value="{{book}}" maxlength="255" placeholder="Author Name" required
                 class="uk-input" id="id_title">
         </div>
         <div class="uk-width-1-2@s">
-            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Publish Date</label>
-            <input class="uk-input" id="pub_date" name="pub_date" value="{{book.book.publish_date|date:"Y-m-d"}}"
-                type="date" placeholder="Book Title" required>
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">{% trans "Publish Date" %}</label>
+            <input type="date" class="uk-input" id="pub_date" name="pub_date" value="{{book.book.publish_date|date:"Y-m-d"}}" required>
         </div>
         <div class="uk-width-1-2@s">
-            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Type</label>
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">{% trans 'Type' %}</label>
             <select name="book_or_Novel" required class="uk-select" id="id_book_or_Novel">
                 {% if book.book.book_or_Novel == 'Book' %}
-                <option value="Book" selected>Book</option>
-                <option value="Novel">Novel</option>
+                <option value="Book" selected>{% trans "Book" %}</option>
+                <option value="Novel">{% trans "Novel" %}</option>
                 {% else %}
-                <option value="Book">Book</option>
-                <option value="Novel" selected>Novel</option>
+                <option value="Book">{% trans "Book" %}</option>
+                <option value="Novel" selected>{% trans "Novel" %}</option>
                 {% endif %}
             </select>
         </div>
         <div id="author-autocomplete" class="uk-margin uk-width-1-1">
-            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Author</label>
-            <input class="uk-input" id="author" name="author" type="text" placeholder="Book Author"
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">{% trans 'Author' %}</label>
+            <input class="uk-input" id="author" name="author" type="text" placeholder="{% trans 'Author' %}"
                 data-author="{% url 'authors:author-autocomplete' %}" value="{{book.book.author|get_translate:user_lang}}"
                 required>
-            <span style="display: block;" class="uk-margin-small-top uk-text-muted author-autocomplete">If Author
-                Doesn't Appear
-                <a href="{% url 'authors:add-author' %}">click here to
-                    add</a>
+            <span style="display: block;" class="uk-margin-small-top uk-text-muted author-autocomplete">{% trans "If Author Doesn't Appear" %}
+                <a href="{% url 'authors:add-author' %}">{% trans "click here to add" %}</a>
             </span>
             <script>
                 $(function () {
@@ -68,17 +54,16 @@
             </script>
         </div>
         <div class="uk-margin uk-width-1-1">
-            <label style="display: block;" class="uk-form-label uk-margin-small-bottom" for="form-stacked-text">Book
-                Bio</label>
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom" for="form-stacked-text">{% trans "Book Bio" %}</label>
             <div class="uk-form-controls">
                 <textarea id="book_Bio" name="book_Bio" class="uk-textarea uk-padding-small" rows="5"
-                    placeholder="Write Some Information About This Book">{{book.book_Bio}}</textarea>
+                    placeholder="{% trans "Write Some Information About This Book" %}">{{book.book_Bio}}</textarea>
             </div>
         </div>
         <div class="uk-margin uk-width-1-1">
             <ul uk-accordion>
                 <li>
-                    <a class="uk-accordion-title" href="#">Click to selcect Genres</a>
+                    <a class="uk-accordion-title" href="#">{% trans "Click to selcect Genres" %}</a>
                     <div class="uk-accordion-content">
                         <a id="add-new-genre" href="#modal-add-genre" uk-toggle>Click to add new Genres</a>
                         <div id="genre-container" class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
@@ -94,7 +79,7 @@
         </div>
         <div class="uk-margin uk-text-center uk-width-auto@s">
             <label style="display: block;" class="uk-form-label uk-margin-small-bottom" for="form-stacked-text">
-                Old Picture
+                {% trans "Old Picture" %}
             </label>
             <div>
                 <img class="uk-border-rounded" src="{{book.book.book_image.url}}" alt="{{author.author_Name}}">
@@ -102,16 +87,16 @@
         </div>
         <div class="uk-margin-large-top">
             <label style="display: block;" class="uk-form-label uk-margin-small-bottom" for="form-stacked-text">
-                Select New Picture
+                {% trans "Select New Picture" %}
             </label>
             <div uk-form-custom="target: true">
                 {{form.book_image}}
-                <input class="uk-input uk-width-auto@s" type="text" placeholder="Select file" disabled>
+                <input class="uk-input uk-width-auto@s" type="text" placeholder="{% trans "Select file" %}" disabled>
             </div>
         </div>
 
         <div class="uk-width-1-1">
-            <button type="submit" class="uk-button uk-button-primary">Save Book</button>
+            <button type="submit" class="uk-button uk-button-primary">{% trans "Save" %}</button>
         </div>
     </div>
 </form>

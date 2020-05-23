@@ -138,11 +138,10 @@ def get_lang(request):
         lang = request.user.profile.lang
     else:
         lang = get_language_from_request(request)
-        for tu in settings.LANGUAGES:
-            if lang in tu:
-                break
-            else:
-                lang = 'en'
+        if lang in settings.LANGUAGES:
+            pass
+        else:
+            lang = 'en'
     return lang
 
 
@@ -151,11 +150,10 @@ def get_query(request):
         lang = request.user.profile.lang
     else:
         lang = get_language_from_request(request)
-        for tu in settings.LANGUAGES:
-            if lang in tu:
-                break
-            else:
-                lang = 'en'
+        if lang in settings.LANGUAGES:
+            pass
+        else:
+            lang = 'en'
     lang = lang.upper()
     translate = eval(f"({lang}.objects.all()")
     return translate

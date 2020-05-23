@@ -6,7 +6,7 @@
 {% if user.is_authenticated %}
 {% define user.profile.lang as user_lang %}
 {% else %}
-{% define 'en' as user_lang %}
+{% get_current_language as user_lang %}
 {% define user.profile.lang as ulang %}
 {% endif %}
 <link rel="stylesheet" href="{% static 'css/rating.css' %}">

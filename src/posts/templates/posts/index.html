@@ -1,4 +1,5 @@
 {% extends "posts/base.html" %}
+{% load i18n %}
 {% load static %}
 {% load posts_extra %}
 {% block content %}
@@ -42,44 +43,43 @@
         <!-- This is the new post modal -->
         <div id="new-book-post" uk-modal="bg-close: false">
             <div class="uk-modal-dialog uk-modal-body">
-                <h2 class="uk-modal-title">Add New Post</h2>
+                <h2 class="uk-modal-title">{% trans "Add New Post" %}</h2>
                 <form id="post-form" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="uk-width-1-1@s">
-                        <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Title</label>
-                        <input class="uk-input" id="title" name="title" type="text" placeholder="Post Title" required>
+                        <label style="display: block;" class="uk-form-label uk-margin-small-bottom">{% trans "Title" %}</label>
+                        <input class="uk-input" id="title" name="title" type="text" placeholder="{% trans "Post Title" %}" required>
                     </div>
                     <div class="uk-margin uk-width-1-1">
                         <label style="display: block;" class="uk-form-label uk-margin-small-bottom"
-                            for="form-stacked-text">Content</label>
+                            for="form-stacked-text">{% trans "Content" %}</label>
                         <div class="uk-form-controls">
                             <textarea id="content" name="content" class="uk-textarea uk-padding-small" rows="5"
-                                placeholder="Post.." required></textarea>
+                                placeholder="{% trans "Post.." %}" required></textarea>
                         </div>
                     </div>
                     <div class="uk-width-1-1 book-list-container">
                         <ul uk-accordion>
                             <li>
-                                <a class="uk-accordion-title" href="#">Select Book</a>
+                                <a class="uk-accordion-title" href="#">{% trans "Select Book" %}</a>
                                 <div class="uk-accordion-content">
                                     <input type="search" class="uk-input book-filter" id="filter"
-                                        placeholder="Book Title">
+                                        placeholder="{% trans "Book Title" %}">
                                     <div style="max-height: 250px; overflow-y: auto;" id="books-list"
                                         class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
                                     </div>
+                                    <span style="display: block;" class="uk-margin-small-top uk-text-muted author-autocomplete">
+                                        {% trans "If Book Doesn't Appear" %}
+                                        <a href="{% url 'books:add-book' %}">{% trans "click here to add" %}</a>
+                                    </span>
                                 </div>
                             </li>
                         </ul>
-                        <span style="display: block;" class="uk-margin-small-top uk-text-muted author-autocomplete">
-                            If Book Doesn't Appear
-                            <a href="{% url 'books:add-book' %}">click here to
-                                add</a>
-                        </span>
                     </div>
                     <p class="uk-text-right">
-                        <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                        <button class="uk-button uk-button-default uk-modal-close" type="button">{% trans "Cancel" %}</button>
                         <button data-type="post" data-url="{% url 'reactions:add-post' 1 %}" id="new-post-on-book"
-                            class="uk-button uk-button-primary" type="button">Save</button>
+                            class="uk-button uk-button-primary" type="button">{% trans "Share" %}</button>
                     </p>
             </div>
         </div>

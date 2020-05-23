@@ -1,10 +1,11 @@
+{% load i18n %}
 {% load reactions %}
 <div class="reaction-container">
     <div class="uk-flex uk-grid-small" uk-grid>
         <div class="uk-flex uk-grid-small" uk-grid>
             <div>
                 <span class="uk-button uk-button-text uk-text-meta"><span class="love-count">{{post.loves.count}}</span>
-                    loves</span>
+                    {% trans "loves" %}</span>
             </div>
         </div>
         <div class="tags uk-margin-bottom ">
@@ -20,7 +21,7 @@
         </span>
         {% else %}
 
-        <span uk-tooltip="Log In First">
+        <span uk-tooltip="{% trans "Log In First" %}">
             <a class="uk-icon uk-margin-small-right" uk-icon="icon: heart"></a>
         </span>
         {% endif %}
@@ -36,13 +37,13 @@
                 {% if user == post.user %}
                 <li>
                     <a style="color:#999" href="{% url 'posts:edit-post' post.id %}">
-                        <span class="uk-icon uk-padding-small" uk-icon="icon:  file-edit"></span>Edit
+                        <span class="uk-icon uk-padding-small" uk-icon="icon:  file-edit"></span>{% trans "Edit" %}
                     </a>
                 </li>
                 {% endif %}
                 <li>
                     <a style="color:#999" href="#">
-                        <span class="uk-icon uk-padding-small" uk-icon="icon: warning"></span>Report
+                        <span class="uk-icon uk-padding-small" uk-icon="icon: warning"></span>{% trans "Report Warning" %}
                     </a>
                 </li>
             </ul>

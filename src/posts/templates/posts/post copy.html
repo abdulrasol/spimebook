@@ -8,7 +8,7 @@
 {% if user.is_authenticated %}
 {% define user.profile.lang as user_lang %}
 {% else %}
-{% define 'en' as user_lang %}
+{% get_current_language as user_lang %}
 {% endif %}
 <div class="uk-card uk-card-primary uk-margin uk-width-1-1">
     <div class="uk-card-header">

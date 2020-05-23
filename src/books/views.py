@@ -10,13 +10,16 @@ from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Avg
 from django_ajax.decorators import ajax
+from django.utils.translation import gettext as _
 import json
 
 
 # Create your views here.
+TITLE = _('Spimebook')
 
 
 def books(request):
+    print(get_language_from_request(request))
     genres = Genres.objects.all()
     all_books = get_query(request)
     page = request.GET.get('page', 1)
@@ -28,8 +31,10 @@ def books(request):
     except EmptyPage:
         books = paginator.page(paginator.num_pages)
 
-    context = {'title': 'Browser books, Spimebook',
-               'books': books, 'genres': genres}
+    context = {
+        'title': _('Browser books, %(title)s') % {'title': TITLE},
+        'books': books, 'genres': genres
+    }
     return render(request, 'books/index.html', context)
 
 
@@ -65,13 +70,13 @@ def book(request, book_id, posts='all'):
         posts = paginator.page(1)
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
-
-    context = {'title': str(target_book.title) + ', Spimebook',
-               'book': target_book,
-               'posts': posts,
-               'readed_book': readed_book_state,
-               'post_type': post_type
-               }
+    context = {
+        'title': target_book.title + ',' + TITLE,
+        'book': target_book,
+        'posts': posts,
+        'readed_book': readed_book_state,
+        'post_type': post_type
+    }
     return render(request, 'books/book.html', context)
 
 
@@ -97,8 +102,27 @@ def genres(request, genre):
     genre_id = Genres.objects.get(genre=genre).id
     books = get_query(request).filter(book__genres=genre_id)
     genres = Genres.objects.all()
-    context = {'title': f'Browser {genre} books, Spimebook',
-               'books': books, 'genres': genres}
+    lang = get_lang(request).lower()
+    genre = eval(f'Genres.objects.get(genre=genre).genre_{lang}')
+    context = {
+        'title': _('Browser %(genre)s Books, ') % {'genre': genre} + TITLE,
+        'books': books, 'genres': genres
+    }
+    return render(request, 'books/index.html', context)
+
+
+# Book or Novel
+def book_or_novel(request, book_type):
+    books = get_query(request).filter(book__book_or_Novel=book_type)
+    genres = Genres.objects.all()
+    if book_type == 'Book':
+        title = _('Browser Book') + ', ' + TITLE
+    else:
+        title = _('Browser Novel') + ', ' + TITLE
+    context = {
+        'title': title,
+        'books': books, 'genres': genres
+    }
     return render(request, 'books/index.html', context)
 
 
@@ -170,8 +194,11 @@ def add_book(request):
             translate.book_Bio = bio
             translate.save()
             return redirect(f'/books/{book.id}')
-
-    return render(request, 'books/add_book.html', {'title': 'Add Book', 'genres': genres})
+    context = {
+        'title': _('Add Book'),
+        'genres': genres
+    }
+    return render(request, 'books/add_book.html', context)
 
 
 '''
@@ -232,7 +259,7 @@ def edit_book(request, book_id):
                 form = EditBookForm(initial=request.POST)
                 return render(request, 'books/edit_book.html', {'title': f'Edit {book.title} details', 'book': book, 'form': form})
     context = {
-        'title': f'Edit {book.title} details',
+        'title': _('Edit') + ' ' + book.title,
         'book': book,
         'form': form,
         'genres': genres
@@ -282,11 +309,10 @@ def get_lang(request):
         lang = request.user.profile.lang
     else:
         lang = get_language_from_request(request)
-        for tu in settings.LANGUAGES:
-            if lang in tu:
-                break
-            else:
-                lang = 'en'
+        if lang in settings.LANGUAGES:
+            pass
+        else:
+            lang = 'en'
     return lang
 
 
@@ -295,13 +321,14 @@ def get_query(request):
         lang = request.user.profile.lang
     else:
         lang = get_language_from_request(request)
-        for tu in settings.LANGUAGES:
-            if lang in tu:
-                break
-            else:
-                lang = 'en'
+        if lang in settings.LANGUAGES:
+            pass
+        else:
+            lang = 'en'
+
     lang = lang.upper()
     translate = eval(f"{lang}.objects.all()")
+    print(lang)
     return translate
 
 

@@ -1,112 +1,92 @@
 {% extends "posts/base.html" %}
 {% load static %}
+{% load i18n %}
+{% load posts_extra %}
 {% load books_extra %}
 {% block content %}
 {# get user lang to show correct translate #}
 {% if user.is_authenticated %}
 {% define user.profile.lang as user_lang %}
 {% else %}
-{% define 'en' as user_lang %}
+{% get_current_language as user_lang %}
 {% endif %}
 <link rel="stylesheet" href="{% static 'css/jquery-ui.css'%}">
 <script src="{% static 'js/jquery-ui.min.js' %}"></script>
 <form method="POST" enctype="multipart/form-data" class="uk uk-padding uk-padding-remove-vertical">
     {% csrf_token %}
-    <legend class="uk-legend uk-margin-bottom">Edit {{post.title}} </legend>
+    <legend class="uk-legend uk-margin-bottom">{% trans "Edit" %} {{post.title}} </legend>
     <div class="uk-grid" uk-grid>
         <div class="uk-width-1-1@s">
-            {% for message in messages %}
-            <div class="uk-margin uk-margin-large-top">
-                <div class="uk-alert-warning existed" uk-alert>
-                    <p>
-                        {{message}}<a href="{% url 'add-book' %}">click here</a> to add book
-                    </p>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="uk-width-1-1@s">
-            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Title</label>
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">{% trans "Title" %}</label>
             <input type="text" name="title" value="{{post.title}}" maxlength="120" placeholder="Post Title" required
                 class="uk-input" id="id_title">
         </div>
         <div class="uk-margin uk-width-1-1">
-            <label style="display: block;" class="uk-form-label uk-margin-small-bottom" for="form-stacked-text">Book
-                Post</label>
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom" for="form-stacked-text">{% trans "Book Post" %}</label>
             <div class="uk-form-controls">
                 <textarea name="content" cols="40" rows="5" required class="uk-textarea uk-padding-small"
                     id="id_content">{{post.content}}</textarea>
             </div>
         </div>
         <div class="uk-width-1-1 book-list-container">
-            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Book</label>
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">{% trans "For Book" %}</label>
             <ul uk-accordion>
                 <li>
-                    <a id="select-book" class="uk-accordion-title" href="#">Select Book</a>
+                    <a id="select-book" class="uk-accordion-title" href="#">{% trans "Select Book" %}</a>
                     <div class="uk-accordion-content">
-                        <input type="search" class="uk-input book-filter" id="filter" placeholder="Book Title">
+                        <input type="search" class="uk-input book-filter" id="filter" placeholder="{% trans "Book Title" %}">
                         <div style="max-height: 250px; overflow-y: auto;" id="books-list"
                             class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                            {% for book in books  %}
+                            <div filter='${book.title}' style='margin:2px;disply:inline-block'><label><input class="uk-radio" value="{{book.id}}" type="radio" name="for_book" {% if book == post.for_book %} checked {% endif %}> {{book|get_translate:user_lang}}</label></div>
+                            {% endfor %}
                         </div>
+                        <span style="display: block;" class="uk-margin-small-top uk-text-muted author-autocomplete">
+                            {% trans "If Book Doesn't Appear" %}
+                            <a href="{% url 'books:add-book' %}">{% trans "click here to add" %}</a>
+                        </span>
                     </div>
                 </li>
             </ul>
-            <span style="display: block;" class="uk-margin-small-top uk-text-muted author-autocomplete">
-                If Book Doesn't Appear
-                <a href="{% url 'books:add-book' %}">click here to
-                    add</a>
-            </span>
         </div>
         <div class="uk-width-1-2@s">
-            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Type</label>
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">{% trans "Type" %}</label>
             <select name="post_type" class="uk-select" id="id_post_type">
                 {% if post.post_type == 'Q'  %}
-                <option value="Q" selected>Quote</option>
-                <option value="R">Review</option>
-                <option value="P">Post</option>
+                <option value="Q" selected>{% trans "Quote" %}</option>
+                <option value="R">{% trans "Review" %}</option>
+                <option value="P">{% trans "Post" %}</option>
                 {% elif post.post_type == 'R'%}
-                <option value="Q">Quote</option>
-                <option value="R" selected>Review</option>
-                <option value="P">Post</option>
+                <option value="Q">{% trans "Quote" %}</option>
+                <option value="R" selected>{% trans "Review" %}</option>
+                <option value="P">{% trans "Post" %}</option>
                 {% else  %}
-                <option value="Q">Quote</option>
-                <option value="R">Review</option>
-                <option value="P" selected>Post</option>
+                <option value="Q">{% trans "Quote" %}</option>
+                <option value="R">{% trans "Review" %}</option>
+                <option value="P" selected>{% trans "Post" %}</option>
                 {% endif %}
             </select>
         </div>
         <div class="uk-width-auto@s">
-            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Archived</label>
+            <label style="display: block;" class="uk-form-label uk-margin-small-bottom">{% trans "Archived" %}</label>
             <input type="checkbox" {% if post.archived %} checked {% endif %} name="archiving" class="uk-checkbox"
                 id="id_archived">
-            <label class="" for="id_archived">is archived post?</label>
+            <label class="" for="id_archived">{% trans "is archived post?" %}</label>
             <p>
-                When Archiving Posts, will no longer be visible for others.
+                {% trans "When Archiving Posts, will no longer be visible for others." %}
             </p>
         </div>
-
         <div class="uk-width-1-1">
-            <button type="submit" class="uk-button uk-button-primary">Save Book</button>
+            <button type="submit" class="uk-button uk-button-primary">{% trans "Save" %}</button>
         </div>
     </div>
 </form>
-
 {% endblock content %}
 {% block javascript %}
 <script>
     $(function () {
         var books_list = $('#books-list');
         var URL_P = '{% url "reactions:all-books" %}';
-        $.ajax({
-            type: "GET",
-            url: URL_P,
-            success: function (response) {
-                response.content.forEach(book => {
-                    var elemet = `<div filter='${book.title}' style='margin:2px;disply:inline-block'><label><input class="uk-radio" value="${book.id}" type="radio" name="for_book"> ${book.title}</label></div>`
-                    books_list.append(elemet);
-                });
-            }
-        });
         let filter = $('.book-list-container input[type=search]')
         filter.on({
             "keydown": function (e) {

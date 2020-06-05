@@ -8,10 +8,16 @@ from django_ajax.decorators import ajax
 import json
 from django.http import JsonResponse
 from django.core import serializers
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 
 # Create your views here.
-
+'''
+send_mail('Subject here','Here is the message.','spimebook@gmail.com',[
+          'iraq.rsol@gmai.com'],fail_silently=False)
+'''
 @ajax
 @login_required(login_url='log-in')
 def get_all_books(request):
@@ -107,3 +113,17 @@ def love(request, post_id):
         msg = f'love'
         love = True
     return {'msg': msg, 'love': love}
+
+
+@ajax
+def send_email(request):
+    data = {
+        'name': 'AbdulRasol',
+        'mail': 'spimebook@gmail.com',
+    }
+    html_message = render_to_string('reactions/mail.html', context=data)
+    plan_text = strip_tags(html_message)
+
+    send_mail('Subject', plan_text, 'spimebook@gmail.com', [
+              'iraq.rsol@gmail.com', 'abdulrsol97@gmail.com'], fail_silently=False, html_message=html_message)
+    return 'ok'

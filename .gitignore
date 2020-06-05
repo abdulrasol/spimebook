@@ -11,3 +11,5 @@ src/posts/migrations/*
 src/users/migrations/*
 src/authors/migrations/*
 src/db.sqlite3
+src/sendgrid.env
+src/spimebook/settings.ini

@@ -1,5 +1,7 @@
 {% load static %}
 {% load i18n %}
+
+
 <!DOCTYPE html>
 <html>
 
@@ -106,12 +108,14 @@
                         <li class="uk-nav-header">{% trans "Shortcuts" %}</li>
                         <li>
                             <a href="{% url 'profile' %}">
-                                <span class="uk-margin-small-right" uk-icon="icon: user; ratio: 1.5"></span> {% trans "My Profile" %}
+                                <span class="uk-margin-small-right" uk-icon="icon: user; ratio: 1.5"></span>
+                                {% trans "My Profile" %}
                             </a>
                         </li>
                         <li>
                             <a href="#">
-                                <span class="uk-margin-small-right" uk-icon="icon: list; ratio: 1.5"></span> {% trans "My Lists" %}
+                                <span class="uk-margin-small-right" uk-icon="icon: list; ratio: 1.5"></span>
+                                {% trans "My Lists" %}
                             </a>
                         </li>
                         <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: bookmark; ratio: 1.5"></span>
@@ -119,9 +123,11 @@
 
                         <li class="uk-nav-divider"></li>
                         <li class="uk-nav-header">{% trans "More" %}</li>
-                        <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: mail"></span> {% trans "Contact us" %}</a>
+                        <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: mail"></span>
+                                {% trans "Contact us" %}</a>
                         </li>
-                        <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: info"></span> {% trans "How Are We" %}</a>
+                        <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: info"></span>
+                                {% trans "How Are We" %}</a>
                         </li>
                         <li>
                             <ul class="uk-iconnav uk-child-width-1-3 uk-padding-small uk-margin-medium-top">
@@ -228,9 +234,28 @@
                             {% endif %}
                             <li class="uk-nav-divider"></li>
                             <li class="uk-nav-header">{% trans "More" %}</li>
-                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: mail"></span> {% trans "Contact us" %}</a>
+                            <li><a id="send"><span class="uk-margin-small-right" uk-icon="icon: mail"></span>
+                                    {% trans "Contact us" %}</a>
+                                <script>
+                                    $(function () {
+                                        $('a#send').click(function () {
+                                            URL = "{% url 'reactions:mail-test' %}"
+                                            $.ajax({
+                                                type: "GET",
+                                                url: URL,
+                                                dataType: "dataType",
+                                                success: function (response) {
+                                                    console.log(response.data)
+                                                }
+                                            });
+                                            console.log('sending..')
+                                        });
+                                    });
+                                </script>
                             </li>
-                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: info"></span> {% trans "How Are We" %}</a>
+
+                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: info"></span>
+                                    {% trans "How Are We" %}</a>
                             </li>
                             <li>
                                 <ul class="uk-iconnav uk-child-width-1-3 uk-padding-small uk-margin-medium-top">
@@ -273,15 +298,13 @@
         <div class="uk-modal-dialog uk-modal-body uk-text-center">
             <h2 class="uk-modal-title">{% trans "Share" %}</h2>
             <button class="uk-modal-close-default" type="button" uk-close></button>
-            <div class="uk-child-width-1-2 ">
+            <div class="uk-child-width-1-2">
                 <a href="#" class=" uk-button uk-button-default uk-margin-small"><span class="uk-icon uk-padding-small"
                         uk-icon="icon: facebook; ratio:1.5"></span>facebook</a>
                 <a href="#" class=" uk-button uk-button-default uk-margin-small"><span class="uk-icon uk-padding-small"
                         uk-icon="icon: twitter; ratio:1.5"></span>twitter</a>
-                <a href="#" class=" uk-button uk-button-default uk-margin-small"><span class="uk-icon uk-padding-small"
-                        uk-icon="icon: instagram; ratio:1.5"></span>instagram</a>
-                <a href="#" class=" uk-button uk-button-default uk-margin-small"><span class="uk-icon uk-padding-small"
-                        uk-icon="icon: facebook; ratio:1.5"></span>{% trans "others" %}</a>
+                <a id="get-link-to-copy" data-url="test" onclick="" class="uk-width-auto uk-button uk-button-default uk-margin-small"><span class="uk-icon uk-padding-small"
+                        uk-icon="icon: social; ratio:1.5"></span>{% trans "others, click to get link" %}</a> 
             </div>
         </div>
     </div>

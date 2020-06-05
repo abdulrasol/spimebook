@@ -11,6 +11,11 @@ from .forms import EditProfileForm, EditAccountForm
 from django.utils.translation import gettext as _, activate, LANGUAGE_SESSION_KEY, get_language_from_request
 from django.conf import settings as conf_settings
 from django.http import JsonResponse
+from django_ajax.decorators import ajax
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+
 
 # Create your views here.
 # { % if user.is_authenticated % }
@@ -50,17 +55,22 @@ def register(request):
             return redirect('register')
 
         else:
+            language = request.POST['language']
             username = request.POST['username']
             password = request.POST['password']
             email = request.POST['email']
             # print(username, password, email)
             user = User.objects.create_user(username, email, password)
             user.save()
-            #profile = Profile(user.id)
-            # profile.save()
+            user.profile.lang = language
+            user.profile.save()
             messages.add_message(request, messages.SUCCESS,
                                  f'Welcome {username}, your account created login now!')
-            return redirect('log-in')
+            response = redirect('log-in')
+            activate(user.profile.lang)
+            response.set_cookie(
+                conf_settings.LANGUAGE_COOKIE_NAME, user.profile.lang)
+            return response
 
     return render(request, 'users/register.html', {'user_exists': False})
 
@@ -100,11 +110,9 @@ def settings(request):
         password = request.POST['password']
         email = request.POST['email']
         language = request.POST['language']
-        print(language)
         user = request.user
         if username != '':
             if not User.objects.filter(username=username).exists():
-                # print(username)
                 user.username = username
             else:
                 messages.add_message(request, messages.SUCCESS,
@@ -120,7 +128,6 @@ def settings(request):
                 return redirect('settings')
         if password != '':
             if len(password) >= 6:
-                print(len(password))
                 user.set_password(password)
             else:
                 messages.add_message(
@@ -194,5 +201,62 @@ def user_profile(request, username):
     return render(request, 'users/user.html', context)
 
 
-def local(request):
-    return HttpResponse(settings.LOCALE_PATHS)
+def revover_password(request):
+    title = _('Recover your password')
+    context = {
+        'title': title
+    }
+    response = render(request, 'users/recover_password.html', context)
+    return response
+
+
+@ajax
+def send_token_pass(request):
+    email = request.POST['email']
+    if User.objects.filter(email=email).exists():
+        user = get_object_or_404(User, email=email)
+        import random
+        token = random.randrange(10000, 99999)
+        user.profile.pass_recover_token = token
+        user.profile.save()
+        mailing({'name': user.get_full_name(), 'token': token}, user.email)
+        return {'state': True}
+    else:
+        return {'state': False}
+
+
+@ajax
+def check_token_pass(request):
+    email = request.POST['email'].lower()
+    token = request.POST['token']
+    user = get_object_or_404(User, email=email)
+    if token == user.profile.pass_recover_token:
+        return {'state': True}
+    else:
+        return {'state': False}
+
+
+@ajax
+def set_new_pass(request):
+    email = request.POST['email'].lower()
+    token = request.POST['token']
+    password = request.POST['password']
+    default = request.POST['csrfmiddlewaretoken']
+    user = get_object_or_404(User, email=email)
+    if token == user.profile.pass_recover_token:
+        user.set_password(password)
+        user.save()
+        user.profile.pass_recover_token = default
+        user.profile.save()
+        return {'state': True}
+    else:
+        return {'state': False, 'msg': 'Error Token'}
+
+
+def mailing(data={}, *recipient_list):
+    recipient_list = list(recipient_list)
+    html_message = render_to_string(
+        'users/email/token_code.html', context=data)
+    plan_text = strip_tags(html_message)
+    send_mail('Subject', plan_text, 'spimebook@gmail.com',
+              recipient_list, fail_silently=False, html_message=html_message)

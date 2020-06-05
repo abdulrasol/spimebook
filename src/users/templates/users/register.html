@@ -1,13 +1,15 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% if title %}
     <title>{{title}}</title>
     {% else %}
-    <title>Spimebook, a site for readers</title>
+    <title>{% trans "Spimebook, a site for readers" %}</title>
     {% endif %}
     <link rel="stylesheet" href="{% static "css/uikit.min.css" %}" />
     <link rel="stylesheet" href="{% static "css/my_style.css" %}" />
@@ -28,42 +30,50 @@
                 <form method="POST">
                     {% csrf_token %}
                     <fieldset class="uk-fieldset">
-                        <legend class="uk-legend">Register</legend>
-                        {% if messages %}
-                        {% for message in messages %}
-                        <div class="uk-margin uk-margin-large-top">
-                            <div class="uk-alert-success existed" uk-alert>
-                                <p>
-                                    {{message}}, already have account <a href="{% url 'log-in' %}">Login here</a>
-                                </p>
-                            </div>
-                        </div>
-                        {% endfor %}
-                        {% endif %}
+                        <legend class="uk-legend">{% trans "Register" %}</legend>
                         <div class="uk-margin">
                             <input id="username" name="username" required class="uk-input" type="text" maxlength="140"
-                                minlength="2" placeholder="Username">
+                                minlength="2" placeholder="{% trans "Username" %}">
                         </div>
                         <div class="uk-margin">
                             <input id="email" name="email" required class="uk-input" type="email" minlength="6"
-                                placeholder="E-Mail">
+                                placeholder="{% trans "Email address" %}">
                         </div>
                         <div class="uk-margin">
                             <input id="password" required name="password" class="uk-input me-form-password"
-                                type="password" placeholder="Password">
+                                type="password" placeholder="{% trans "Password" %}">
                             <br>
                             <div class="uk-alert-warning" uk-alert>
                                 <p>
-                                    Password you entered less than 6 char!
+                                    {% trans "Password you entered less than 6 char!" %}
                                 </p>
                             </div>
                         </div>
                         <div class="uk-margin">
-                            <button type="submit" class="uk-button uk-width-1-1 uk-button-primary">Register</button>
+                            <label style="display: block;"
+                                class="uk-form-label uk-margin-small-bottom">{% trans "Language" %}</label>
+                            <div class="uk-margin">
+                                <select class="uk-select" name="language">
+                                    {% get_current_language as LANGUAGE_CODE %}
+                                    {% get_available_languages as LANGUAGES %}
+                                    {% get_language_info_list for LANGUAGES as languages %}
+                                    {% for language in languages %}
+                                    <option value="{{ language.code }}" {% if language.code == user.profile.lang %}
+                                        selected{% endif %}>
+                                        {{ language.name_local }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="uk-margin">
+                            <button type="submit"
+                                class="uk-button uk-width-1-1 uk-button-primary">{% trans "Register" %}</button>
                         </div>
                         <div class="uk-margin uk-grid-small uk-child-width-1-2 uk-grid">
                             <p class="uk-margin-top uk-width-1-1">
-                                Already have account <a href="{% url 'log-in' %}">Login here</a>
+                                {%trans 'Already have account '%}<a
+                                    href="{% url 'log-in' %}">{% trans "Login here" %}</a>
                             </p>
                         </div>
                     </fieldset>

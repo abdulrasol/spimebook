@@ -13,14 +13,17 @@ from django.utils.translation import gettext as _
 
 class Profile(models.Model):
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, primary_key=True, related_name='profile')
+        User, on_delete=models.CASCADE, primary_key=True, related_name='profile', verbose_name=_('User'))
     picture = models.ImageField(
-        upload_to='users/Profiles/', blank=True, null=True, default='user.png')
-    bio = models.CharField(max_length=221, blank=True, null=True)
+        upload_to='users/Profiles/', blank=True, null=True, default='user.png', verbose_name=_('Profile Picture'))
+    bio = models.CharField(max_length=221, blank=True,
+                           null=True, verbose_name=_('Bio'))
     books = models.ManyToManyField(
-        Book, related_name='books', blank=True)
+        Book, related_name='books', blank=True, verbose_name=_('Readed Books'))
     lang = models.CharField(
-        max_length=2, choices=settings.LANGUAGES, default='en', verbose_name='Language')
+        max_length=2, choices=settings.LANGUAGES, default='en', verbose_name=_('Language'))
+    pass_recover_token = models.CharField(
+        max_length=10, blank=True, null=True, verbose_name=_('Token Code'))
 
     def __str__(self):
         return str(self.user)

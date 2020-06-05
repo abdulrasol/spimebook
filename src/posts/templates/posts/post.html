@@ -83,9 +83,14 @@
                 <a class="uk-icon uk-margin-small-right" uk-icon="icon: reply" type="button"></a>
             </span>
             {% endif %}
-            <span>
+            <span id="sharing-btn" onclick="fun()">
                 <a href="#share-modal" class="uk-icon uk-margin-small-right" uk-icon="icon: social" uk-toggle></a>
             </span>
+            <script>
+                function fun() {
+                    document.getElementById('get-link-to-copy').dataset.url = "{% url 'posts:post' post.id %}";;
+                }
+            </script>
             {% if user.is_authenticated %}
             <a type="button" href="#" class="uk-icon uk-float-right" uk-icon="icon: more"></a>
             <!-- dropdown more options -->

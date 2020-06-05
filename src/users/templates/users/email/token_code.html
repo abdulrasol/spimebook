@@ -1,0 +1,67 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Reset Password, Spimebook</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style type="text/css">
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            width: 35%;
+            margin: 30px auto;
+            border: 2px solid #666666;
+            border-radius: 8px;
+            padding: 40px;
+            font-size: 1.2rem;
+        }
+        h3 {
+            text-align: left;
+            margin: 0;
+            padding: 0;
+        }
+        p {
+            text-align: left;
+            margin: 0 0 50px 0;
+            padding: 0;
+        }
+        @media (max-width: 992px) {
+            body {
+                width: 40px%;
+            }
+        }
+        @media (max-width: 640px) {
+            body {
+                width: 80%;
+                border: none
+            }
+        }
+    </style>
+</head>
+
+<body style="text-align: center;">
+    <div style="background-color:#FFFFFF">
+        <p style="text-align: center;margin-bottom: 70px;">
+            <span style="font-size: 2em;font-weight: bolder;color: #666666;">Spime<span
+                style="color:#1e87f0!important;font-style: italic;">book
+            </span>
+        </span>
+    </p>
+    <h3>Welcome {{name}}</h3>
+    <p>You are request to reset your account password, click button below to rest your
+    password</p>
+    <span href="http://abdulrasol.pythonanywhere.com/"
+    style="text-decoration: none;border: none;cursor: pointer; border-radius: 5px; padding: 12px 18px;color:#FFFFFF;background-color:#1e87f0;font-weight: bold;">{{token}}</span>
+    <p style="margin-top: 40px">
+        You should keep this code safa and don't share it with anyone else.
+    </p>
+    <p style="margin-top: 20px">
+        If you don't request to reset your password,then ignore this massege. And make sure your email account (this) is not shared with anyone and no one have access to this massege.
+    </p>
+</div>
+</body>
+
+</html>

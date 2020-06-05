@@ -1,5 +1,6 @@
 {% extends "posts/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load posts_extra %}
 {% block content %}
 <!-- start post container -->
@@ -15,7 +16,7 @@
             <div class="uk-width-expand uk-margin-small-left">
                 <h1 class="uk-margin-remove">{{target_user.first_name}} {{target_user.last_name}}</h1>
                 <h2 class="uk-margin-remove-left uk-margin-small uk-text-muted">{{target_user.username}}</h2>
-                <h4 class="uk-margin-remove-left uk-margin-small"><span class="uk-label">Bio </span>
+                <h4 class="uk-margin-remove-left uk-margin-small"><span class="uk-label">{% trans "Bio" %} </span>
                     {{target_user.profile.bio}}
                 </h4>
             </div>
@@ -25,7 +26,7 @@
     <div class="uk-card-body">
         <!-- start user books -->
         <!-- reads -->
-        <h5 class="uk-heading-line uk-text-muted"><span>Books reads by {{target_user.username}}</span></h5>
+        <h5 class="uk-heading-line uk-text-muted"><span>{% trans "Books reads by" %} {{target_user.username}}</span></h5>
          <div class="uk-margin-bottom me-books-slider">
             <div uk-slider>
                 <div class="uk-position-relative">
@@ -68,7 +69,7 @@
     </div>
     <div class="uk-card-footer">
         <div>
-            <h5 class="uk-heading-line uk-text-muted"><span>{{target_user.username}} posts</span></h5>
+            <h5 class="uk-heading-line uk-text-muted"><span>{{target_user.username}} {% trans "Posts" %}</span></h5>
         </div>
         <div class="uk-width-expand">
             <!-- Start Users Posts -->
@@ -76,7 +77,7 @@
                 {% for post in posts %}
                 {% post post user %}
                 {% empty %}
-                <p>The are no posts for now</p>
+                <p>{% trans "The are no posts for now" %}</p>
                 {% endfor %}
             </div>
             <div class="loading-more-post" style="display: block;">

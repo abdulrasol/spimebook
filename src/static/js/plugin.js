@@ -191,7 +191,7 @@ $('document').ready(function () {
             data: data,
             success: function (data) {
                 if (data.content.type === 'post') {
-                    window.location.replace(`/posts/${data.content.id}/`);
+                    window.location.replace(`/posts/post/${data.content.id}/`);
                 } else {
                     window.location.replace(`/books/${spinner.data('book')}/`);
                 }

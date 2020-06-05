@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-23 08:27+0000\n"
+"POT-Creation-Date: 2020-05-30 15:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,6 +70,7 @@ msgstr "أكتب بعض المعلومات حول هذا المؤلف"
 
 #: authors/templates/authors/add.html:46 books/templates/books/add_book.html:74
 #: books/templates/books/edit_book.html:94
+#: users/templates/users/edit_porfile.html:28
 msgid "Select file"
 msgstr "اختار صورة جديدة"
 
@@ -95,11 +96,13 @@ msgstr "المعلومات"
 
 #: authors/templates/authors/edit.html:37
 #: books/templates/books/edit_book.html:82
+#: users/templates/users/edit_porfile.html:15
 msgid "Old Picture"
 msgstr "الصورة القديمة"
 
 #: authors/templates/authors/edit.html:45
 #: books/templates/books/edit_book.html:90
+#: users/templates/users/edit_porfile.html:24
 msgid "Select New Picture"
 msgstr "اختار صورة جديدة"
 
@@ -107,7 +110,7 @@ msgstr "اختار صورة جديدة"
 msgid "Update Author Info"
 msgstr "السيرة الذاتية للمؤلف"
 
-#: authors/templates/authors/index.html:20 posts/templates/posts/base.html:207
+#: authors/templates/authors/index.html:20 posts/templates/posts/base.html:213
 msgid "Books"
 msgstr "الكتب"
 
@@ -252,6 +255,9 @@ msgstr "الغاء"
 #: books/templates/books/add_book.html:118 books/templates/books/book.html:159
 #: books/templates/books/edit_book.html:99
 #: posts/templates/posts/edit_post.html:80
+#: users/templates/users/edit_porfile.html:53
+#: users/templates/users/recover_password.html:114
+#: users/templates/users/settings.html:82
 msgid "Save"
 msgstr "حفظ"
 
@@ -279,11 +285,12 @@ msgstr "الكل"
 msgid "Reviews"
 msgstr "المراجعات"
 
-#: books/templates/books/book.html:85 posts/templates/posts/base.html:211
+#: books/templates/books/book.html:85 posts/templates/posts/base.html:217
 msgid "Quotes"
 msgstr "الاقتباسات"
 
-#: books/templates/books/book.html:88 posts/templates/posts/base.html:215
+#: books/templates/books/book.html:88 posts/templates/posts/base.html:221
+#: users/templates/users/user.html:72
 msgid "Posts"
 msgstr "المنشورات"
 
@@ -334,7 +341,7 @@ msgstr "تعديل"
 msgid "Add Book"
 msgstr "اضافة كتاب"
 
-#: books/templates/books/new_post.html:27 posts/templates/posts/base.html:274
+#: books/templates/books/new_post.html:27 posts/templates/posts/base.html:299
 #: posts/templates/posts/index.html:82
 msgid "Share"
 msgstr "نشر"
@@ -350,7 +357,6 @@ msgid "Browser %(genre)s Books, "
 msgstr "كتب %(genre)s، "
 
 #: books/views.py:119
-#| msgid "For Book"
 msgid "Browser Book"
 msgstr "الكتب"
 
@@ -368,11 +374,12 @@ msgstr "المؤلف غير موجود، يرجى اضافته الى قاعدة
 msgid "Post"
 msgstr "منشور"
 
-#: posts/models.py:18
+#: posts/models.py:18 users/models.py:16
 msgid "User"
 msgstr "المستخدم"
 
-#: posts/models.py:20
+#: posts/models.py:20 users/models.py:24 users/templates/users/register.html:54
+#: users/templates/users/settings.html:66
 msgid "Language"
 msgstr "لغة المستخدم"
 
@@ -388,71 +395,73 @@ msgstr "للكتاب"
 msgid "Post Type"
 msgstr "العنوان"
 
-#: posts/templates/posts/base.html:64
+#: posts/templates/posts/base.html:66 users/templates/users/porfile.html:19
 msgid "Settings"
 msgstr "الاعدادات"
 
-#: posts/templates/posts/base.html:69
+#: posts/templates/posts/base.html:71
 msgid "Sign out"
 msgstr "تسجيل خروج"
 
-#: posts/templates/posts/base.html:75
+#: posts/templates/posts/base.html:77
 msgid "Sign in"
 msgstr "تسجيل دخول"
 
-#: posts/templates/posts/base.html:80
+#: posts/templates/posts/base.html:82 users/templates/users/register.html:33
+#: users/templates/users/register.html:71
 msgid "Register"
 msgstr "تسجيل"
 
-#: posts/templates/posts/base.html:103 posts/templates/posts/base.html:217
+#: posts/templates/posts/base.html:105 posts/templates/posts/base.html:223
+#: users/templates/users/porfile.html:100
 msgid "My Posts"
 msgstr "منشوراتي"
 
-#: posts/templates/posts/base.html:106 posts/templates/posts/base.html:220
+#: posts/templates/posts/base.html:108 posts/templates/posts/base.html:226
 msgid "Shortcuts"
 msgstr "الوصول السريع"
 
-#: posts/templates/posts/base.html:109
+#: posts/templates/posts/base.html:112
 msgid "My Profile"
 msgstr "صفحتي"
 
-#: posts/templates/posts/base.html:114 posts/templates/posts/base.html:222
+#: posts/templates/posts/base.html:118 posts/templates/posts/base.html:228
 msgid "My Lists"
 msgstr "قوائمي"
 
-#: posts/templates/posts/base.html:118 posts/templates/posts/base.html:226
+#: posts/templates/posts/base.html:122 posts/templates/posts/base.html:232
 msgid "Bookmark"
 msgstr "القوائم المرجعية"
 
-#: posts/templates/posts/base.html:121 posts/templates/posts/base.html:230
+#: posts/templates/posts/base.html:125 posts/templates/posts/base.html:236
 msgid "More"
 msgstr "المزيد"
 
-#: posts/templates/posts/base.html:122 posts/templates/posts/base.html:231
+#: posts/templates/posts/base.html:127 posts/templates/posts/base.html:238
 msgid "Contact us"
 msgstr "تواصل معنا"
 
-#: posts/templates/posts/base.html:124 posts/templates/posts/base.html:233
+#: posts/templates/posts/base.html:130 posts/templates/posts/base.html:258
 msgid "How Are We"
 msgstr "من نحن"
 
-#: posts/templates/posts/base.html:149 posts/templates/posts/base.html:187
+#: posts/templates/posts/base.html:155 posts/templates/posts/base.html:193
 msgid "Search..."
 msgstr "بحث..."
 
-#: posts/templates/posts/base.html:203
+#: posts/templates/posts/base.html:209
 msgid "Main"
 msgstr "الرئيسية"
 
-#: posts/templates/posts/base.html:205
+#: posts/templates/posts/base.html:211
 msgid "Home"
 msgstr "الصفحة الرئيسية"
 
-#: posts/templates/posts/base.html:209
+#: posts/templates/posts/base.html:215
 msgid "Authors"
 msgstr "المؤلفون"
 
-#: posts/templates/posts/base.html:284
+#: posts/templates/posts/base.html:309
 msgid "others"
 msgstr "اخرى"
 
@@ -522,7 +531,9 @@ msgstr "العنوان"
 msgid "Post.."
 msgstr "المحتوى.."
 
-#: posts/views.py:48 posts/views.py:65
+#: posts/views.py:48 posts/views.py:65 users/templates/users/login.html:12
+#: users/templates/users/recover_password.html:12
+#: users/templates/users/register.html:12
 msgid "Spimebook, a site for readers"
 msgstr "سبايمبوك، موقع للقراء"
 
@@ -556,8 +567,6 @@ msgid "Log In First"
 msgstr "يرجى تسجيل الدخول اولاً"
 
 #: reactions/templates/reactions/reaction_bar_rev.html:42
-#, fuzzy
-#| msgid "There is no posts, reviews or quotes for Now!"
 msgid "Threre is no comment for now!"
 msgstr "لا توجد مشاركات أو مراجعات أو اقتباسات الى الآن!"
 
@@ -609,3 +618,170 @@ msgstr "التقييم"
 #: templates/star_ratings/widget.html:14
 msgid "Rated by"
 msgstr "عدد المصوتين"
+
+#: users/models.py:18
+msgid "Profile Picture"
+msgstr "الصورة الشخصية"
+
+#: users/models.py:20 users/templates/users/edit_porfile.html:46
+#: users/templates/users/porfile.html:31 users/templates/users/user.html:19
+msgid "Bio"
+msgstr "السيرة الذاتية"
+
+#: users/models.py:22
+msgid "Readed Books"
+msgstr "الكتب التي تم قراءتها"
+
+#: users/models.py:26
+msgid "Token Code"
+msgstr "رمز التحقق"
+
+#: users/templates/users/edit_porfile.html:34
+#: users/templates/users/edit_porfile.html:36
+msgid "First Name"
+msgstr "الاسم"
+
+#: users/templates/users/edit_porfile.html:39
+#: users/templates/users/edit_porfile.html:41
+msgid "Last Name"
+msgstr "اللقب"
+
+#: users/templates/users/login.html:36
+msgid ", need account "
+msgstr "، تحتاج حساب"
+
+#: users/templates/users/login.html:37 users/templates/users/login.html:84
+#: users/templates/users/recover_password.html:121
+msgid "register here"
+msgstr "سجل من هنا"
+
+#: users/templates/users/login.html:58
+msgid "Sign In"
+msgstr "تسجيل دخول"
+
+#: users/templates/users/login.html:65 users/templates/users/register.html:36
+#: users/templates/users/settings.html:30
+#: users/templates/users/settings.html:36
+msgid "Username"
+msgstr "اسم المستخدم"
+
+#: users/templates/users/login.html:72 users/templates/users/register.html:44
+#: users/templates/users/settings.html:53
+#: users/templates/users/settings.html:56
+msgid "Password"
+msgstr "كلمة المرور"
+
+#: users/templates/users/login.html:80
+msgid "lost my password"
+msgstr "فقدت كلمة المرور الخاصة بحسابي"
+
+#: users/templates/users/login.html:83
+#: users/templates/users/recover_password.html:120
+msgid "Need account"
+msgstr "تحتاج حساب"
+
+#: users/templates/users/porfile.html:15
+msgid "Edit Profile"
+msgstr "تعديل صفحتي"
+
+#: users/templates/users/porfile.html:41
+msgid "The books I read"
+msgstr "الكتب اللتي قرأتها"
+
+#: users/templates/users/porfile.html:59
+msgid "remove from this list"
+msgstr "ازالة من قائمة القراءة"
+
+#: users/templates/users/porfile.html:107 users/templates/users/user.html:80
+msgid "The are no posts for now"
+msgstr "لا توجد مشاركات الى الآن!"
+
+#: users/templates/users/recover_password.html:38
+msgid "Recover Your Password"
+msgstr "ستعادة كلمة المرور"
+
+#: users/templates/users/recover_password.html:41
+msgid "Find Your Account"
+msgstr "البحث عن حسابك"
+
+#: users/templates/users/recover_password.html:53
+#: users/templates/users/register.html:40
+#: users/templates/users/settings.html:44
+#: users/templates/users/settings.html:49
+msgid "Email address"
+msgstr "البريد الالكتروني"
+
+#: users/templates/users/recover_password.html:57
+msgid "Account not found, make sure your email is correct"
+msgstr "لم يتم العثور على الحساب، تأكد من ادخال البريد الالكتروني بصورة صحيحة"
+
+#: users/templates/users/recover_password.html:62
+msgid "Find"
+msgstr "العثور على الحساب"
+
+#: users/templates/users/recover_password.html:68
+msgid "Enter The Code"
+msgstr "دخل الرمز"
+
+#: users/templates/users/recover_password.html:78
+msgid "We send code to your email, enter it below"
+msgstr ""
+"قمنا بإرسال رمز تحقق الى حساب البريد الالكتروني الخاص بك، ادخل الرمز هنا"
+
+#: users/templates/users/recover_password.html:83
+msgid "Code"
+msgstr "الرمز"
+
+#: users/templates/users/recover_password.html:87
+msgid "Token code in incorrect"
+msgstr "الرمز خاطئ!"
+
+#: users/templates/users/recover_password.html:92
+msgid "Check"
+msgstr "تحقق من صحة الرمز"
+
+#: users/templates/users/recover_password.html:98
+#: users/templates/users/recover_password.html:110
+msgid "New Password"
+msgstr "كلمة المرور الجديدة"
+
+#: users/templates/users/register.html:48
+#: users/templates/users/settings.html:60
+msgid "Password you entered less than 6 char!"
+msgstr "كلمة المرور يجب ان تكون اكبر من 6!"
+
+#: users/templates/users/register.html:75
+msgid "Already have account "
+msgstr "تمتلك حساب مسبقاً"
+
+#: users/templates/users/register.html:76
+msgid "Login here"
+msgstr "قم بتسجيل الدخول من هنا"
+
+#: users/templates/users/settings.html:11
+msgid "Edit Account Settings "
+msgstr "تعديل اعدادت الحساب"
+
+#: users/templates/users/settings.html:26
+msgid "leave field empty if you don't want to change it!"
+msgstr "اترك الحقل فارغ اذا كنت لا تريد تغيره"
+
+#: users/templates/users/settings.html:33
+#: users/templates/users/settings.html:47
+msgid "Currunt"
+msgstr "الحالي"
+
+#: users/templates/users/settings.html:38
+msgid "150 characters or fewer. Letters, digits and @/./+/-/_ only."
+msgstr "اقصى عدد للحروف 150"
+
+#: users/templates/users/user.html:29
+msgid "Books reads by"
+msgstr "الكتب التي قرأها"
+
+#: users/views.py:205
+msgid "Recover your password"
+msgstr "استعادة كلمة المرور الخاصة بحسابك"
+
+#~ msgid ", already have account "
+#~ msgstr "، تمتلك حساب مسبقاً "

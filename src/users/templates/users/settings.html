@@ -8,7 +8,7 @@
 <div class="uk-card uk-card-default">
     <form class="uk-form-stacked uk-padding " enctype="multipart/form-data" method="POST">
         {% csrf_token %}
-        <legend class="uk-legend uk-margin-bottom">Edit Account Settings </legend>
+        <legend class="uk-legend uk-margin-bottom">{% trans "Edit Account Settings " %}</legend>
         {% if messages %}
         {% for message in messages %}
         <div class="uk-margin uk-margin-large-top">
@@ -23,47 +23,47 @@
         <div class="uk-grid me-form" uk-grid>
             <div class="uk-width-1-1">
                 <p>
-                    leave field empty if you don't want to change it!
+                    {% trans "leave field empty if you don't want to change it!" %}
                 </p>
             </div>
             <div class="uk-width-1-2@s">
-                <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Username</label>
+                <label style="display: block;" class="uk-form-label uk-margin-small-bottom">{% trans "Username" %}</label>
                 <div class="uk-margin">
                     <p class="uk-margin-small">
-                        Currunt: {{user.username}}
+                        {% trans "Currunt" %}: {{user.username}}
                     </p>
                     <input id="username" name="username" class="uk-input" type="text" maxlength="140" minlength="2"
-                        placeholder="Username">
+                        placeholder="{% trans "Username" %}">
                     <p class="uk-margin-small">
-                        150 characters or fewer. Letters, digits and @/./+/-/_ only.
+                        {% trans "150 characters or fewer. Letters, digits and @/./+/-/_ only." %}
                     </p>
                 </div>
 
             </div>
             <div class="uk-width-1-2@s">
-                <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Email address</label>
+                <label style="display: block;" class="uk-form-label uk-margin-small-bottom">{% trans "Email address" %}</label>
                 <div class="uk-margin">
                     <p class="uk-margin-small">
-                        Currunt: {{user.email}}
+                        {% trans "Currunt" %}: {{user.email}}
                     </p>
-                    <input id="email" name="email" class="uk-input" type="email" placeholder="E-mail">
+                    <input id="email" name="email" class="uk-input" type="email" placeholder="{% trans "Email address" %}">
                 </div>
             </div>
             <div class="uk-width-1-2@s">
-                <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Password</label>
+                <label style="display: block;" class="uk-form-label uk-margin-small-bottom">{% trans "Password" %}</label>
                 <div class="uk-margin">
                     <input id="password" name="password" class="uk-input me-form-password" type="password"
-                        placeholder="Password">
+                        placeholder="{% trans "Password" %}">
                     <br>
                     <div class="uk-alert-warning" uk-alert>
                         <p>
-                            Password you entered less than 6 char!
+                            {% trans "Password you entered less than 6 char!" %}
                         </p>
                     </div>
                 </div>
             </div>
             <div class="uk-width-1-2@s">
-                <label style="display: block;" class="uk-form-label uk-margin-small-bottom">Language</label>
+                <label style="display: block;" class="uk-form-label uk-margin-small-bottom">{% trans "Language" %}</label>
                 <div class="uk-margin">
                     <select class="uk-select" name="language">
                         {% get_current_language as LANGUAGE_CODE %}
@@ -79,7 +79,7 @@
                 </div>
             </div>
             <div class="uk-width-1-1 uk-margin">
-                <button type="submit" class="uk-button uk-button-primary">Save</button>
+                <button type="submit" class="uk-button uk-button-primary">{% trans "Save" %}</button>
             </div>
         </div>
     </form>

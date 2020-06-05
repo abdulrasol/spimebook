@@ -12,11 +12,11 @@
         <div uk-dropdown="mode: click">
             <ul class="uk-nav uk-dropdown-nav">
                 <li><a href="{% url 'edit-profile' %}"><span class="uk-margin-small-right"
-                            uk-icon="icon: pencil; ratio:1.2"></span>Edit Profile</a>
+                            uk-icon="icon: pencil; ratio:1.2"></span>{% trans "Edit Profile" %}</a>
                 </li>
                 <li><a href="{% url 'settings' %}">
                         <span class="uk-margin-small-right" uk-icon="icon: cog; ratio:1.2"></span>
-                        Account Settings</a>
+                        {% trans "Settings" %}</a>
                 </li>
             </ul>
         </div>
@@ -28,7 +28,7 @@
             <div class="uk-width-expand uk-margin-small-left">
                 <h1 class="uk-margin-remove"> {{user.first_name}} {{user.last_name}}</h1>
                 <h3 class="uk-margin-remove-left uk-margin-small">{{user.username}}</h3>
-                <h4 class="uk-margin-remove-left uk-margin-small"><span class="uk-label">Bio </span>
+                <h4 class="uk-margin-remove-left uk-margin-small"><span class="uk-label">{% trans "Bio" %} </span>
                     {{user.profile.bio}}
                 </h4>
             </div>
@@ -38,7 +38,7 @@
 
         <!-- start user books -->
         <!-- reads -->
-        <h5 class="uk-heading-line uk-text-muted"><span>The books I read</span></h5>
+        <h5 class="uk-heading-line uk-text-muted"><span>{% trans "The books I read" %}</span></h5>
         <div class="uk-margin-bottom me-books-slider">
             <div uk-slider>
                 <div class="uk-position-relative">
@@ -56,7 +56,7 @@
                                             <li id="add-to-readed-book-profile">
                                                 <a id="add-to-readed-book" data-book="{% url 'books:readed-book' book.id %}">
                                                     <span class="uk-margin-small-right" uk-icon="icon: trash">
-                                                    </span> remove from this list
+                                                    </span> {% trans "remove from this list" %}
                                                 </a>
                                             </li>
                                         </ul>
@@ -97,14 +97,14 @@
 
     </div>
     <div class="uk-card-footer">
-        <h5 class="uk-heading-line uk-text-muted"><span>My Posts</span></h5>
+        <h5 class="uk-heading-line uk-text-muted"><span>{% trans "My Posts" %}</span></h5>
         <div class="uk-width-expand">
             <!-- Start Users Posts -->
             <div class="article-feed">
                 {% for post in posts %}
                 {% post post user %}
                 {% empty %}
-                <p>The are no posts for now</p>
+                <p>{% trans "The are no posts for now" %}</p>
                 {% endfor %}
             </div>
 

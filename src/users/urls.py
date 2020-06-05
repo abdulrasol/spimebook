@@ -10,9 +10,14 @@ urlpatterns = [
     path('user/profile', views.profile, name='profile'),
     path('user/profile/edit', views.edit_profile, name='edit-profile'),
     path('user/profile/settings', views.settings, name='settings'),
+    path('user/recover/password', views.revover_password, name='recover-pass'),
     path('<str:username>/', views.user_profile, name='user-profile'),
-    path('local', views.local),
 
     # ajax
-    #path('ajax/post/love/<int:post_id>', views.love, name='love'),
+    path('api/user/password-recover-get',
+         views.send_token_pass, name='recover-pass-send-token'),
+    path('api/user/password-recover-check',
+         views.check_token_pass, name='recover-pass-check-token'),
+    path('api/user/password-recover-reset',
+         views.set_new_pass, name='recover-pass-set-new'),
 ]

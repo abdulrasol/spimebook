@@ -11,5 +11,7 @@ src/posts/migrations/*
 src/users/migrations/*
 src/authors/migrations/*
 src/db.sqlite3
+src/Media
 src/sendgrid.env
 src/spimebook/settings.ini
+export SENDGRID_API_KEY='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' sendgrid.env

@@ -104,8 +104,6 @@
                         <li><a href="{% url 'posts:my-posts' user %}"><span class="uk-margin-small-right"
                                     uk-icon="icon: thumbnails; ratio: 1.5"></span>{% trans "My Posts" %}</a></li>
                         {% endif %}
-                        <li class="uk-nav-divider"></li>
-                        <li class="uk-nav-header">{% trans "Shortcuts" %}</li>
                         <li>
                             <a href="{% url 'profile' %}">
                                 <span class="uk-margin-small-right" uk-icon="icon: user; ratio: 1.5"></span>
@@ -118,9 +116,6 @@
                                 {% trans "My Lists" %}
                             </a>
                         </li>
-                        <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: bookmark; ratio: 1.5"></span>
-                                {% trans "Bookmark" %}</a></li>
-
                         <li class="uk-nav-divider"></li>
                         <li class="uk-nav-header">{% trans "More" %}</li>
                         <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: mail"></span>
@@ -222,14 +217,9 @@
                             <li><a href="{% url 'posts:my-posts' user %}"><span class="uk-margin-small-right"
                                         uk-icon="icon: thumbnails; ratio: 1.5"></span>{% trans "My Posts" %}</a></li>
 
-                            <li class="uk-nav-divider"></li>
-                            <li class="uk-nav-header">{% trans "Shortcuts" %}</li>
                             <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: list; ratio: 1.5"></span>
                                     {% trans "My Lists" %}</a>
                             </li>
-                            <li><a href="#"><span class="uk-margin-small-right"
-                                        uk-icon="icon: bookmark; ratio: 1.5"></span>
-                                    {% trans "Bookmark" %}</a>
                             </li>
                             {% endif %}
                             <li class="uk-nav-divider"></li>

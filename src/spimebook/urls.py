@@ -23,8 +23,7 @@ from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
     path('', home, name='home'),
-    path('authors/', include('authors.urls', namespace='authors')),
-    path('books/', include('books.urls', namespace='books')),
+
     path('posts/', include('posts.urls', namespace='posts')),
     path('', include('users.urls')),
     path('ratings/', include('star_ratings.urls', namespace='ratings')),
@@ -34,4 +33,6 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls')),
+    path('authors/', include('authors.urls', namespace='authors')),
+    path('books/', include('books.urls', namespace='books')),
 )

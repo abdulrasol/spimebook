@@ -42,6 +42,7 @@ $('document').ready(function () {
 
     // add new genres
     $('#modal-add-genre #add-genre-btn').click(function () {
+
         $('#spinner').fadeIn();
         let csrftoken = jQuery("#modal-add-genre input[name=csrfmiddlewaretoken]").val();
         let genre_text = $('#modal-add-genre input[name=genre]').val();

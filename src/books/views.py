@@ -19,7 +19,7 @@ TITLE = _('Spimebook')
 
 
 def books(request):
-    print(get_language_from_request(request))
+    # print(get_language_from_request(request))
     genres = Genres.objects.all()
     all_books = get_query(request)
     page = request.GET.get('page', 1)
@@ -87,7 +87,7 @@ def search_book(request):
         objects = get_query(request)
         # titles = objects.filter(title__istartswith=a)
         titles = objects.filter(title__contains=a)
-        print(titles)
+        # print(titles)
         result = []
         data = ''
         for n in titles:
@@ -139,7 +139,7 @@ def add_genre(request, genre):
                 exec(f"genre.genre_{lang} = '{value}'")
             translate_value = translator.translate(
                 value, dest=lang, src=native_lang).text
-            exec(f"genre.genre_{lang} = '{translate_value}'")
+            exec(f"genre.genre_{lang} = \"{translate_value}\"")
         genre.genre = genre.genre_en
         genre.save()
     context = {
@@ -271,7 +271,7 @@ def edit_book(request, book_id):
 def readed_book(request, book_id):
     book = Book.objects.get(id=book_id)
     user = request.user.profile
-    print(user)
+    # print(user)
     if user.books.filter(id=book.id).exists():  # cheek:
         book.books.remove(user)
         msg = f'{book.title} removed from readed list!'
@@ -328,7 +328,7 @@ def get_query(request):
 
     lang = lang.upper()
     translate = eval(f"{lang}.objects.all()")
-    print(lang)
+    # print(lang)
     return translate
 
 

@@ -175,7 +175,7 @@ def edit_profile(request):
 def user_profile(request, username):
     user = get_object_or_404(User, username=username)
     # print(f'userfrom url {username} and from db {user}')
-    all_posts = Post.objects.filter(user=user)
+    all_posts = Post.objects.filter(user=user).filter(archived=False)
     page = request.GET.get('page', 1)
     paginator = Paginator(all_posts, 5)
     try:

@@ -4,7 +4,9 @@ googletrans
 Pillow
 djangoajax
 django-star-ratings
-sendgrid
-decouple
+#sendgrid
+django-tinymce
+python-decouple
+
     
 # https://infinite-scroll.com         

@@ -15,24 +15,23 @@ BIO = _('Author Bio')
 
 
 class Author(models.Model):
-    title = models.CharField(max_length=255)
+    
+    name = models.CharField(max_length=255)
+    short = models.CharField(max_length=255, null=True,
+                             blank=True, verbose_name=SHORT)
+    author_Bio = models.TextField(
+        null=True, blank=True, verbose_name=BIO)
     Author_Image = models.ImageField(
         upload_to='author/images', default='author.jpg', verbose_name=_('Author Profile Image'))
     born_date = models.DateField(
         default=timezone.now, verbose_name=_('Birth Date'))
 
     def __str__(self):
-        if self.title is None:
-            return str(self.en.name)
+        if self.name is None:
+            return str(self.name)
         else:
-            return self.title
+            return self.name
 
-    def translate(self, lang):
-        if lang in settings.LANGUAGES:
-            print('IS')
-        lang = lang.lower()
-        translated = eval(f"self.{lang}")
-        return translated
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

@@ -32,13 +32,13 @@ def authors(request):
 
 
 def author(request, author_id, author_name):
-    target_author = get_object_or_404(Author, id=author_id)
-    books = target_author.books.all()
+    author = get_object_or_404(Author, id=author_id)
+    books = author.book_set.all()
     title = _('%(author)s, %(title)s') % {
-        'author': target_author.name, 'title': TITLE}
+        'author': author.name, 'title': TITLE}
     context = {
         'title': title,
-        'author': target_author,
+        'author': author,
         'books': books,
     }
     response = render(request, 'authors/author.html', context)
@@ -55,10 +55,10 @@ def add_author(request):
         FILES = dict(request.FILES)
         if FILES.__contains__('Author_Image'):
             image = FILES['Author_Image'][0]
-            author = Author(title=name, born_date=born_date,
+            author = Author(name=name, born_date=born_date,
                             Author_Image=image)
         else:
-            author = Author(title=english_name, born_date=born_date)
+            author = Author(name=english_name, born_date=born_date)
         author.save()
         return redirect(f'/authors/{author.id}/{name}')
     else:
@@ -72,22 +72,23 @@ def edit_author(request, author_id, author_name):
     
     author = get_object_or_404(Author, id=author_id)
     if request.method == 'POST':
-        name = request.POST['name']
-        born_date = request.POST['born_date']
-        short = request.POST['short']
-        bio = request.POST['author_Bio']
+        
+        author.name = request.POST['name']
+        author.born_date = request.POST['born_date']
+        author.short = request.POST['short']
+        author.author_Bio = request.POST['author_Bio']
+        print(request.POST['born_date'])
         FILES = dict(request.FILES)
         if FILES.__contains__('Author_Image'):
             image = FILES['Author_Image'][0]
             author.Author_Image = image
-        author.born_date = born_date
         author.save()
-        return redirect(f'/authors/{author.id}/{name}')
+        return redirect(f'/authors/{author.id}/{author.name}')
     title = _('Edit %(t)s details, %(title)s') % {
-        't': translate.name, 'title': TITLE}
+        't': author.name, 'title': TITLE}
     context = {
         'title': title,
-        'author': translate,
+        'author': author,
     }
     return render(request, 'authors/edit.html', context)
 

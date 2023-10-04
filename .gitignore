@@ -3,6 +3,7 @@ bin/*
 include/*
 lib/*
 *.pyc
+venv/*
 src/db.sqlite3
 src/books/__pycache__/*
 src/blog/migrations/*

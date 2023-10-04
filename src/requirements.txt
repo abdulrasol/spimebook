@@ -1,6 +1,5 @@
 django                          
-django-widget-tweaks            
-googletrans                     
+django-widget-tweaks                                 
 Pillow
 djangoajax
 django-star-ratings
@@ -9,4 +8,8 @@ django-tinymce
 python-decouple
 
     
-# https://infinite-scroll.com         
+# https://infinite-scroll.com   
+# auth - token ++
+# api - call +
+# serializer +++
+# docker       

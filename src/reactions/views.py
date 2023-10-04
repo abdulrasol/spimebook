@@ -2,7 +2,7 @@ from django.shortcuts import render
 from posts.models import Post
 from django.shortcuts import get_object_or_404
 from .models import Love, Comment
-from books.models import Book, AR, FR, EN
+from books.models import Book
 from django.contrib.auth.decorators import login_required
 from django_ajax.decorators import ajax
 import json

@@ -1,7 +1,7 @@
 from django.utils.translation import gettext as _, LANGUAGE_SESSION_KEY, get_language_from_request
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import *
+from .models import Book, Genres
 from django.http import JsonResponse, HttpResponse
 from django.contrib import messages
 from .forms import AddAuthorForm, EditBookForm
@@ -19,7 +19,6 @@ TITLE = _('Spimebook')
 
 
 def books(request):
-    # print(get_language_from_request(request))
     genres = Genres.objects.all()
     all_books = get_query(request)
     page = request.GET.get('page', 1)
@@ -39,8 +38,8 @@ def books(request):
 
 
 def book(request, book_id, posts='all'):
-    lang = get_lang(request)
-    target_book = get_object_or_404(Book, id=book_id).translate(lang)
+  
+    target_book = get_object_or_404(Book, id=book_id)
 
     # check readed book or no ?
     readed_book_state = False
@@ -82,7 +81,6 @@ def book(request, book_id, posts='all'):
 
 def search_book(request):
     if request.is_ajax():
-        lang = get_lang(request)
         a = request.GET.get('term', '')
         objects = get_query(request)
         # titles = objects.filter(title__istartswith=a)
@@ -102,8 +100,7 @@ def genres(request, genre):
     genre_id = Genres.objects.get(genre=genre).id
     books = get_query(request).filter(book__genres=genre_id)
     genres = Genres.objects.all()
-    lang = get_lang(request).lower()
-    genre = eval(f'Genres.objects.get(genre=genre).genre_{lang}')
+    genre = Genres.objects.get(genre=genre)
     context = {
         'title': _('Browser %(genre)s Books, ') % {'genre': genre} + TITLE,
         'books': books, 'genres': genres
@@ -132,15 +129,6 @@ def add_genre(request, genre):
     if request.method == 'POST':
         value = request.POST['name']
         genre = Genres(genre=value)
-        native_lang = request.user.profile.lang
-        for lang in settings.SUPPORTED_LANGS:
-            lang = lang.lower()
-            if lang.lower() == native_lang:
-                exec(f"genre.genre_{lang} = '{value}'")
-            translate_value = translator.translate(
-                value, dest=lang, src=native_lang).text
-            exec(f"genre.genre_{lang} = \"{translate_value}\"")
-        genre.genre = genre.genre_en
         genre.save()
     context = {
         'genre': genre.id
@@ -156,16 +144,16 @@ def book_by_ajax(request, book_title_author):
 
 @login_required(login_url='log-in')
 def add_book(request):
-    lang = get_lang(request)
+    
     genres = Genres.objects.all()
     if request.method == 'POST':
         author = request.POST['author']
-        exec(f'from authors.models import {lang.upper()} as Author')
-        if not eval(f"Author.objects.filter(name='{author}').exists()"):
+        from authors.models import  Author
+        if not Author.objects.filter(name='{author}').exists():
             messages.add_message(
                 request, messages.ERROR, _('Author not found, please correct name or add to database.'))
         else:
-            aut = eval(f"Author.objects.get(name=author)")
+            aut = Author.objects.get(name=author)
             title = request.POST['title']
             pub_date = request.POST['pub_date']
             bio = request.POST['book_Bio']
@@ -173,13 +161,13 @@ def add_book(request):
             genres_ids = request.POST.getlist('category')
             FILES = dict(request.FILES)
             author = aut.author
-            english_title = translator.translate(title).text
+           
             if FILES.__contains__('image'):
                 image = FILES['image'][0]
-                book = Book(title=english_title, book_image=image,
+                book = Book(title=title, book_image=image,
                             author=author, publish_date=pub_date, book_or_Novel=b_type)
             else:
-                book = Book(title=english_title, author=author,
+                book = Book(title=title, author=author,
                             publish_date=pub_date, book_or_Novel=b_type)
             book.save()
             for id in genres_ids:
@@ -187,12 +175,6 @@ def add_book(request):
                 book.genres.add(genre)
 
             book.save()
-            save_translate_for_all(lang, title, object=book)
-            translate = eval(
-                f"{lang.upper()}.objects.get(id=book.{lang}.id)")
-            translate.title = title
-            translate.book_Bio = bio
-            translate.save()
             return redirect(f'/books/{book.id}')
     context = {
         'title': _('Add Book'),
@@ -217,7 +199,6 @@ def add_book(request):
 
 @login_required(login_url='log-in')
 def edit_book(request, book_id):
-    lang = get_lang(request)
     book = get_object_or_404(Book, id=book_id).translate(lang)
     form = EditBookForm(request.POST or None,
                         request.FILES or None, instance=book)
@@ -225,8 +206,8 @@ def edit_book(request, book_id):
     if request.method == 'POST':
         form = EditBookForm(request.POST, request.FILES, instance=book.book)
         author = request.POST['author']
-        exec(f'from authors.models import {lang.upper()} as Author')
-        if not eval(f"Author.objects.filter(name='{author}').exists()"):
+        from authors.models import Author
+        if not Author.objects.filter(name='{author}').exists():
             messages.add_message(
                 request, messages.ERROR, _('Author not found, please correct name or add to database.'))
         else:
@@ -304,43 +285,8 @@ def rating_book(request, book_id, rating):
     return JsonResponse({'msg': msg, 'rating': rating, 'ratings_num': ratings_num})
 
 
-def get_lang(request):
-    if request.user.is_authenticated:
-        lang = request.user.profile.lang
-    else:
-        lang = get_language_from_request(request)
-        if lang in settings.LANGUAGES:
-            pass
-        else:
-            lang = 'en'
-    return lang
 
 
 def get_query(request):
-    if request.user.is_authenticated:
-        lang = request.user.profile.lang
-    else:
-        lang = get_language_from_request(request)
-        if lang in settings.LANGUAGES:
-            pass
-        else:
-            lang = 'en'
+    return Book.objects.all()
 
-    lang = lang.upper()
-    translate = eval(f"{lang}.objects.all()")
-    # print(lang)
-    return translate
-
-
-def save_translate_for_all(native_lang, text, object):
-    book = object
-    for lang in settings.SUPPORTED_LANGS:
-        if lang.lower() == native_lang:
-            continue
-        auto_text = translator.translate(
-            text=', Google translator', dest=lang).text
-        translate = translator.translate(text, dest=lang, src=native_lang).text
-        translated_object = eval(
-            f"{lang.upper()}.objects.get(id=book.{lang.lower()}.id)")
-        translated_object.title = translate + ', ' + auto_text
-        translated_object.save()

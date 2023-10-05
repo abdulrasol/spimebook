@@ -16,23 +16,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from . import settings
-from posts.views import home
 from django.conf.urls.static import static
-from django.conf.urls.i18n import i18n_patterns
+#from django.conf.urls.i18n import i18n_patterns
 
 
 urlpatterns = [
-    path('', home, name='home'),
-
-    path('posts/', include('posts.urls', namespace='posts')),
-    path('', include('users.urls')),
-    path('ratings/', include('star_ratings.urls', namespace='ratings')),
-    path('ajax/', include('reactions.urls', namespace='reactions')),
+    path('admin/', admin.site.urls),
+    path('writers/', include('writers.urls', namespace='writers')),
+   # path('', include('users.urls')),
+    #path('ratings/', include('star_ratings.urls', namespace='ratings')),
+    #path('ajax/', include('reactions.urls', namespace='reactions')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-urlpatterns += i18n_patterns(
-    path('admin/', admin.site.urls),
-    path('blog/', include('blog.urls')),
-    path('authors/', include('authors.urls', namespace='authors')),
-    path('books/', include('books.urls', namespace='books')),
-)
+#urlpatterns += i18n_patterns(
+    #path('admin/', admin.site.urls),
+    #path('blog/', include('blog.urls')),
+    #path('authors/', include('authors.urls', namespace='authors')),
+    #path('books/', include('books.urls', namespace='books')),
+#)

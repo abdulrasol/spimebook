@@ -9,7 +9,6 @@ from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Avg, Count, Sum
-from django.utils.translation import ugettext as _
 from model_utils.models import TimeStampedModel
 
 from . import app_settings, get_star_ratings_rating_model_name, get_star_ratings_rating_model
@@ -18,7 +17,7 @@ from . import app_settings, get_star_ratings_rating_model_name, get_star_ratings
 def _clean_user(user):
     if not app_settings.STAR_RATINGS_ANONYMOUS:
         if not user:
-            raise ValueError(_("User is mandatory. Enable 'STAR_RATINGS_ANONYMOUS' for anonymous ratings."))
+            raise ValueError("User is mandatory. Enable 'STAR_RATINGS_ANONYMOUS' for anonymous ratings.")
         return user
     return None
 

@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from decouple import config
+import django
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -38,12 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'posts.apps.PostsConfig',
-    'books.apps.BooksConfig',
-    'blog.apps.BlogConfig',
-    'users.apps.UsersConfig',
-    'authors.apps.AuthorsConfig',
-    'reactions.apps.ReactionsConfig',
+    #'posts.apps.PostsConfig',
+    #'books.apps.BooksConfig',
+    #'blog.apps.BlogConfig',
+    #'users.apps.UsersConfig',
+    'writers.apps.WritersConfig',
+    #'reactions.apps.ReactionsConfig',
     'star_ratings',
     'widget_tweaks',
     'django_ajax',

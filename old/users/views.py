@@ -4,11 +4,11 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
-from posts.models import Post
+#from posts.models import Post
 from .models import Profile
 from django.http import HttpResponse
 from .forms import EditProfileForm, EditAccountForm
-from django.utils.translation import gettext as _, activate, LANGUAGE_SESSION_KEY, get_language_from_request
+from django.utils.translation import gettext as _, activate
 from django.conf import settings as conf_settings
 from django.http import JsonResponse
 from django_ajax.decorators import ajax

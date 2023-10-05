@@ -2,8 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from PIL import Image
-from posts.models import Post
-from books.models import Book
+#from posts.models import Post
+#from books.models import Book
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -19,8 +19,8 @@ class Profile(models.Model):
         upload_to='users/Profiles/', blank=True, null=True, default='user.png', verbose_name=_('Profile Picture'))
     bio = models.CharField(max_length=221, blank=True,
                            null=True, verbose_name=_('Bio'))
-    books = models.ManyToManyField(
-        Book, related_name='books', blank=True, verbose_name=_('Readed Books'))
+    #books = models.ManyToManyField(
+    #    Book, related_name='books', blank=True, verbose_name=_('Readed Books'))
     lang = models.CharField(
         max_length=2, choices=settings.LANGUAGES, default='en', verbose_name=_('Language'))
     pass_recover_token = models.CharField(

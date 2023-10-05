@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext 
 
 from . import app_settings, get_star_ratings_rating_model
 from .models import UserRating
@@ -18,7 +18,7 @@ class UserRatingAdmin(admin.ModelAdmin):
         return format_html(html, obj.score * 10)
 
     stars.allow_tags = True
-    stars.short_description = _('Score')
+    stars.short_description = gettext('Score')
     list_display = ('__str__', 'stars')
 
 
@@ -36,7 +36,7 @@ class RatingAdmin(admin.ModelAdmin):
         return format_html(html, app_settings.STAR_RATINGS_RANGE * 10, obj.average * 10)
 
     stars.allow_tags = True
-    stars.short_description = _('Rating average')
+    stars.short_description = gettext('Rating average')
     list_display = ('__str__', 'stars')
 
 

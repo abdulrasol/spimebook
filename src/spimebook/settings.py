@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     # 'reactions.apps.ReactionsConfig',
     'widget_tweaks',
     'django_ajax',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -59,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'spimebook.urls'
@@ -207,3 +209,8 @@ PWA_APP_SPLASH_SCREEN = [
 PWA_APP_DIR = 'ltr'
 PWA_APP_LANG = 'en-US'
 '''
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+}

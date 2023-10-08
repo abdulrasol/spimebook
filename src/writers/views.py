@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from writers.serializers import WriterSerializer
+from .serializers import WriterSerializer
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from writers.models import Writer

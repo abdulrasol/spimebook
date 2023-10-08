@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('writers/', include('writers.urls', namespace='writers')),
     path('profiles/', include('profiles.urls', namespace='profiles')),
+    path('books/', include('books.urls', namespace='books')),
     # path('ratings/', include('star_ratings.urls', namespace='ratings')),
     # path('ajax/', include('reactions.urls', namespace='reactions')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
@@ -35,5 +36,4 @@ urlpatterns += [
 # path('admin/', admin.site.urls),
 # path('blog/', include('blog.urls')),
 # path('authors/', include('authors.urls', namespace='authors')),
-# path('books/', include('books.urls', namespace='books')),
 # )

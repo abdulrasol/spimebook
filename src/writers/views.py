@@ -6,8 +6,8 @@ from writers.models import Writer
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.request import Request
-from rest_framework import status, generics, mixins
+
+from rest_framework import status, generics, permissions
 
 # Create your views here.
 
@@ -73,8 +73,10 @@ curl -X PUT -F "name=AbdulRasol" -F "short=Google" -F "bio=From JSON" -F "image=
 class Writers(generics.ListCreateAPIView):
     queryset = Writer.objects.all()
     serializer_class = WriterSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
-class Writer(generics.RetrieveUpdateAPIView):
+class WriterDetail(generics.RetrieveUpdateAPIView):
     queryset = Writer.objects.all()
     serializer_class = WriterSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]

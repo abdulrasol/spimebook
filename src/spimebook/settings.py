@@ -40,13 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'posts.apps.PostsConfig',
-    #'books.apps.BooksConfig',
-    #'blog.apps.BlogConfig',
-    #'users.apps.UsersConfig',
+    # 'posts.apps.PostsConfig',
+    # 'books.apps.BooksConfig',
+    # 'blog.apps.BlogConfig',
+    'profiles.apps.ProfilesConfig',
     'writers.apps.WritersConfig',
-    #'reactions.apps.ReactionsConfig',
-    'star_ratings',
+    # 'reactions.apps.ReactionsConfig',
     'widget_tweaks',
     'django_ajax',
 ]
@@ -151,7 +150,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
-    '/var/www/static/',
+    # '/var/www/static/',
 ]
 MEDIA_ROOT = os.path.join(BASE_DIR, 'Media')
 MEDIA_URL = '/media/'
